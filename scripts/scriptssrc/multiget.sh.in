@@ -1,0 +1,269 @@
+#! /usr/bin/env bash
+##########################################################################
+##									##
+##	multiget.sh is automatically generated,				##
+##		please do not modify!					##
+##									##
+##########################################################################
+
+##########################################################################
+##									##
+## Script ID: multiget.sh						##
+## Author: Mark Grant							##
+##									##
+## Purpose:								##
+## Retrieves one or more files whose URL's are specified in a text file.##
+##                                                              	##
+## Syntax:      multiget.sh [OPTIONS]					##
+##			[OPTIONS] are:-					##
+##	-e sourceURL Use 'sourceURL' as EuroMillions input.		##
+##	-E targetFile Save EuroMillions output to 'targetFile'.		##
+##	-g group Save target file with 'group' owner.			##
+##		Does not persist between invocations.			##
+##		i.e. Ignored by option -p.				##
+##	-h Displays usage information.					##
+##	-l sourceURL Use 'sourceURL' as Lotto input.			##
+##	-L targetFile Save Lotto output to 'targetFile'.		##
+##	-o owner Save target file with 'owner' owner.			##
+##		Does not persist between invocations.			##
+##		i.e. Ignored by option -p.				##
+##	-p Saves command line options for future use.			##
+##	-v Displays version information.				##
+##	-w Use Windows CR/LF instead of Unix LF line endings.		##
+##									##
+## Exit Codes:	0 & 64 - 113 as per C/C++ standard			##
+##		0 - success						##
+##		64 - Invalid arguments					##
+##		67 - trap received					##
+##									##
+##########################################################################
+
+##########################################################################
+##									##
+## Changelog								##
+##									##
+## Date		Author	Version	Description				##
+##									##
+## 27/04/2013	MG	1.0.1	Created.				##
+##									##
+##########################################################################
+
+
+####################
+## Init variables ##
+####################
+script_exit_code=0
+version="1.0.1"			# set version variable
+etclocation=@sysconfdir@	# Path to etc directory
+
+# Get system name for implementing OS differeneces.
+osname=$(uname -s)
+
+lotto_csv_file=""
+euromillions_csv_file=""
+conffile=".lhget"
+euromillionsURL=""
+euromillionsfile=""
+ownergroup=FALSE
+lottoURL=""
+lottofile=""
+owner=FALSE
+persist=FALSE
+windows=FALSE
+
+###############
+## Functions ##
+###############
+
+# Standard function to log and mail $1, cleanup and return exit code
+script_exit()
+{
+echo "$1" 
+	exit $script_exit_code
+}
+
+# Standard trap exit function
+trap_exit()
+{
+	script_exit_code=67
+	script_exit "Script terminating due to trap received. Code: "$script_exit_code
+}
+
+# Setup trap
+trap trap_exit SIGHUP SIGINT SIGTERM
+
+# Function to write config file.
+write_file()
+{
+	echo "euromillionsURL="$euromillionsURL>>~/.lhget
+	echo "euromillionsfile="$euromillionsfile>>~/.lhget
+	echo "lottoURL="$lottoURL>>~/.lhget
+	echo "lottofile="$lottofile>>~/.lhget
+}
+##########
+## Main ##
+##########
+# If config file exists, read it, else, create it.
+if [ ! -f ~/$conffile ]
+then
+	write_file
+else
+	IFS="="
+	exec 3<~/$conffile
+	while read -u3 -ra input
+	do
+		case ${input[0]} in
+		euromillionsURL)
+			euromillionsURL=${input[1]}
+			;;
+		euromillionsfile)
+			euromillionsfile=${input[1]}
+			;;
+		lottoURL)
+			lottoURL=${input[1]}
+			;;
+		lottofile)
+			lottofile=${input[1]}
+			;;
+		esac
+	done
+	exec 3<&-
+fi
+
+# Process command line arguments with getopts.
+while getopts :e:E:g:hl:L:o:pvw arg
+do
+	case $arg in
+	e)	euromillionsURL=$OPTARG
+		;;
+	E)	euromillionsfile=$OPTARG
+		;;
+	g)	ownergroup=TRUE
+		newownergroup=$OPTARG
+		;;
+	h)	echo "Usage is $0 [OPTIONS]"
+		echo "	[OPTIONS] are:-"
+		echo "	'-e sourceURL' Use 'sourceURL' as EuroMillions input."
+		echo "	'-E targetFile' Save EuroMillions output to 'targetFile'."
+		echo "	'-g group' Save target file with 'group' owner."
+		echo "		Does not persist between invocations."
+		echo "		i.e. Ignored by option -p."
+		echo "	'-h' Displays usage information."
+		echo "	'-l sourceURL' Use 'sourceURL' as Lotto input."
+		echo "	'-L targetFile' Save Lotto output to 'targetFile'."
+		echo "	'-o owner' Save target file with 'owner' owner."
+		echo "		Does not persist between invocations."
+		echo "		i.e. Ignored by option -p."
+		echo "	'-p' Saves command line options for future use."
+		echo "	'-v' Displays version information."
+		echo "	'-w' Use Windows CR/LF line endings instead of Unix LF line endings."
+		exit 0
+		;;
+	l)	lottoURL=$OPTARG
+		;;
+	L)	lottofile=$OPTARG
+		;;
+	o)	owner=TRUE
+		newowner=$OPTARG
+		;;
+	p)	persist=TRUE
+		;;
+	v)	echo "$0 version "$version
+		exit 0
+		;;
+	w)	windows=TRUE
+		;;
+	:)	echo "$0: Must supply an argument to -$OPTARG." >&2
+		exit 64
+		;;
+	\?)	echo "$0: Invalid argument -$OPTARG." >&2
+		exit 64
+		;;
+	esac
+done
+
+# If only persist flag set then nothing to do, exit.
+if [ $# = 1 -a "$1" = "-p" ]
+then
+	exit 0
+fi
+
+# If the lotto file exists, delete
+if [ -f $lottofile -a -r $lottofile \
+        -a -w $lottofile ]
+then
+	rm $lottofile
+fi
+
+# If the euromillions file exists, delete
+if [ -f $euromillionsfile -a -r $euromillionsfile \
+	-a -w $euromillionsfile ]
+then
+	rm $euromillionsfile
+fi
+
+# Now get the files
+case $osname in
+FreeBSD)
+	echo "Attempting to get Lotto file."
+	fetch -o $lottofile $lottoURL
+	status=$?
+	echo "Lotto get completed with status " $status
+	
+	((script_exit_code = script_exit_code + status))
+	
+	echo "Attempting to get Euromillions file."
+	fetch -o $euromillions_csv_file $euromillionsURL
+	status=$?
+	echo "Euromillions get completed with status " $status
+	
+	((script_exit_code = script_exit_code + status))
+;;
+Linux)
+	echo "Attempting to get Lotto file."
+	wget --no-check-certificate -O $lottofile $lottoURL
+	status=$?
+	echo "Lotto get completed with status " $status
+	
+	((script_exit_code = script_exit_code + status))
+
+	echo "Attempting to get Euromillions file."
+	wget --no-check-certificate -O $euromillionsfile $euromillionsURL
+	status=$?
+	echo "Euromillions get completed with status " $status
+	
+	((script_exit_code = script_exit_code + status))
+;;
+esac
+
+if [ $script_exit_code = 0 ]
+then
+	# Remove blank lines
+	sed -i '/^$/d' $lottofile
+	sed -i '/^$/d' $euromillionsfile
+	# If Windows CR/LF line ending required, convert.
+	if [ $windows = TRUE ]
+	then
+		sed -i 's/$/\r/' $lottofile
+		sed -i 's/$/\r/' $euromillionsfile
+	fi
+	# If persist is TRUE, save parameters.
+	if [ $persist = TRUE ]
+	then
+		rm ~/$conffile
+		write_file
+	fi
+	if [ $owner = TRUE ]
+	then
+		chown $newowner $lottofile
+		chown $newowner $euromillionsfile
+	fi
+	if [ $ownergroup = TRUE ]
+	then
+		chown :$newownergroup $lottofile
+		chown :$newownergroup $euromillionsfile
+	fi
+fi
+
+# And exit
+script_exit "Script complete with exit code: "$script_exit_code
