@@ -176,8 +176,8 @@ edit = sed \
 	-e 's|@prefix[@]|$(prefix)|g'
 
 scriptssrcdir = $(srcdir)/scriptssrc
-bin_SCRIPTS = lhget.sh
-EXTRA_DIST = lhget.sh $(scriptssrcdir)/lhget.sh.in
+bin_SCRIPTS = multiget.sh
+EXTRA_DIST = multiget.sh $(scriptssrcdir)/multiget.sh.in
 all: all-am
 
 .SUFFIXES:
@@ -400,7 +400,7 @@ uninstall-am: uninstall-binSCRIPTS
 	pdf-am ps ps-am uninstall uninstall-am uninstall-binSCRIPTS
 
 
-lhget.sh: Makefile
+multiget.sh: Makefile
 	rm -f $@ $@.tmp
 	test -f ./$@.in || scriptssrcdir=$(scriptssrcdir)/; \
 	$(edit) $${scriptssrcdir}$@.in >$@.tmp
@@ -409,7 +409,7 @@ lhget.sh: Makefile
 
 	chmod a+x $@
 
-lhget.sh: $(scriptssrcdir)/lhget.sh.in
+multiget.sh: $(scriptssrcdir)/multiget.sh.in
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

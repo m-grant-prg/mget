@@ -33,10 +33,10 @@ am__make_dryrun = \
     esac; \
     test $$am__dry = yes; \
   }
-pkgdatadir = $(datadir)/lottery-history-download
-pkgincludedir = $(includedir)/lottery-history-download
-pkglibdir = $(libdir)/lottery-history-download
-pkglibexecdir = $(libexecdir)/lottery-history-download
+pkgdatadir = $(datadir)/multiple-file-download
+pkgincludedir = $(includedir)/multiple-file-download
+pkglibdir = $(libdir)/multiple-file-download
+pkglibexecdir = $(libexecdir)/multiple-file-download
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
@@ -95,15 +95,15 @@ am__can_run_installinfo = \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/mgrantprg/ScriptProjects/LotteryHistoryDownload/missing --run aclocal-1.11
+ACLOCAL = ${SHELL} /home/mgrantprg/ScriptProjects/MultiGet/missing --run aclocal-1.11
 AMTAR = $${TAR-tar}
-AUTOCONF = ${SHELL} /home/mgrantprg/ScriptProjects/LotteryHistoryDownload/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/mgrantprg/ScriptProjects/LotteryHistoryDownload/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/mgrantprg/ScriptProjects/LotteryHistoryDownload/missing --run automake-1.11
+AUTOCONF = ${SHELL} /home/mgrantprg/ScriptProjects/MultiGet/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/mgrantprg/ScriptProjects/MultiGet/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/mgrantprg/ScriptProjects/MultiGet/missing --run automake-1.11
 AWK = gawk
 BASH = /bin/bash
 CYGPATH_W = echo
-DEFS = -DPACKAGE_NAME=\"Lottery\ History\ Download\" -DPACKAGE_TARNAME=\"lottery-history-download\" -DPACKAGE_VERSION=\"1.0.3\" -DPACKAGE_STRING=\"Lottery\ History\ Download\ 1.0.3\" -DPACKAGE_BUGREPORT=\"m.grant.prg@gmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"lottery-history-download\" -DVERSION=\"1.0.3\"
+DEFS = -DPACKAGE_NAME=\"Multiple\ File\ Download\" -DPACKAGE_TARNAME=\"multiple-file-download\" -DPACKAGE_VERSION=\"1.0.1\" -DPACKAGE_STRING=\"Multiple\ File\ Download\ 1.0.1\" -DPACKAGE_BUGREPORT=\"m.grant.prg@gmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"multiple-file-download\" -DVERSION=\"1.0.1\"
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
@@ -115,25 +115,25 @@ INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LIBOBJS = 
 LIBS = 
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/mgrantprg/ScriptProjects/LotteryHistoryDownload/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/mgrantprg/ScriptProjects/MultiGet/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
-PACKAGE = lottery-history-download
+PACKAGE = multiple-file-download
 PACKAGE_BUGREPORT = m.grant.prg@gmail.com
-PACKAGE_NAME = Lottery History Download
-PACKAGE_STRING = Lottery History Download 1.0.3
-PACKAGE_TARNAME = lottery-history-download
+PACKAGE_NAME = Multiple File Download
+PACKAGE_STRING = Multiple File Download 1.0.1
+PACKAGE_TARNAME = multiple-file-download
 PACKAGE_URL = 
-PACKAGE_VERSION = 1.0.3
+PACKAGE_VERSION = 1.0.1
 PATH_SEPARATOR = :
 SET_MAKE = 
 SHELL = /bin/bash
 STRIP = 
-VERSION = 1.0.3
+VERSION = 1.0.1
 WGET = yes
-abs_builddir = /home/mgrantprg/ScriptProjects/LotteryHistoryDownload/scripts
-abs_srcdir = /home/mgrantprg/ScriptProjects/LotteryHistoryDownload/scripts
-abs_top_builddir = /home/mgrantprg/ScriptProjects/LotteryHistoryDownload
-abs_top_srcdir = /home/mgrantprg/ScriptProjects/LotteryHistoryDownload
+abs_builddir = /home/mgrantprg/ScriptProjects/MultiGet/scripts
+abs_srcdir = /home/mgrantprg/ScriptProjects/MultiGet/scripts
+abs_top_builddir = /home/mgrantprg/ScriptProjects/MultiGet
+abs_top_srcdir = /home/mgrantprg/ScriptProjects/MultiGet
 am__leading_dot = .
 am__tar = $${TAR-tar} chof - "$$tardir"
 am__untar = $${TAR-tar} xf -
@@ -149,7 +149,7 @@ host_alias =
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/mgrantprg/ScriptProjects/LotteryHistoryDownload/install-sh
+install_sh = ${SHELL} /home/mgrantprg/ScriptProjects/MultiGet/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -176,8 +176,8 @@ edit = sed \
 	-e 's|@prefix[@]|$(prefix)|g'
 
 scriptssrcdir = $(srcdir)/scriptssrc
-bin_SCRIPTS = lhget.sh
-EXTRA_DIST = lhget.sh $(scriptssrcdir)/lhget.sh.in
+bin_SCRIPTS = multiget.sh
+EXTRA_DIST = multiget.sh $(scriptssrcdir)/multiget.sh.in
 all: all-am
 
 .SUFFIXES:
@@ -400,7 +400,7 @@ uninstall-am: uninstall-binSCRIPTS
 	pdf-am ps ps-am uninstall uninstall-am uninstall-binSCRIPTS
 
 
-lhget.sh: Makefile
+multiget.sh: Makefile
 	rm -f $@ $@.tmp
 	test -f ./$@.in || scriptssrcdir=$(scriptssrcdir)/; \
 	$(edit) $${scriptssrcdir}$@.in >$@.tmp
@@ -409,7 +409,7 @@ lhget.sh: Makefile
 
 	chmod a+x $@
 
-lhget.sh: $(scriptssrcdir)/lhget.sh.in
+multiget.sh: $(scriptssrcdir)/multiget.sh.in
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

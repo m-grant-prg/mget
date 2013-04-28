@@ -54,7 +54,7 @@
 ####################
 script_exit_code=0
 version="1.0.1"			# set version variable
-etclocation=@sysconfdir@	# Path to etc directory
+etclocation=/usr/local/etc	# Path to etc directory
 
 # Get system name for implementing OS differeneces.
 osname=$(uname -s)
