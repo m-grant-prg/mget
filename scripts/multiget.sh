@@ -24,8 +24,9 @@
 ##		Does not persist between invocations.			##
 ##		i.e. Ignored by option -p.				##
 ##	-p Saves command line options for future use.			##
-##	-s Name of the file containing the URL's of files to be fetched.##
-##	-t Directory in which to store retieved files.			##
+##	-s sourcefile Name of the file containing the URL's of files to	##
+##		be fetched.						##
+##	-t targetdir Directory in which to store retieved files.	##
 ##	-v Displays version information.				##
 ##	-w Use Windows CR/LF instead of Unix LF line endings.		##
 ##									##
@@ -44,7 +45,12 @@
 ##									##
 ## Date		Author	Version	Description				##
 ##									##
-## 27/04/2013	MG	1.0.1	Created.				##
+## 29/04/2013	MG	1.0.1	Created.Does not implement mail		##
+##				notification.				##
+## 29/04/2013	MG	1.0.2	Corrected Error status section on man	##
+##				page. Introduced sed processing on	##
+##				source file to ensure it has Unix type	##
+##				line endings.				##
 ##									##
 ##########################################################################
 
@@ -53,7 +59,7 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.0.1"			# set version variable
+version="1.0.2"			# set version variable
 etclocation=/usr/local/etc	# Path to etc directory
 
 # Get system name for implementing OS differeneces.
@@ -142,13 +148,13 @@ do
 		echo "		Does not persist between invocations."
 		echo "		i.e. Ignored by option -p."
 		echo "	'-h' Displays usage information."
-		echo "	'-m' Mail this user with status."
+		echo "	'-m mailaddress' Mail this user with status."
 		echo "	'-o owner' Save target file with 'owner' owner."
 		echo "		Does not persist between invocations."
 		echo "		i.e. Ignored by option -p."
 		echo "	'-p' Saves command line options for future use."
-		echo "	'-s' Name of file containing source URL's."
-		echo "	'-t' Name of directory for storing retrieved files."
+		echo "	'-s sourcefile' Name of file containing source URL's."
+		echo "	'-t targetdir' Name of directory for storing retrieved files."
 		echo "	'-v' Displays version information."
 		echo "	'-w' Use Windows CR/LF line endings instead of Unix LF line endings."
 		exit 0
@@ -196,6 +202,9 @@ then
 	script_exit "Source file not accessible."
 fi
 
+# Now ensure source file is in Unix text format.
+sed -i 's/\r$//' $sourcefile
+
 # Check target directory exists and is writable.
 if [ ! -d $targetdir ]
 then
@@ -238,8 +247,7 @@ do
 		# If Windows CR/LF line ending required, convert.
 		if [ $windows = TRUE ]
 		then
-			sed -i 's/$/\r/' $lottofile
-			sed -i 's/$/\r/' $euromillionsfile
+			sed -i 's/$/\r/' "$targetdir/$outputfile"
 		fi
 		# If persist is TRUE, save parameters.
 		if [ $persist = TRUE ]
@@ -249,13 +257,11 @@ do
 		fi
 		if [ $owner = TRUE ]
 		then
-			chown $newowner $lottofile
-			chown $newowner $euromillionsfile
+			chown $newowner "$targetdir/$outputfile"
 		fi
 		if [ $ownergroup = TRUE ]
 		then
-			chown :$newownergroup $lottofile
-			chown :$newownergroup $euromillionsfile
+			chown :$newownergroup "$targetdir/$outputfile"
 		fi
 	fi
 done

@@ -1,3 +1,11 @@
-2013-04-27 v 1.0.1 Mark Grant <m.grant.prg@gmail.com>
+2013-04-29 v 1.0.2 Mark Grant <m.grant.prg@gmail.com>
+	* multiget.sh	Fixed incorrect display of Error Status in man page.
+			Introduced source file processing to ensure it has Unix
+			type line endings.
+			Now at version 1.0.2. Does not implement mail
+			notification.
+			
+2013-04-29 v 1.0.1 Mark Grant <m.grant.prg@gmail.com>
 	* First release.
-	multiget.sh	Now at version 1.0.1
+	multiget.sh	Now at version 1.0.1. Does not implement mail
+			notification.

@@ -1,2 +1,6 @@
-Release 1.0.1 2013-04-27
-First release.
+Release 1.0.2 2013-04-29
+Fixed incorrect display of Error Status in man page. Introduced source file
+processing to ensure it has Unix type line endings.
+
+Release 1.0.1 2013-04-29
+First release. Does not implement mail notification.
