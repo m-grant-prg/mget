@@ -47,10 +47,11 @@
 ##									##
 ## 29/04/2013	MG	1.0.1	Created.Does not implement mail		##
 ##				notification.				##
-## 29/04/2013	MG	1.0.2	Corrected Error status section on man	##
+## 30/04/2013	MG	1.0.2	Corrected Error status section on man	##
 ##				page. Introduced sed processing on	##
 ##				source file to ensure it has Unix type	##
-##				line endings.				##
+##				line endings. Removed part implemented	##
+##				'MailTo' option.			##
 ##									##
 ##########################################################################
 
@@ -66,7 +67,6 @@ etclocation=/usr/local/etc	# Path to etc directory
 osname=$(uname -s)
 
 conffile=".multiget"
-mailaddress=""
 ownergroup=FALSE
 owner=FALSE
 persist=FALSE
@@ -103,7 +103,6 @@ trap trap_exit SIGHUP SIGINT SIGTERM
 # Function to write config file.
 write_file()
 {
-	echo "mailaddress="$mailaddress>>~/.multiget
 	echo "sourcefile="$sourcefile>>~/.multiget
 	echo "targetdir="$targetdir>>~/.multiget
 }
@@ -121,9 +120,6 @@ else
 	while read -u3 -ra input
 	do
 		case ${input[0]} in
-		mailaddress)
-			mailaddress=${input[1]}
-			;;
 		sourcefile)
 			sourcefile=${input[1]}
 			;;
@@ -136,7 +132,7 @@ else
 fi
 
 # Process command line arguments with getopts.
-while getopts :g:hm:o:ps:t:vw arg
+while getopts :g:ho:ps:t:vw arg
 do
 	case $arg in
 	g)	ownergroup=TRUE
@@ -148,7 +144,6 @@ do
 		echo "		Does not persist between invocations."
 		echo "		i.e. Ignored by option -p."
 		echo "	'-h' Displays usage information."
-		echo "	'-m mailaddress' Mail this user with status."
 		echo "	'-o owner' Save target file with 'owner' owner."
 		echo "		Does not persist between invocations."
 		echo "		i.e. Ignored by option -p."
@@ -158,8 +153,6 @@ do
 		echo "	'-v' Displays version information."
 		echo "	'-w' Use Windows CR/LF line endings instead of Unix LF line endings."
 		exit 0
-		;;
-	m)	mailaddress=$OPTARG
 		;;
 	o)	owner=TRUE
 		newowner=$OPTARG
