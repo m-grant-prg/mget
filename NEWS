@@ -1,3 +1,6 @@
+Release 1.0.3 2013-05-02
+Introduced -q option to utilise fetch or wget quiet mode.
+
 Release 1.0.2 2013-04-30
 Fixed incorrect display of Error Status in man page. Introduced source file
 processing to ensure it has Unix type line endings. Removed partial

@@ -24,6 +24,9 @@
 ##		Does not persist between invocations.			##
 ##		i.e. Ignored by option -p.				##
 ##	-p Saves command line options for future use.			##
+##	-q Use fetch or wget quiet mode.				##
+##		Does not persist between invocations.			##
+##		i.e. Ignored by option -p.				##
 ##	-s sourcefile Name of the file containing the URL's of files to	##
 ##		be fetched.						##
 ##	-t targetdir Directory in which to store retieved files.	##
@@ -52,6 +55,8 @@
 ##				source file to ensure it has Unix type	##
 ##				line endings. Removed part implemented	##
 ##				'MailTo' option.			##
+## 02/05/2013	MG	1.0.3	Introduce -q option to enable use of	##
+##				fetch or wget quiet mode.		##
 ##									##
 ##########################################################################
 
@@ -60,7 +65,7 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.0.2"			# set version variable
+version="1.0.3"			# set version variable
 etclocation=/usr/local/etc	# Path to etc directory
 
 # Get system name for implementing OS differeneces.
@@ -70,6 +75,7 @@ conffile=".multiget"
 ownergroup=FALSE
 owner=FALSE
 persist=FALSE
+quiet=""
 sourcefile=""
 targetdir=""
 windows=FALSE
@@ -132,7 +138,7 @@ else
 fi
 
 # Process command line arguments with getopts.
-while getopts :g:ho:ps:t:vw arg
+while getopts :g:ho:pqs:t:vw arg
 do
 	case $arg in
 	g)	ownergroup=TRUE
@@ -148,6 +154,9 @@ do
 		echo "		Does not persist between invocations."
 		echo "		i.e. Ignored by option -p."
 		echo "	'-p' Saves command line options for future use."
+		echo "	'-q' Use wget or fetch quiet mode."
+		echo "		Does not persist between invocations."
+		echo "		i.e. Ignored by option -p."
 		echo "	'-s sourcefile' Name of file containing source URL's."
 		echo "	'-t targetdir' Name of directory for storing retrieved files."
 		echo "	'-v' Displays version information."
@@ -158,6 +167,8 @@ do
 		newowner=$OPTARG
 		;;
 	p)	persist=TRUE
+		;;
+	q)	quiet="-q"
 		;;
 	s)	sourcefile=$OPTARG
 		;;
@@ -219,7 +230,7 @@ do
 	case $osname in
 	FreeBSD)
 		echo "Attempting to get file."
-		fetch -o "$targetdir/$ouputfile" "${input[*]}"
+		fetch "$quiet" -o "$targetdir/$ouputfile" "${input[*]}"
 		status=$?
 		echo "File get completed with status " $status
 		
@@ -227,7 +238,7 @@ do
 	;;
 	Linux)
 		echo "Attempting to get file."
-		wget --no-check-certificate -O "$targetdir/$outputfile" "${input[*]}"
+		wget "$quiet" --no-check-certificate -O "$targetdir/$outputfile" "${input[*]}"
 		status=$?
 		echo "File get completed with status " $status
 		

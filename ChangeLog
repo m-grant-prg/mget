@@ -1,3 +1,7 @@
+2013-05-02 v 1.0.3 Mark Grant <m.grant.prg@gmail.com>
+	* multiget.sh	Introduced -q option which invokes fetch or wget
+			quiet mode.
+
 2013-04-30 v 1.0.2 Mark Grant <m.grant.prg@gmail.com>
 	* multiget.sh	Fixed incorrect display of Error Status in man page.
 			Introduced source file processing to ensure it has Unix

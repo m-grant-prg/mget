@@ -9,6 +9,7 @@ OPTIONS
 -h	Displays usage information.
 -o owner	Save target file with 'owner' owner. Does not persist between invocations. i.e. Ignored by option -p.
 -p	Saves command line options for future use.
+-q	Use fetch or wget quiet mode. Does not persist between invocations. i.e. Ignored by option -p.
 -s sourcefile	Name of the file containing the URL's of files to be fetched.
 -t targetdir	Directory in which to store retieved files.
 -v	Displays version information.
