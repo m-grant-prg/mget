@@ -1,3 +1,7 @@
+2013-05-03 v 1.0.4 Mark Grant <m.grant.prg@gmail.com>
+	* multiget.sh	Included source and target information in script output
+			to be more useful.
+
 2013-05-02 v 1.0.3 Mark Grant <m.grant.prg@gmail.com>
 	* multiget.sh	Introduced -q option which invokes fetch or wget
 			quiet mode.

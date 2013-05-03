@@ -57,6 +57,8 @@
 ##				'MailTo' option.			##
 ## 02/05/2013	MG	1.0.3	Introduce -q option to enable use of	##
 ##				fetch or wget quiet mode.		##
+## 03/05/2013	MG	1.0.4	Included source and target information	##
+##				in script output to be more useful.	##
 ##									##
 ##########################################################################
 
@@ -65,7 +67,7 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.0.3"			# set version variable
+version="1.0.4"			# set version variable
 etclocation=/usr/local/etc	# Path to etc directory
 
 # Get system name for implementing OS differeneces.
@@ -229,15 +231,17 @@ do
 	outputfile=${input[${#input[*]}-1]}
 	case $osname in
 	FreeBSD)
-		echo "Attempting to get file."
-		fetch "$quiet" -o "$targetdir/$ouputfile" "${input[*]}"
+		echo "Attempting to get file - ""${input[*]}"
+		echo "Attempting to save file to - ""$targetdir/$outputfile"
+		fetch "$quiet" -o "$targetdir/$outputfile" "${input[*]}"
 		status=$?
 		echo "File get completed with status " $status
 		
 		((script_exit_code = script_exit_code + status))
 	;;
 	Linux)
-		echo "Attempting to get file."
+		echo "Attempting to get file - ""${input[*]}"
+		echo "Attempting to save file to - ""$targetdir/$outputfile"
 		wget "$quiet" --no-check-certificate -O "$targetdir/$outputfile" "${input[*]}"
 		status=$?
 		echo "File get completed with status " $status
