@@ -59,6 +59,9 @@
 ##				fetch or wget quiet mode.		##
 ## 03/05/2013	MG	1.0.4	Included source and target information	##
 ##				in script output to be more useful.	##
+## 05/05/2013	MG	1.0.5	Fixed ugly exit if 'sourcefile' = "" or	##
+##				'targetdir' = "". 'targetdir' is now	##
+##				defaulted to 'PWD'.			##
 ##									##
 ##########################################################################
 
@@ -67,7 +70,7 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.0.4"			# set version variable
+version="1.0.5"			# set version variable
 etclocation=@sysconfdir@	# Path to etc directory
 
 # Get system name for implementing OS differeneces.
@@ -197,12 +200,13 @@ then
 fi
 
 # Check source file exists and is readable.
-if [ ! -f $sourcefile ]
+if [ ! -f "$sourcefile" ]
 then
 	script_exit_code=66
 	script_exit "Source file not valid."
 fi
-if [ ! -r $sourcefile ]
+
+if [ ! -r "$sourcefile" ]
 then
 	script_exit_code=77
 	script_exit "Source file not accessible."
@@ -212,12 +216,18 @@ fi
 sed -i 's/\r$//' $sourcefile
 
 # Check target directory exists and is writable.
-if [ ! -d $targetdir ]
+if [ "$targetdir" = "" ]
+then
+	targetdir=$PWD
+fi
+
+if [ ! -d "$targetdir" ]
 then
 	script_exit_code=66
 	script_exit "Target directory not valid."
 fi
-if [ ! -w $targetdir ]
+
+if [ ! -w "$targetdir" ]
 then
 	script_exit_code=77
 	script_exit " Target directory not accessible."

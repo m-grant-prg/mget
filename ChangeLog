@@ -1,3 +1,8 @@
+2013-05-05 v 1.0.5 Mark Grant <m.grant.prg@gmail.com>
+	* multiget.sh	Fixed ugly exit if 'sourcefile' = "" or
+			'targetdir' = "". 'targetdir' is now defaulted to 'PWD'.
+			Now at version 1.0.5.
+
 2013-05-03 v 1.0.4 Mark Grant <m.grant.prg@gmail.com>
 	* multiget.sh	Included source and target information in script output
 			to be more useful.
