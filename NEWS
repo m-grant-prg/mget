@@ -1,3 +1,10 @@
+Release 1.0.6 2013-08-22
+Debian best practice documentation requires that programs placed in
+the PATH should not have extensions as the programs may be rewritten
+in a different language. This would then require a name change, or,
+if left as-is would cause confusion. So name changed to remove .sh
+extension.
+
 Release 1.0.5 2013-05-05
 Fixed ugly exit if 'sourcefile' = "" or 'targetdir' = "". 'targetdir' is now
 defaulted to 'PWD'.

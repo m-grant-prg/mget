@@ -1,3 +1,12 @@
+2013-08-22 v 1.0.6 Mark Grant <m.grant.prg@gmail.com>
+	* Debian best practice documentation requires that programs placed in
+	the PATH should not have extensions as the programs may be rewritten
+	in a different language. This would then require a name change, or,
+	if left as-is would cause confusion. So name changed to remove .sh
+	extension.
+	multiget	Now at version 1.0.9
+
+
 2013-05-05 v 1.0.5 Mark Grant <m.grant.prg@gmail.com>
 	* multiget.sh	Fixed ugly exit if 'sourcefile' = "" or
 			'targetdir' = "". 'targetdir' is now defaulted to 'PWD'.

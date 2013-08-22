@@ -1,7 +1,7 @@
 NAME
-multiget.sh - download 1 or more files
+multiget - download 1 or more files
 SYNOPSIS
-multiget.sh [OPTION]
+multiget [OPTION]
 DESCRIPTION
 Fetches multiple files whose URL's are specified in a text file.
 OPTIONS

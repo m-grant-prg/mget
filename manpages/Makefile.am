@@ -1,1 +1,1 @@
-dist_man1_MANS = multiget.sh.1
+dist_man1_MANS = multiget.1

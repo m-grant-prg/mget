@@ -6,7 +6,7 @@ edit = sed \
 
 scriptssrcdir = $(srcdir)/scriptssrc
 
-multiget.sh: Makefile
+multiget: Makefile
 	rm -f $@ $@.tmp
 	test -f ./$@.in || scriptssrcdir=$(scriptssrcdir)/; \
 	$(edit) $${scriptssrcdir}$@.in >$@.tmp
@@ -15,8 +15,8 @@ multiget.sh: Makefile
 
 	chmod a+x $@
 
-multiget.sh: $(scriptssrcdir)/multiget.sh.in
+multiget: $(scriptssrcdir)/multiget.in
 
-bin_SCRIPTS = multiget.sh
+bin_SCRIPTS = multiget
 
-EXTRA_DIST = multiget.sh $(scriptssrcdir)/multiget.sh.in
+EXTRA_DIST = multiget $(scriptssrcdir)/multiget.in

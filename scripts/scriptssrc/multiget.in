@@ -1,20 +1,20 @@
 #! /usr/bin/env bash
 ##########################################################################
 ##									##
-##	multiget.sh is automatically generated,				##
+##	multiget is automatically generated,				##
 ##		please do not modify!					##
 ##									##
 ##########################################################################
 
 ##########################################################################
 ##									##
-## Script ID: multiget.sh						##
+## Script ID: multiget							##
 ## Author: Mark Grant							##
 ##									##
 ## Purpose:								##
 ## Retrieves one or more files whose URL's are specified in a text file.##
 ##                                                              	##
-## Syntax:      multiget.sh [OPTIONS]					##
+## Syntax:      multiget [OPTIONS]					##
 ##			[OPTIONS] are:-					##
 ##	-g group Save target file with 'group' owner.			##
 ##		Does not persist between invocations.			##
@@ -62,6 +62,14 @@
 ## 05/05/2013	MG	1.0.5	Fixed ugly exit if 'sourcefile' = "" or	##
 ##				'targetdir' = "". 'targetdir' is now	##
 ##				defaulted to 'PWD'.			##
+## 22/08/2013	MG	1.0.6	Debian best practice documentation	##
+##				requires that programs placed in the	##
+##				PATH should not have extensions as the	##
+##				programs may be rewritten in a		##
+##				different language. This would then	##
+##				require a name change, or, if left	##
+##				as-is would cause confusion. So name	##
+##				changed to remove .sh extension.	##
 ##									##
 ##########################################################################
 
@@ -70,7 +78,7 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.0.5"			# set version variable
+version="1.0.6"			# set version variable
 etclocation=@sysconfdir@	# Path to etc directory
 
 # Get system name for implementing OS differeneces.

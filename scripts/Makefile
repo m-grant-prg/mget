@@ -103,7 +103,7 @@ AUTOMAKE = ${SHELL} /home/mgrantprg/ScriptProjects/MultiGet/missing --run automa
 AWK = gawk
 BASH = /bin/bash
 CYGPATH_W = echo
-DEFS = -DPACKAGE_NAME=\"Multiple\ File\ Download\" -DPACKAGE_TARNAME=\"multiple-file-download\" -DPACKAGE_VERSION=\"1.0.5\" -DPACKAGE_STRING=\"Multiple\ File\ Download\ 1.0.5\" -DPACKAGE_BUGREPORT=\"m.grant.prg@gmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"multiple-file-download\" -DVERSION=\"1.0.5\"
+DEFS = -DPACKAGE_NAME=\"Multiple\ File\ Download\" -DPACKAGE_TARNAME=\"multiple-file-download\" -DPACKAGE_VERSION=\"1.0.6\" -DPACKAGE_STRING=\"Multiple\ File\ Download\ 1.0.6\" -DPACKAGE_BUGREPORT=\"m.grant.prg@gmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"multiple-file-download\" -DVERSION=\"1.0.6\"
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
@@ -120,15 +120,15 @@ MKDIR_P = /bin/mkdir -p
 PACKAGE = multiple-file-download
 PACKAGE_BUGREPORT = m.grant.prg@gmail.com
 PACKAGE_NAME = Multiple File Download
-PACKAGE_STRING = Multiple File Download 1.0.5
+PACKAGE_STRING = Multiple File Download 1.0.6
 PACKAGE_TARNAME = multiple-file-download
 PACKAGE_URL = 
-PACKAGE_VERSION = 1.0.5
+PACKAGE_VERSION = 1.0.6
 PATH_SEPARATOR = :
 SET_MAKE = 
 SHELL = /bin/bash
 STRIP = 
-VERSION = 1.0.5
+VERSION = 1.0.6
 WGET = yes
 abs_builddir = /home/mgrantprg/ScriptProjects/MultiGet/scripts
 abs_srcdir = /home/mgrantprg/ScriptProjects/MultiGet/scripts
@@ -176,8 +176,8 @@ edit = sed \
 	-e 's|@prefix[@]|$(prefix)|g'
 
 scriptssrcdir = $(srcdir)/scriptssrc
-bin_SCRIPTS = multiget.sh
-EXTRA_DIST = multiget.sh $(scriptssrcdir)/multiget.sh.in
+bin_SCRIPTS = multiget
+EXTRA_DIST = multiget $(scriptssrcdir)/multiget.in
 all: all-am
 
 .SUFFIXES:
@@ -400,7 +400,7 @@ uninstall-am: uninstall-binSCRIPTS
 	pdf-am ps ps-am uninstall uninstall-am uninstall-binSCRIPTS
 
 
-multiget.sh: Makefile
+multiget: Makefile
 	rm -f $@ $@.tmp
 	test -f ./$@.in || scriptssrcdir=$(scriptssrcdir)/; \
 	$(edit) $${scriptssrcdir}$@.in >$@.tmp
@@ -409,7 +409,7 @@ multiget.sh: Makefile
 
 	chmod a+x $@
 
-multiget.sh: $(scriptssrcdir)/multiget.sh.in
+multiget: $(scriptssrcdir)/multiget.in
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
