@@ -70,6 +70,9 @@
 ##				require a name change, or, if left	##
 ##				as-is would cause confusion. So name	##
 ##				changed to remove .sh extension.	##
+## 13/12/2013	MG	1.0.7	Changed stdout & stderr message output	##
+##				to use a function directing to one or	##
+##				other based on a status.		##
 ##									##
 ##########################################################################
 
@@ -78,7 +81,7 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.0.6"			# set version variable
+version="1.0.7"			# set version variable
 etclocation=@sysconfdir@	# Path to etc directory
 
 # Get system name for implementing OS differeneces.
@@ -97,15 +100,21 @@ windows=FALSE
 ## Functions ##
 ###############
 
-# Standard function to log and mail $1, cleanup and return exit code
+# Output $1 to stdout or stderr depending on $2
+output()
+{
+	if [ $2 = 0 ]
+	then
+		echo "MultiGet: $1"
+	else
+		echo "Multiget: $1" 1>&2
+	fi
+}
+
+# Standard function to announce $1 and return exit code
 script_exit()
 {
-	if [ $script_exit_code = 0 ]
-	then
-		echo "$1"
-	else
-		echo "$1" 1>&2
-	fi
+	output $1 $script_exit_code
 	exit $script_exit_code
 }
 
@@ -253,7 +262,7 @@ do
 		echo "Attempting to save file to - ""$targetdir/$outputfile"
 		fetch "$quiet" -o "$targetdir/$outputfile" "${input[*]}"
 		status=$?
-		echo "File get completed with status " $status
+		output "File get completed with status "$status $status
 		
 		((script_exit_code = script_exit_code + status))
 	;;
@@ -262,7 +271,7 @@ do
 		echo "Attempting to save file to - ""$targetdir/$outputfile"
 		wget "$quiet" --no-check-certificate -O "$targetdir/$outputfile" "${input[*]}"
 		status=$?
-		echo "File get completed with status " $status
+		output "File get completed with status "$status $status
 		
 		((script_exit_code = script_exit_code + status))
 	;;
