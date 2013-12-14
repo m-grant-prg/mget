@@ -73,6 +73,9 @@
 ## 13/12/2013	MG	1.0.7	Changed stdout & stderr message output	##
 ##				to use a function directing to one or	##
 ##				other based on a status.		##
+## 14/12/2013	MG	1.0.8	Changed so that output function is the	##
+##				only place to insert the program name	##
+##				and it uses $0.				##
 ##									##
 ##########################################################################
 
@@ -81,7 +84,7 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.0.7"			# set version variable
+version="1.0.8"			# set version variable
 etclocation=@sysconfdir@	# Path to etc directory
 
 # Get system name for implementing OS differeneces.
@@ -105,9 +108,9 @@ output()
 {
 	if [ $2 = 0 ]
 	then
-		echo "MultiGet: $1"
+		echo "$0: $1"
 	else
-		echo "Multiget: $1" 1>&2
+		echo "$0: $1" 1>&2
 	fi
 }
 
@@ -202,10 +205,10 @@ do
 	w)	windows=TRUE
 		;;
 	:)	script_exit_code=64
-		script_exit "$0: Must supply an argument to -$OPTARG."
+		script_exit "Must supply an argument to -$OPTARG."
 		;;
 	\?)	script_exit_code=64
-		script_exit "$0: Invalid argument -$OPTARG."
+		script_exit "Invalid argument -$OPTARG."
 		;;
 	esac
 done

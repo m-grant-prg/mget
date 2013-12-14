@@ -146,7 +146,7 @@ AUTOMAKE = automake-1.13
 AWK = gawk
 BASH = /bin/bash
 CYGPATH_W = echo
-DEFS = -DPACKAGE_NAME=\"Multiple\ File\ Download\" -DPACKAGE_TARNAME=\"multiple-file-download\" -DPACKAGE_VERSION=\"1.0.7\" -DPACKAGE_STRING=\"Multiple\ File\ Download\ 1.0.7\" -DPACKAGE_BUGREPORT=\"m.grant.prg@gmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"multiple-file-download\" -DVERSION=\"1.0.7\"
+DEFS = -DPACKAGE_NAME=\"Multiple\ File\ Download\" -DPACKAGE_TARNAME=\"multiple-file-download\" -DPACKAGE_VERSION=\"1.0.8\" -DPACKAGE_STRING=\"Multiple\ File\ Download\ 1.0.8\" -DPACKAGE_BUGREPORT=\"m.grant.prg@gmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"multiple-file-download\" -DVERSION=\"1.0.8\"
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
@@ -163,15 +163,15 @@ MKDIR_P = /bin/mkdir -p
 PACKAGE = multiple-file-download
 PACKAGE_BUGREPORT = m.grant.prg@gmail.com
 PACKAGE_NAME = Multiple File Download
-PACKAGE_STRING = Multiple File Download 1.0.7
+PACKAGE_STRING = Multiple File Download 1.0.8
 PACKAGE_TARNAME = multiple-file-download
 PACKAGE_URL = 
-PACKAGE_VERSION = 1.0.7
+PACKAGE_VERSION = 1.0.8
 PATH_SEPARATOR = :
 SET_MAKE = 
 SHELL = /bin/bash
 STRIP = 
-VERSION = 1.0.7
+VERSION = 1.0.8
 WGET = yes
 abs_builddir = /home/mgrantprg/ScriptProjects/MultiGet/manpages
 abs_srcdir = /home/mgrantprg/ScriptProjects/MultiGet/manpages

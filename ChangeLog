@@ -1,15 +1,20 @@
+2013-12-14 v 1.0.8 Mark Grant <m.grant.prg@gmail.com>
+	* multiget	Changed so that output function is the only place to
+			insert the program name and it uses $0.
+			multiget	Now at version 1.0.8
+			
 2013-12-13 v 1.0.7 Mark Grant <m.grant.prg@gmail.com>
-	*Changed stdout & stderr message output to use a function directing to
-	one or other based on a status.
-	multiget	Now at version 1.0.7
+	* multiget	Changed stdout & stderr message output to use a function
+			directing to one or other based on a status.
+			multiget	Now at version 1.0.7
 
 2013-08-22 v 1.0.6 Mark Grant <m.grant.prg@gmail.com>
-	* Debian best practice documentation requires that programs placed in
-	the PATH should not have extensions as the programs may be rewritten
-	in a different language. This would then require a name change, or,
-	if left as-is would cause confusion. So name changed to remove .sh
-	extension.
-	multiget	Now at version 1.0.6
+	* multiget	Debian best practice documentation requires that programs
+			placed in the PATH should not have extensions as the
+			programs may be rewritten in a different language. This
+			would then require a name change, or, if left as-is would
+			cause confusion. So name changed to remove .sh extension.
+			multiget	Now at version 1.0.6
 
 2013-05-05 v 1.0.5 Mark Grant <m.grant.prg@gmail.com>
 	* multiget.sh	Fixed ugly exit if 'sourcefile' = "" or
