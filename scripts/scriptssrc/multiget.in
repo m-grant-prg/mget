@@ -76,6 +76,7 @@
 ## 14/12/2013	MG	1.0.8	Changed so that output function is the	##
 ##				only place to insert the program name	##
 ##				and it uses $0.				##
+## 15/12/2013	MG	1.0.9	Use command name instead of $0.		##
 ##									##
 ##########################################################################
 
@@ -84,7 +85,7 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.0.8"			# set version variable
+version="1.0.9"			# set version variable
 etclocation=@sysconfdir@	# Path to etc directory
 
 # Get system name for implementing OS differeneces.
@@ -108,9 +109,9 @@ output()
 {
 	if [ $2 = 0 ]
 	then
-		echo "$0: $1"
+		echo "multiget: $1"
 	else
-		echo "$0: $1" 1>&2
+		echo "multiget: $1" 1>&2
 	fi
 }
 

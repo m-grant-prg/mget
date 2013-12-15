@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.65])
-AC_INIT([Multiple File Download], [1.0.8], [m.grant.prg@gmail.com])
+AC_INIT([Multiple File Download], [1.0.9], [m.grant.prg@gmail.com])
 
 AM_INIT_AUTOMAKE
 
