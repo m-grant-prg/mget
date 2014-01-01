@@ -1,3 +1,7 @@
+2014-01-01 v 1.0.10 Mark Grant <m.grant.prg@gmail.com>
+	* multiget	Tidied up use of output function.
+			multiget	Now at version 1.0.10
+			
 2013-12-15 v 1.0.9 Mark Grant <m.grant.prg@gmail.com>
 	* multiget	Use command name instead of $0 in output script.
 			multiget	Now at version 1.0.9
