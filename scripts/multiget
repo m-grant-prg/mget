@@ -24,13 +24,13 @@
 ##		Does not persist between invocations.			##
 ##		i.e. Ignored by option -p.				##
 ##	-p Saves command line options for future use.			##
-##	-q Use fetch or wget quiet mode.				##
-##		Does not persist between invocations.			##
-##		i.e. Ignored by option -p.				##
-##	-s sourcefile Name of the file containing the URL's of files to	##
+##	-q Quiet mode, limited output.					##
+##	-s Silent mode, no output.					##
+##	-S sourcefile Name of the file containing the URL's of files to	##
 ##		be fetched.						##
-##	-t targetdir Directory in which to store retieved files.	##
-##	-v Displays version information.				##
+##	-T targetdir Directory in which to store retieved files.	##
+##	-v Verbose mode.						##
+##	-V Displays version information.				##
 ##	-w Use Windows CR/LF instead of Unix LF line endings.		##
 ##									##
 ## Exit Codes:	0 & 64 - 113 as per C/C++ standard			##
@@ -78,6 +78,15 @@
 ##				and it uses $0.				##
 ## 15/12/2013	MG	1.0.9	Use command name instead of $0.		##
 ## 01/01/2014	MG	1.0.10	Tidied up use of output function.	##
+## 05/01/2014	MG	1.0.11	Introduced new standardised error	##
+##				handler routine to test previous	##
+##				command success.			##
+##				Changed command line options to use -V	##
+##				as the version option, S as Source URL	##
+##				and -T as target directory. Introduced	##
+##				-q, -s & -v as quiet, silent and	##
+##				verbose	options. Fixed error handling	##
+##				on existing file deletion.		##
 ##									##
 ##########################################################################
 
@@ -86,7 +95,7 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.0.10"		# set version variable
+version="1.0.11"		# set version variable
 etclocation=/usr/local/etc	# Path to etc directory
 outputprefix="multiget: "
 
@@ -97,9 +106,14 @@ conffile=".multiget"
 ownergroup=FALSE
 owner=FALSE
 persist=FALSE
-quiet=""
 sourcefile=""
 targetdir=""
+# Fetch defaults to moderate output, wget defaults to verbose so make non-verbose default here.
+verbosity=""
+if [ $osname = "Linux" ]
+then
+	verbosity="-nv"
+fi
 windows=FALSE
 
 ###############
@@ -114,6 +128,16 @@ output()
 		echo "$outputprefix$1"
 	else
 		echo "$outputprefix$1" 1>&2
+	fi
+}
+
+# Standard function to test command error ($1 is $?) and exit if non-zero
+std_cmd_err_handler()
+{
+	if [ $1 != 0 ]
+	then
+		script_exit_code=$1
+		script_exit
 	fi
 }
 
@@ -137,8 +161,8 @@ trap trap_exit SIGHUP SIGINT SIGTERM
 # Function to write config file.
 write_file()
 {
-	echo "sourcefile="$sourcefile>>~/.multiget
-	echo "targetdir="$targetdir>>~/.multiget
+	echo "sourcefile=$sourcefile">>~/.multiget
+	echo "targetdir=$targetdir">>~/.multiget
 }
 
 ##########
@@ -166,7 +190,7 @@ else
 fi
 
 # Process command line arguments with getopts.
-while getopts :g:ho:pqs:t:vw arg
+while getopts :g:ho:pqsS:T:vVw arg
 do
 	case $arg in
 	g)	ownergroup=TRUE
@@ -175,19 +199,17 @@ do
 	h)	echo "Usage is $0 [OPTIONS]"
 		echo "	[OPTIONS] are:-"
 		echo "	'-g group' Save target file with 'group' owner."
-		echo "		Does not persist between invocations."
-		echo "		i.e. Ignored by option -p."
 		echo "	'-h' Displays usage information."
 		echo "	'-o owner' Save target file with 'owner' owner."
-		echo "		Does not persist between invocations."
-		echo "		i.e. Ignored by option -p."
 		echo "	'-p' Saves command line options for future use."
-		echo "	'-q' Use wget or fetch quiet mode."
-		echo "		Does not persist between invocations."
-		echo "		i.e. Ignored by option -p."
-		echo "	'-s sourcefile' Name of file containing source URL's."
-		echo "	'-t targetdir' Name of directory for storing retrieved files."
-		echo "	'-v' Displays version information."
+		echo "	'-q' Quiet mode, limited output."
+		echo "	'-s' Silent mode, no output."
+		echo "	'-S sourcefile' Name of file containing source URL's."
+		echo "		Can be persisted by -p option."
+		echo "	'-T targetdir' Name of directory for storing retrieved files."
+		echo "		Can be persisted by -p option."
+		echo "	'-v' Verbose mode."
+		echo "	'-V' Displays version information."
 		echo "	'-w' Use Windows CR/LF line endings instead of Unix LF line endings."
 		script_exit_code=0
 		script_exit
@@ -197,13 +219,18 @@ do
 		;;
 	p)	persist=TRUE
 		;;
-	q)	quiet="-q"
+	q)	verbosity="-q"
 		;;
-	s)	sourcefile=$OPTARG
+	s)	verbosity=""
+		exec 1>/dev/null 2>/dev/null
 		;;
-	t)	targetdir=$OPTARG
+	S)	sourcefile=$OPTARG
 		;;
-	v)	echo "$0 version "$version
+	T)	targetdir=$OPTARG
+		;;
+	v)	verbosity="-v"
+		;;
+	V)	echo "$0 version "$version
 		script_exit_code=0
 		script_exit
 		;;
@@ -244,6 +271,7 @@ fi
 
 # Now ensure source file is in Unix text format.
 sed -i 's/\r$//' $sourcefile
+std_cmd_err_handler $?
 
 # Check target directory exists and is writable.
 if [ "$targetdir" = "" ]
@@ -275,7 +303,7 @@ do
 	FreeBSD)
 		output "Attempting to get file - ""${input[*]}" 0
 		output "Attempting to save file to - ""$targetdir/$outputfile" 0
-		fetch "$quiet" -o "$targetdir/$outputfile" "${input[*]}"
+		fetch "$verbosity" -o "$targetdir/$outputfile" "${input[*]}"
 		status=$?
 		output "File get completed with status "$status $status
 		((script_exit_code = script_exit_code + status))
@@ -283,7 +311,7 @@ do
 	Linux)
 		output "Attempting to get file - ""${input[*]}" 0
 		output "Attempting to save file to - ""$targetdir/$outputfile" 0
-		wget "$quiet" --no-check-certificate -O "$targetdir/$outputfile" "${input[*]}"
+		wget "$verbosity" --no-check-certificate -O "$targetdir/$outputfile" "${input[*]}"
 		status=$?
 		output "File get completed with status "$status $status
 		((script_exit_code = script_exit_code + status))
@@ -303,7 +331,7 @@ do
 		# If persist is TRUE, save parameters.
 		if [ $persist = TRUE ]
 		then
-			rm ~/$conffile
+			rm --interactive=never ~/$conffile
 			write_file
 		fi
 		if [ $owner = TRUE ]

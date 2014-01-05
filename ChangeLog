@@ -1,3 +1,11 @@
+2014-01-05 v 1.0.11 Mark Grant <m.grant.prg@gmail.com>
+	* multiget	Introduced new standardised error handler routine to
+	test previous command success. Changed command line options to use -V
+	as the version option, S as Source URL and -T as target directory.
+	Introduced -q, -s & -v as quiet, silent and verbose options. Fixed
+	error handling on existing file deletion.
+			multiget	Now at version 1.0.11
+
 2014-01-01 v 1.0.10 Mark Grant <m.grant.prg@gmail.com>
 	* multiget	Tidied up use of output function.
 			multiget	Now at version 1.0.10
