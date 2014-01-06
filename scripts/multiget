@@ -87,6 +87,10 @@
 ##				-q, -s & -v as quiet, silent and	##
 ##				verbose	options. Fixed error handling	##
 ##				on existing file deletion.		##
+## 06/01/2014	MG	1.0.12	Persist option code was in the file	##
+##				processing loop and never got		##
+##				executed if no files were to be		##
+##				processed. Moved out of loop.		##
 ##									##
 ##########################################################################
 
@@ -95,7 +99,7 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.0.11"		# set version variable
+version="1.0.12"		# set version variable
 etclocation=/usr/local/etc	# Path to etc directory
 outputprefix="multiget: "
 
@@ -328,12 +332,6 @@ do
 			output "Converion to Windows format complete with status "$status $status
 			((script_exit_code = script_exit_code + status))
 		fi
-		# If persist is TRUE, save parameters.
-		if [ $persist = TRUE ]
-		then
-			rm --interactive=never ~/$conffile
-			write_file
-		fi
 		if [ $owner = TRUE ]
 		then
 			chown $newowner "$targetdir/$outputfile"
@@ -351,6 +349,13 @@ do
 	fi
 done
 exec 3<&-
+
+# If persist is TRUE, save parameters.
+if [ $persist = TRUE ]
+then
+	rm --interactive=never ~/$conffile
+	write_file
+fi
 
 # And exit
 output "Script complete with exit code: "$script_exit_code $script_exit_code
