@@ -1,2 +1,0 @@
-txt2man -t multiget -s 1 -v "Multiple File Download Manual" manpages/manpagessrc/multiget.1.txt > manpages/multiget.1
-

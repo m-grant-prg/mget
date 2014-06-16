@@ -1,5 +1,23 @@
-#                                               -*- Autoconf -*-
-# Process this file with autoconf to produce a configure script.
+#! /usr/bin/env bash
+##########################################################################
+##									##
+## Script ID: ./configure.ac						##
+## Author: Mark Grant							##
+##									##
+## Purpose:								##
+## Autoconfigure script file to configure multiget project.		##
+##									##
+##########################################################################
+
+##########################################################################
+##									##
+## Changelog								##
+##									##
+## Date		Author	Version	Description				##
+##									##
+## 16/06/2014	MG	1.0.1	Started versioning of this script.	##
+##									##
+##########################################################################
 
 AC_PREREQ([2.65])
 AC_INIT([Multiple File Download], [1.0.12], [m.grant.prg@gmail.com])
@@ -7,8 +25,8 @@ AC_INIT([Multiple File Download], [1.0.12], [m.grant.prg@gmail.com])
 AM_INIT_AUTOMAKE
 
 AC_CONFIG_FILES([Makefile
-		 scripts/Makefile
-		 manpages/Makefile])
+		 src/scripts/Makefile
+		 src/manpages/Makefile])
 
 # Checks for programs.
 
@@ -20,6 +38,11 @@ fi
 AC_CHECK_PROG(WGET, wget, yes, no)
 if test "x$WGET" = "xno" ; then
    	AC_MSG_ERROR([wget not found])
+fi
+
+AC_CHECK_PROG(TXT2MAN, txt2man, yes, no)
+if test "x$TXT2MAN" = "xno" ; then
+   	AC_MSG_ERROR([txt2man not found])
 fi
 
 # Checks for libraries.
