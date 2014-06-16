@@ -1,7 +1,12 @@
+2014-06-16 v 1.0.13 Mark Grant <m.grant.prg@gmail.com>
+	* Improved directory structure in source and which files Git tracks. Added configure
+	check for txt2man.
+	multiget	Still at version 1.0.12
+
 2014-01-06 v 1.0.12 Mark Grant <m.grant.prg@gmail.com>
 	* multiget	Persist option code was in the file processing loop and
 	never got executed if no files were to be processed. Moved out of loop.
-			multiget	Now at version 1.0.12
+	multiget	Now at version 1.0.12
 
 2014-01-05 v 1.0.11 Mark Grant <m.grant.prg@gmail.com>
 	* multiget	Introduced new standardised error handler routine to
@@ -9,25 +14,25 @@
 	as the version option, S as Source URL and -T as target directory.
 	Introduced -q, -s & -v as quiet, silent and verbose options. Fixed
 	error handling on existing file deletion.
-			multiget	Now at version 1.0.11
+	multiget	Now at version 1.0.11
 
 2014-01-01 v 1.0.10 Mark Grant <m.grant.prg@gmail.com>
 	* multiget	Tidied up use of output function.
-			multiget	Now at version 1.0.10
+	multiget	Now at version 1.0.10
 			
 2013-12-15 v 1.0.9 Mark Grant <m.grant.prg@gmail.com>
 	* multiget	Use command name instead of $0 in output script.
-			multiget	Now at version 1.0.9
+	multiget	Now at version 1.0.9
 
 2013-12-14 v 1.0.8 Mark Grant <m.grant.prg@gmail.com>
 	* multiget	Changed so that output function is the only place to
 			insert the program name and it uses $0.
-			multiget	Now at version 1.0.8
+	multiget	Now at version 1.0.8
 			
 2013-12-13 v 1.0.7 Mark Grant <m.grant.prg@gmail.com>
 	* multiget	Changed stdout & stderr message output to use a function
 			directing to one or other based on a status.
-			multiget	Now at version 1.0.7
+	multiget	Now at version 1.0.7
 
 2013-08-22 v 1.0.6 Mark Grant <m.grant.prg@gmail.com>
 	* multiget	Debian best practice documentation requires that programs
@@ -35,12 +40,12 @@
 			programs may be rewritten in a different language. This
 			would then require a name change, or, if left as-is would
 			cause confusion. So name changed to remove .sh extension.
-			multiget	Now at version 1.0.6
+	multiget	Now at version 1.0.6
 
 2013-05-05 v 1.0.5 Mark Grant <m.grant.prg@gmail.com>
 	* multiget.sh	Fixed ugly exit if 'sourcefile' = "" or
 			'targetdir' = "". 'targetdir' is now defaulted to 'PWD'.
-			Now at version 1.0.5.
+	Now at version 1.0.5.
 
 2013-05-03 v 1.0.4 Mark Grant <m.grant.prg@gmail.com>
 	* multiget.sh	Included source and target information in script output
@@ -55,7 +60,7 @@
 			Introduced source file processing to ensure it has Unix
 			type line endings. Removed partial implementation of
 			'MailTo' functionality.
-			Now at version 1.0.2.
+	Now at version 1.0.2.
 			
 2013-04-29 v 1.0.1 Mark Grant <m.grant.prg@gmail.com>
 	* First release.

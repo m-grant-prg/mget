@@ -20,7 +20,7 @@
 ##########################################################################
 
 AC_PREREQ([2.65])
-AC_INIT([Multiple File Download], [1.0.12], [m.grant.prg@gmail.com])
+AC_INIT([Multiple File Download], [1.0.13], [m.grant.prg@gmail.com])
 
 AM_INIT_AUTOMAKE
 
