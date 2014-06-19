@@ -1,3 +1,7 @@
+2014-06-19 v 1.0.14 Mark Grant <m.grant.prg@gmail.com>
+	* Added man(5) page for retained command line parameter file '.multiget'.
+	multiget	Still at version 1.0.12
+
 2014-06-16 v 1.0.13 Mark Grant <m.grant.prg@gmail.com>
 	* Improved directory structure in source and which files Git tracks. Added configure
 	check for txt2man.
