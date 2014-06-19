@@ -16,6 +16,8 @@
 ## Date		Author	Version	Description				##
 ##									##
 ## 16/06/2014	MG	1.0.1	Started versioning of this script.	##
+## 19/06/2014	MG	1.0.2	Introduce man1 and man5 sub-directories	##
+##				of src/manpages				##
 ##									##
 ##########################################################################
 
@@ -26,7 +28,8 @@ AM_INIT_AUTOMAKE
 
 AC_CONFIG_FILES([Makefile
 		 src/scripts/Makefile
-		 src/manpages/Makefile])
+		 src/manpages/man1/Makefile
+		 src/manpages/man5/Makefile])
 
 # Checks for programs.
 

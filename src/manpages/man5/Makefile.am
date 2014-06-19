@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 ##########################################################################
 ##									##
-## Script ID: src/manpages/Makefile.am					##
+## Script ID: src/manpages/man5/Makefile.am				##
 ## Author: Mark Grant							##
 ##									##
 ## Purpose:								##
@@ -15,21 +15,21 @@
 ##									##
 ## Date		Author	Version	Description				##
 ##									##
-## 16/06/2014	MG	1.0.1	Started versioning of this script.	##
+## 19/06/2014	MG	1.0.1	Started versioning of this script.	##
 ##									##
 ##########################################################################
 
 
 manpagessrcdir = $(srcdir)
 
-../../manpages/multiget.1: Makefile
+../../../manpages/man5/multiget.5: Makefile
 	mkdir -p $(@D)
 	rm -f $@
-	txt2man -t multiget -s 1 -v "Multiple File Download Manual" \
+	txt2man -t multiget -s 5 -v "Multiple File Download Manual" \
 		$(manpagessrcdir)/$(@F).txt > $@
 
-multiget.1: $(manpagessrcdir)/multiget.1.txt
+multiget.5: $(manpagessrcdir)/multiget.5.txt
 
-man1_MANS = ../../manpages/multiget.1
+man5_MANS = ../../../manpages/man5/multiget.5
 
-EXTRA_DIST = $(manpagessrcdir)/multiget.1.txt
+EXTRA_DIST = $(manpagessrcdir)/multiget.5.txt

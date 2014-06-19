@@ -1,11 +1,11 @@
 #! /usr/bin/env bash
 ##########################################################################
 ##									##
-## Script ID: ./Makefile.am						##
+## Script ID: src/manpages/man1/Makefile.am				##
 ## Author: Mark Grant							##
 ##									##
 ## Purpose:								##
-## Automake script file to generate multiget project from source.	##
+## Automake script file to generate multiget manual pages from source.	##
 ##									##
 ##########################################################################
 
@@ -22,4 +22,16 @@
 ##########################################################################
 
 
-SUBDIRS = src/scripts src/manpages/man1 src/manpages/man5
+manpagessrcdir = $(srcdir)
+
+../../../manpages/man1/multiget.1: Makefile
+	mkdir -p $(@D)
+	rm -f $@
+	txt2man -t multiget -s 1 -v "Multiple File Download Manual" \
+		$(manpagessrcdir)/$(@F).txt > $@
+
+multiget.1: $(manpagessrcdir)/multiget.1.txt
+
+man1_MANS = ../../../manpages/man1/multiget.1
+
+EXTRA_DIST = $(manpagessrcdir)/multiget.1.txt

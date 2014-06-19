@@ -49,4 +49,4 @@ This is free software: you are free to change and redistribute it.
 .br
 There is NO WARRANTY, to the extent permitted by law.
 SEE ALSO
-wget(1) on Linux and fetch(1) on FreeBSD
+multiget(5) wget(1) on Linux and fetch(1) on FreeBSD
