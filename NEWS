@@ -1,3 +1,6 @@
+Release 1.0.15 2014-08-27
+Name changed to mget to avoid Ubuntu package name duplication.
+
 Release 1.0.14 2014-06-19
 Added man(5) page for retained command line parameter file '.multiget'.
 

@@ -5,7 +5,7 @@
 ## Author: Mark Grant							##
 ##									##
 ## Purpose:								##
-## Autoconfigure script file to configure multiget project.		##
+## Autoconfigure script file to configure mget project.			##
 ##									##
 ##########################################################################
 
@@ -23,11 +23,13 @@
 ##				as there is at least 1 commit, even	##
 ##				with no tags. If no commits then	##
 ##				'Pre-Release' is used.			##
+## 27/08/2014	MG	1.0.4	Change name to mget to avoid package	##
+##				name duplication in Ubuntu.		##
 ##									##
 ##########################################################################
 
 AC_PREREQ([2.65])
-AC_INIT([Multiple File Download], m4_esyscmd([git describe --always 1>/dev/null 2>/dev/null && git describe --always | tr -d '\n' || echo 'Pre-Release' | tr -d '\n']), [m.grant.prg@gmail.com], [multiget])
+AC_INIT([Multiple File Download], m4_esyscmd([git describe --always 1>/dev/null 2>/dev/null && git describe --always | tr -d '\n' || echo 'Pre-Release' | tr -d '\n']), [m.grant.prg@gmail.com], [mget])
 
 AM_INIT_AUTOMAKE
 

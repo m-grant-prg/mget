@@ -5,7 +5,7 @@
 ## Author: Mark Grant							##
 ##									##
 ## Purpose:								##
-## Automake script file to generate multiget project from source.	##
+## Automake script file to generate mget project from source.		##
 ##									##
 ##########################################################################
 
@@ -18,6 +18,8 @@
 ## 16/06/2014	MG	1.0.1	Started versioning of this script.	##
 ## 19/06/2014	MG	1.0.2	Introduce man1 and man5 sub-directories	##
 ##				of src/manpages				##
+## 27/08/2014	MG	1.0.3	Change name to mget to avoid package	##
+##				name duplication in Ubuntu.		##
 ##									##
 ##########################################################################
 

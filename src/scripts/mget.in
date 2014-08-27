@@ -1,20 +1,20 @@
 #! /usr/bin/env bash
 ##########################################################################
 ##									##
-##	multiget is automatically generated,				##
+##	mget is automatically generated,				##
 ##		please do not modify!					##
 ##									##
 ##########################################################################
 
 ##########################################################################
 ##									##
-## Script ID: multiget							##
+## Script ID: mget							##
 ## Author: Mark Grant							##
 ##									##
 ## Purpose:								##
 ## Retrieves one or more files whose URL's are specified in a text file.##
 ##                                                              	##
-## Syntax:      multiget [OPTIONS]					##
+## Syntax:      mget [OPTIONS]						##
 ##			[OPTIONS] are:-					##
 ##	-g group Save target file with 'group' owner.			##
 ##		Does not persist between invocations.			##
@@ -91,6 +91,8 @@
 ##				processing loop and never got		##
 ##				executed if no files were to be		##
 ##				processed. Moved out of loop.		##
+## 27/08/2014	MG	1.0.13	Change name to mget to avoid package	##
+##				name duplication in Ubuntu.		##
 ##									##
 ##########################################################################
 
@@ -99,14 +101,14 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.0.12"		# set version variable
+version="1.0.13"		# set version variable
 etclocation=@sysconfdir@	# Path to etc directory
-outputprefix="multiget: "
+outputprefix="mget: "
 
 # Get system name for implementing OS differeneces.
 osname=$(uname -s)
 
-conffile=".multiget"
+conffile=".mget"
 ownergroup=FALSE
 owner=FALSE
 persist=FALSE
@@ -165,8 +167,8 @@ trap trap_exit SIGHUP SIGINT SIGTERM
 # Function to write config file.
 write_file()
 {
-	echo "sourcefile=$sourcefile">>~/.multiget
-	echo "targetdir=$targetdir">>~/.multiget
+	echo "sourcefile=$sourcefile">>~/.mget
+	echo "targetdir=$targetdir">>~/.mget
 }
 
 ##########

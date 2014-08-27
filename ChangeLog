@@ -1,3 +1,6 @@
+2014-08-27 v 1.0.15 Mark Grant <m.grant.prg@gmail.com>
+	* Changed name to mget to avoid package name clash in Ubuntu.
+
 2014-06-19 v 1.0.14 Mark Grant <m.grant.prg@gmail.com>
 	* Added man(5) page for retained command line parameter file '.multiget'.
 	multiget	Still at version 1.0.12

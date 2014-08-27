@@ -5,7 +5,7 @@
 ## Author: Mark Grant							##
 ##									##
 ## Purpose:								##
-## Automake script file to generate multiget manual pages from source.	##
+## Automake script file to generate mget manual pages from source.	##
 ##									##
 ##########################################################################
 
@@ -16,20 +16,22 @@
 ## Date		Author	Version	Description				##
 ##									##
 ## 19/06/2014	MG	1.0.1	Started versioning of this script.	##
+## 27/08/2014	MG	1.0.2	Change name to mget to avoid package	##
+##				name duplication in Ubuntu.		##
 ##									##
 ##########################################################################
 
 
 manpagessrcdir = $(srcdir)
 
-../../../manpages/man5/multiget.5: Makefile
+../../../manpages/man5/mget.5: Makefile
 	mkdir -p $(@D)
 	rm -f $@
-	txt2man -t multiget -s 5 -v "Multiple File Download Manual" \
+	txt2man -t mget -s 5 -v "Multiple File Download Manual" \
 		$(manpagessrcdir)/$(@F).txt > $@
 
-multiget.5: $(manpagessrcdir)/multiget.5.txt
+mget.5: $(manpagessrcdir)/mget.5.txt
 
-man5_MANS = ../../../manpages/man5/multiget.5
+man5_MANS = ../../../manpages/man5/mget.5
 
-EXTRA_DIST = $(manpagessrcdir)/multiget.5.txt
+EXTRA_DIST = $(manpagessrcdir)/mget.5.txt

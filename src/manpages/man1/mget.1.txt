@@ -1,7 +1,7 @@
 NAME
-multiget - download 1 or more files
+mget - download 1 or more files
 SYNOPSIS
-multiget [OPTION]
+mget [OPTION]
 DESCRIPTION
 Fetches multiple files whose URL's are specified in a text file.
 OPTIONS
@@ -49,4 +49,4 @@ This is free software: you are free to change and redistribute it.
 .br
 There is NO WARRANTY, to the extent permitted by law.
 SEE ALSO
-multiget(5) wget(1) on Linux and fetch(1) on FreeBSD
+mget(5) wget(1) on Linux and fetch(1) on FreeBSD

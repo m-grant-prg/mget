@@ -1,15 +1,15 @@
 NAME
-File '.multiget' - Retained command line parameter file for multiget (Multiple File Download) script.
+File '.mget' - Retained command line parameter file for mget (Multiple File Download) script.
 DESCRIPTION
-The file '.multiget' contains one line for each parameter (Key / Value pair).
+The file '.mget' contains one line for each parameter (Key / Value pair).
 FILES
-File '.multiget'	The parameters are as follows:-
+File '.mget'	The parameters are as follows:-
 .br
 sourcefile=Name of source file containing the URLs to be downloaded
 .br
 targetdir=Directory where downloaded files will be stored
 
-The file '.multiget' is stored in the users home directory and is hidden.
+The file '.mget' is stored in the users home directory and is hidden.
 AUTHOR
 Written by Mark Grant.
 REPORTING BUGS
@@ -25,4 +25,4 @@ This is free software: you are free to change and redistribute it.
 .br
 There is NO WARRANTY, to the extent permitted by law.
 SEE ALSO
-multiget(1) wget(1) on Linux and fetch(1) on FreeBSD
+mget(1) wget(1) on Linux and fetch(1) on FreeBSD

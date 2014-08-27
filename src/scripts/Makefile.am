@@ -5,7 +5,7 @@
 ## Author: Mark Grant							##
 ##									##
 ## Purpose:								##
-## Automake script file to generate multiget script from source.	##
+## Automake script file to generate mget script from source.		##
 ##									##
 ##########################################################################
 
@@ -16,6 +16,8 @@
 ## Date		Author	Version	Description				##
 ##									##
 ## 16/06/2014	MG	1.0.1	Started versioning of this script.	##
+## 27/08/2014	MG	1.0.2	Change name to mget to avoid package	##
+##				name duplication in Ubuntu.		##
 ##									##
 ##########################################################################
 
@@ -28,7 +30,7 @@ edit = sed \
 
 scriptssrcdir = $(srcdir)
 
-../../scripts/multiget: Makefile
+../../scripts/mget: Makefile
 	mkdir -p $(@D)
 	rm -f $@ $@.tmp
 	test -f ./$@.in || scriptssrcdir=$(scriptssrcdir)/; \
@@ -38,8 +40,8 @@ scriptssrcdir = $(srcdir)
 
 	chmod a+x $@
 
-multiget: $(scriptssrcdir)/multiget.in
+mget: $(scriptssrcdir)/mget.in
 
-bin_SCRIPTS = ../../scripts/multiget
+bin_SCRIPTS = ../../scripts/mget
 
-EXTRA_DIST = $(scriptssrcdir)/multiget.in
+EXTRA_DIST = $(scriptssrcdir)/mget.in
