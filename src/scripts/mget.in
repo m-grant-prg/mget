@@ -95,9 +95,9 @@
 ##				name duplication in Ubuntu.		##
 ## 01/09/2014	MG	1.1.1	Change to utilise configure.ac's check	##
 ##				on whether wget or fetch is in use.	##
-##				Change from sed to tr to convert DOS	##
-##				file to Unix as sed is inconsistent	##
-##				across distributions.			##
+##				Change sed to use -ibak as the in-place	##
+##				flag requires a backup file extension	##
+##				on some distros, certainly on FreeBSD.	##
 ##									##
 ##########################################################################
 
@@ -280,7 +280,8 @@ then
 fi
 
 # Now ensure source file is in Unix text format.
-tr -d '\r' < $sourcefile > $sourcefile.tmp && mv -f $sourcefile.tmp $sourcefile
+# the -i (in-place) flag requires the backup extension on some distros, certainly FreeBSD
+sed -ibak 's/\r$//' $sourcefile
 std_cmd_err_handler $?
 
 # Check target directory exists and is writable.
@@ -331,7 +332,7 @@ do
 		# If Windows CR/LF line ending required, convert.
 		if [ $windows = TRUE ]
 		then
-			sed -i 's/$/\r/' "$targetdir/$outputfile"
+			sed -ibak 's/$/\r/' "$targetdir/$outputfile"
 			status=$?
 			output "Converion to Windows format complete with status "$status $status
 			((script_exit_code = script_exit_code + status))
