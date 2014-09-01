@@ -1,3 +1,8 @@
+2014-09-01 v 1.1.1 Mark Grant <m.grant.prg@gmail.com>
+	*Change to utilise configure.ac check on whether wget or fetch is in use.
+	Change from sed to tr to convert DOS file to Unix as sed is inconsistent 
+	across distributions.
+
 2014-08-27 v 1.0.15 Mark Grant <m.grant.prg@gmail.com>
 	* Changed name to mget to avoid package name clash in Ubuntu.
 

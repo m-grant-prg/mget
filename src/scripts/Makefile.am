@@ -18,6 +18,9 @@
 ## 16/06/2014	MG	1.0.1	Started versioning of this script.	##
 ## 27/08/2014	MG	1.0.2	Change name to mget to avoid package	##
 ##				name duplication in Ubuntu.		##
+## 01/09/2014	MG	1.0.3	Add DWNUTIL substitution enabled from	##
+##				configure.ac to support which of wget	##
+##				or fetch is in use.			##
 ##									##
 ##########################################################################
 
@@ -26,7 +29,8 @@ edit = sed \
 	-e 's|@bindir[@]|$(bindir)|g' \
 	-e 's|@pkgdatadir[@]|$(pkgdatadir)|g' \
 	-e 's|@sysconfdir[@]|$(sysconfdir)|g' \
-	-e 's|@prefix[@]|$(prefix)|g'
+	-e 's|@prefix[@]|$(prefix)|g' \
+	-e 's|@DWNUTIL[@]|$(DWNUTIL)|g'
 
 scriptssrcdir = $(srcdir)
 

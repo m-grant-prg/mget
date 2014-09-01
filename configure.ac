@@ -25,6 +25,8 @@
 ##				'Pre-Release' is used.			##
 ## 27/08/2014	MG	1.0.4	Change name to mget to avoid package	##
 ##				name duplication in Ubuntu.		##
+## 01/09/2014	MG	1.0.5	Changed to CHECK_PROGS (from PROG) to	##
+##				check for either wget or fetch.		##
 ##									##
 ##########################################################################
 
@@ -45,9 +47,9 @@ if test "x$BASH" = "xno" ; then
    	AC_MSG_ERROR([bash not found])
 fi
 
-AC_CHECK_PROG(WGET, wget, yes, no)
-if test "x$WGET" = "xno" ; then
-   	AC_MSG_ERROR([wget not found])
+AC_CHECK_PROGS(DWNUTIL, wget fetch, no)
+if test "x$DWNUTIL" = "xno" ; then
+   	AC_MSG_ERROR([neither wget nor fetch found])
 fi
 
 AC_CHECK_PROG(TXT2MAN, txt2man, yes, no)

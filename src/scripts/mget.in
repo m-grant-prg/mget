@@ -93,6 +93,11 @@
 ##				processed. Moved out of loop.		##
 ## 27/08/2014	MG	1.0.13	Change name to mget to avoid package	##
 ##				name duplication in Ubuntu.		##
+## 01/09/2014	MG	1.1.1	Change to utilise configure.ac's check	##
+##				on whether wget or fetch is in use.	##
+##				Change from sed to tr to convert DOS	##
+##				file to Unix as sed is inconsistent	##
+##				across distributions.			##
 ##									##
 ##########################################################################
 
@@ -101,12 +106,10 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.0.13"		# set version variable
+version="1.1.1"			# set version variable
 etclocation=@sysconfdir@	# Path to etc directory
+DWNUTIL=@DWNUTIL@		# Download utility to use
 outputprefix="mget: "
-
-# Get system name for implementing OS differeneces.
-osname=$(uname -s)
 
 conffile=".mget"
 ownergroup=FALSE
@@ -114,9 +117,10 @@ owner=FALSE
 persist=FALSE
 sourcefile=""
 targetdir=""
+
 # Fetch defaults to moderate output, wget defaults to verbose so make non-verbose default here.
 verbosity=""
-if [ $osname = "Linux" ]
+if [ $DWNUTIL = "wget" ]
 then
 	verbosity="-nv"
 fi
@@ -276,7 +280,7 @@ then
 fi
 
 # Now ensure source file is in Unix text format.
-sed -i 's/\r$//' $sourcefile
+tr -d '\r' < $sourcefile > $sourcefile.tmp && mv -f $sourcefile.tmp $sourcefile
 std_cmd_err_handler $?
 
 # Check target directory exists and is writable.
@@ -305,24 +309,22 @@ exec 3<"$sourcefile"
 while read -u3 -ra input
 do
 	outputfile=${input[${#input[*]}-1]}
-	case $osname in
-	FreeBSD)
-		output "Attempting to get file - ""${input[*]}" 0
-		output "Attempting to save file to - ""$targetdir/$outputfile" 0
-		fetch "$verbosity" -o "$targetdir/$outputfile" "${input[*]}"
+	output "Attempting to get file - ""${input[*]}" 0
+	output "Attempting to save file to - ""$targetdir/$outputfile" 0
+
+	case $DWNUTIL in
+	fetch)
+		fetch $verbosity -o "$targetdir/$outputfile" "${input[*]}"
 		status=$?
-		output "File get completed with status "$status $status
-		((script_exit_code = script_exit_code + status))
 	;;
-	Linux)
-		output "Attempting to get file - ""${input[*]}" 0
-		output "Attempting to save file to - ""$targetdir/$outputfile" 0
-		wget "$verbosity" --no-check-certificate -O "$targetdir/$outputfile" "${input[*]}"
+	wget)
+		wget $verbosity --no-check-certificate -O "$targetdir/$outputfile" "${input[*]}"
 		status=$?
-		output "File get completed with status "$status $status
-		((script_exit_code = script_exit_code + status))
 	;;
 	esac
+
+	output "File get completed with status "$status $status
+	((script_exit_code = script_exit_code + status))
 	
 	if [ $script_exit_code = 0 ]
 	then
