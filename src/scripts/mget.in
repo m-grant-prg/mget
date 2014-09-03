@@ -93,11 +93,13 @@
 ##				processed. Moved out of loop.		##
 ## 27/08/2014	MG	1.0.13	Change name to mget to avoid package	##
 ##				name duplication in Ubuntu.		##
-## 01/09/2014	MG	1.1.1	Change to utilise configure.ac's check	##
+## 03/09/2014	MG	1.1.1	Change to utilise configure.ac's check	##
 ##				on whether wget or fetch is in use.	##
-##				Change sed to use -ibak as the in-place	##
-##				flag requires a backup file extension	##
-##				on some distros, certainly on FreeBSD.	##
+##				Change to use awk script to convert to	##
+##				and from Windows / Unix text file line	##
+##				endings to ensure the existing ending 	##
+##				is tested to determine if conversion is	##
+##				required.				##
 ##									##
 ##########################################################################
 
@@ -280,8 +282,10 @@ then
 fi
 
 # Now ensure source file is in Unix text format.
-# the -i (in-place) flag requires the backup extension on some distros, certainly FreeBSD
-sed -ibak 's/\r$//' $sourcefile
+awk '{if (substr($0,length,1)=="\r")
+	sub(/\r$/, "");
+	print;}' $sourcefile > $sourcefile.tmp \
+	&& mv -f $sourcefile.tmp $sourcefile
 std_cmd_err_handler $?
 
 # Check target directory exists and is writable.
@@ -332,7 +336,11 @@ do
 		# If Windows CR/LF line ending required, convert.
 		if [ $windows = TRUE ]
 		then
-			sed -ibak 's/$/\r/' "$targetdir/$outputfile"
+			awk '{if (substr($0,length,1)!="\r")
+				sub(/$/, "\r");
+				print;}' \
+				"$targetdir/$outputfile" > "$targetdir/$outputfile.tmp" \
+				&& mv -f "$targetdir/$outputfile.tmp" "$targetdir/$outputfile"
 			status=$?
 			output "Converion to Windows format complete with status "$status $status
 			((script_exit_code = script_exit_code + status))
@@ -358,7 +366,7 @@ exec 3<&-
 # If persist is TRUE, save parameters.
 if [ $persist = TRUE ]
 then
-	rm --interactive=never ~/$conffile
+	rm -f ~/$conffile
 	write_file
 fi
 
