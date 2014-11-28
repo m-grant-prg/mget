@@ -28,6 +28,13 @@
 ## 03/09/2014	MG	1.0.5	Changed to CHECK_PROGS (from PROG) to	##
 ##				check for either wget or fetch. Add	##
 ##				check for awk.				##
+## 28/11/2014	MG	1.0.6	Add getopt processing to allowing for	##
+##				FreeBSD quirk of 2 different getopt	##
+##				programs on PATH. See comments in	##
+##				script at the start of "Main". 		##
+##				Structure OS specific requirements to	##
+##				test for generic *BSD OSs and use	##
+##				Linux as the default.			##
 ##									##
 ##########################################################################
 
@@ -41,7 +48,27 @@ AC_CONFIG_FILES([Makefile
 		 src/manpages/man1/Makefile
 		 src/manpages/man5/Makefile])
 
+AC_CANONICAL_HOST
+
 # Checks for programs.
+AC_MSG_NOTICE([checking for required $host_os specific programs])
+case $host_os in
+	*bsd*)	AC_MSG_NOTICE([using $host_os...])
+		AC_CHECK_PROG(GETOPT, getopt, yes, no, path = '/usr/local/bin')
+		if test "x$GETOPT" = "xno" ; then
+			AC_MSG_ERROR([getopt not found])
+		fi
+		;;
+	# linux*)	Allow fall through for now as the defaults are linux.
+	*)	AC_MSG_NOTICE([using defaults...])
+		AC_CHECK_PROG(GETOPT, getopt, yes, no)
+		if test "x$GETOPT" = "xno" ; then
+			AC_MSG_ERROR([getopt not found])
+		fi
+		;;
+esac
+
+AC_MSG_NOTICE([checking for required generic programs])
 
 AC_CHECK_PROG(BASH, bash, yes, no)
 if test "x$BASH" = "xno" ; then

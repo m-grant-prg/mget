@@ -5,17 +5,17 @@ mget [OPTION]
 DESCRIPTION
 Fetches multiple files whose URL's are specified in a text file.
 OPTIONS
--g group	Save target file with 'group' owner.
--h	Displays usage information.
--o owner	Save target file with 'owner' owner.
--p	Saves command line options for future use.
--q	Quiet mode, limited output.
--s	Silent mode, no output.
--S sourcefile	Name of the file containing the URL's of files to be fetched. Can be persisted with -p.
--T targetdir	Directory in which to store retieved files. Can be persisted with -p.
--v	Verbose mode.
--V	Displays version information.
--w	Use Windows CR/LF instead of Unix LF line endings.
+-g, --group group	Save target file with 'group' owner.
+-h, --help	Displays usage information.
+-o, --owner owner	Save target file with 'owner' owner.
+-p, --persist	Saves command line options for future use.
+-q, --quiet	Quiet mode, limited output.
+-s, --silent	Silent mode, no output.
+-S. --sourcefile sourcefile	Name of the file containing the URL's of files to be fetched. Can be persisted with -p.
+-T, --targetdir targetdir	Directory in which to store retieved files. Can be persisted with -p.
+-v, --verbose	Verbose mode.
+-V, --version	Displays version information.
+-w, --windows	Use Windows CR/LF instead of Unix LF line endings.
 EXIT STATUS
 0
 if OK,

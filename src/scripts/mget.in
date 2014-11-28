@@ -16,22 +16,20 @@
 ##                                                              	##
 ## Syntax:      mget [OPTIONS]						##
 ##			[OPTIONS] are:-					##
-##	-g group Save target file with 'group' owner.			##
-##		Does not persist between invocations.			##
-##		i.e. Ignored by option -p.				##
-##	-h Displays usage information.					##
-##	-o owner Save target file with 'owner' owner.			##
-##		Does not persist between invocations.			##
-##		i.e. Ignored by option -p.				##
-##	-p Saves command line options for future use.			##
-##	-q Quiet mode, limited output.					##
-##	-s Silent mode, no output.					##
-##	-S sourcefile Name of the file containing the URL's of files to	##
-##		be fetched.						##
-##	-T targetdir Directory in which to store retieved files.	##
-##	-v Verbose mode.						##
-##	-V Displays version information.				##
-##	-w Use Windows CR/LF instead of Unix LF line endings.		##
+##	-g or --group group - Save target file with 'group' owner.	##
+##	-h or --help Displays usage information.			##
+##	-o or --owner owner - Save target file with 'owner' owner.	##
+##	-p or --persist Saves command line options for future use.	##
+##	-q or --quiet Quiet mode, limited output.			##
+##	-s or --silent Silent mode, no output.				##
+##	-S or --sourcefile sourcefile Name of the file containing the	##
+##		URL's of files to be fetched.				##
+##	-T or --targetdir targetdir Directory in which to store		##
+##		retieved files.						##
+##	-v or --verbose Verbose mode.					##
+##	-V or --version Displays version information.			##
+##	-w or --windows Use Windows CR/LF instead of Unix LF line	##
+##		endings.						##
 ##									##
 ## Exit Codes:	0 & 64 - 113 as per C/C++ standard			##
 ##		0 - success						##
@@ -100,6 +98,8 @@
 ##				endings to ensure the existing ending 	##
 ##				is tested to determine if conversion is	##
 ##				required.				##
+## 28/11/2014	MG	1.1.2	Switch to use GNU getopt to enable long	##
+##				options.				##
 ##									##
 ##########################################################################
 
@@ -108,10 +108,11 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.1.1"			# set version variable
-etclocation=@sysconfdir@	# Path to etc directory
-DWNUTIL=@DWNUTIL@		# Download utility to use
+version="1.1.2"				# set version variable
+etclocation=@sysconfdir@		# Path to etc directory
+DWNUTIL=@DWNUTIL@			# Download utility to use
 outputprefix="mget: "
+osname=$(uname -s)			# Get system name for OS differentiation
 
 conffile=".mget"
 ownergroup=FALSE
@@ -127,6 +128,15 @@ then
 	verbosity="-nv"
 fi
 windows=FALSE
+
+# See getopt comments at the start of "Main"
+case $osname in
+*BSD)	binlocation=@bindir@"/"
+	;;
+# Linux)	Allow fall through for now as the defaults are linux.
+*)	binlocation=""
+	;;
+esac
 
 ###############
 ## Functions ##
@@ -201,63 +211,108 @@ else
 	exec 3<&-
 fi
 
-# Process command line arguments with getopts.
-while getopts :g:ho:pqsS:T:vVw arg
+# Process command line arguments with GNU getopt.
+# (BSD includes, out of the box, a dodgy, feature lacking getopt program
+# installed in /usr/bin. A GNU compatable getopt package is available to install
+# and this gets installed in the bindir, ie /usr/local/bin. This means that the
+# dodgy getopt version is always found first on the PATH. In order to invoke the
+# correct program, $binlocation, (from Makefile bindir), is inserted in the command
+# line below to specify the full path). (Linux GNU getopt can be found on PATH so
+# binlocation ="").
+
+GETOPTTEMP=`"$binlocation"getopt -o g:ho:pqsS:T:vVw \
+--long group:,help,owner:,persist,quiet,silent,sourcefile:,targetdir:,verbose,version,windows \
+-n "$0" -- "$@"`
+std_cmd_err_handler $?
+
+eval set -- "$GETOPTTEMP"
+std_cmd_err_handler $?
+
+while true
 do
-	case $arg in
-	g)	ownergroup=TRUE
-		newownergroup=$OPTARG
+	case "$1" in
+	-g|--group)
+		ownergroup=TRUE
+		newownergroup=$2
+		shift 2
 		;;
-	h)	echo "Usage is $0 [OPTIONS]"
+	-h|--help)
+		echo "Usage is $0 [OPTIONS]"
 		echo "	[OPTIONS] are:-"
-		echo "	'-g group' Save target file with 'group' owner."
-		echo "	'-h' Displays usage information."
-		echo "	'-o owner' Save target file with 'owner' owner."
-		echo "	'-p' Saves command line options for future use."
-		echo "	'-q' Quiet mode, limited output."
-		echo "	'-s' Silent mode, no output."
-		echo "	'-S sourcefile' Name of file containing source URL's."
-		echo "		Can be persisted by -p option."
-		echo "	'-T targetdir' Name of directory for storing retrieved files."
-		echo "		Can be persisted by -p option."
-		echo "	'-v' Verbose mode."
-		echo "	'-V' Displays version information."
-		echo "	'-w' Use Windows CR/LF line endings instead of Unix LF line endings."
+		echo "	'-g or --group group' Save target file with 'group' owner."
+		echo "	'-h or --help' Displays usage information."
+		echo "	'-o or --owner owner' Save target file with 'owner' owner."
+		echo "	'-p or --persist' Saves command line options for future use."
+		echo "	'-q or --quiet' Quiet mode, limited output."
+		echo "	'-s or --silent' Silent mode, no output."
+		echo "	'-S or --sourcefile sourcefile' Name of file containing source URL's."
+		echo "		Can be persisted with -p."
+		echo "	'-T or --targetdir targetdir' Name of directory for storing retrieved files."
+		echo "		Can be persisted with -p."
+		echo "	'-v or --verbose' Verbose mode."
+		echo "	'-V or --version' Displays version information."
+		echo "	'-w or --windows' Use Windows CR/LF line endings instead of Unix LF line endings."
+		shift
 		script_exit_code=0
 		script_exit
 		;;
-	o)	owner=TRUE
-		newowner=$OPTARG
+	-o|--owner)
+		owner=TRUE
+		newowner=$2
+		shift 2
 		;;
-	p)	persist=TRUE
+	-p|--persist)
+		persist=TRUE
+		shift
 		;;
-	q)	verbosity="-q"
+	-q|--quiet)
+		verbosity="-q"
+		shift
 		;;
-	s)	verbosity=""
+	-s|--silent)
+		verbosity=""
 		exec 1>/dev/null 2>/dev/null
+		shift
 		;;
-	S)	sourcefile=$OPTARG
+	-S|--sourcefile)
+		sourcefile=$2
+		shift 2
 		;;
-	T)	targetdir=$OPTARG
+	-T|--targetdir)
+		targetdir=$2
+		shift 2
 		;;
-	v)	verbosity="-v"
+	-v|--verbose)
+		verbosity="-v"
+		shift
 		;;
-	V)	echo "$0 version "$version
+	-V|--version)
+		echo "$0 version "$version
+		shift
 		script_exit_code=0
 		script_exit
 		;;
-	w)	windows=TRUE
+	-w|--windows)
+		windows=TRUE
+		shift
 		;;
-	:)	script_exit_code=64
-		output "Must supply an argument to -$OPTARG." 1
-		script_exit
+	--)	shift
+		break
 		;;
-	\?)	script_exit_code=64
-		output "Invalid argument -$OPTARG." 1
+	*)	script_exit_code=1
+		output "Internal error." 1
 		script_exit
 		;;
 	esac
 done
+
+# Script does not accept other arguments.
+if [ $# -gt 0 ]
+then
+	script_exit_code=64
+	output "Invalid argument." 1
+	script_exit
+fi
 
 # If only persist flag set then nothing to do, exit.
 if [ $# = 1 -a "$1" = "-p" ]
