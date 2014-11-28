@@ -35,11 +35,15 @@
 ##				Structure OS specific requirements to	##
 ##				test for generic *BSD OSs and use	##
 ##				Linux as the default.			##
+## 28/11/2014	MG	1.0.7	Add support for passing overall package	##
+##				version to Makefiles.			##
 ##									##
 ##########################################################################
 
 AC_PREREQ([2.65])
 AC_INIT([Multiple File Download], m4_esyscmd([git describe --always 1>/dev/null 2>/dev/null && git describe --always | tr -d '\n' || echo 'Pre-Release' | tr -d '\n']), [m.grant.prg@gmail.com], [mget])
+
+AC_SUBST(pkgversion, m4_esyscmd([git describe --always 1>/dev/null 2>/dev/null && git describe --always | tr -d '\n' || echo 'Pre-Release' | tr -d '\n']))
 
 AM_INIT_AUTOMAKE
 
