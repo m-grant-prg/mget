@@ -1,4 +1,3 @@
-#! /usr/bin/env bash
 ##########################################################################
 ##									##
 ## Script ID: ./configure.ac						##
@@ -37,6 +36,7 @@
 ##				Linux as the default.			##
 ## 28/11/2014	MG	1.0.7	Add support for passing overall package	##
 ##				version to Makefiles.			##
+## 29/11/2014	MG	1.0.8	Remove redundant hashpling.		##
 ##									##
 ##########################################################################
 
