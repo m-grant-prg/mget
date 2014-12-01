@@ -39,6 +39,8 @@
 ## 29/11/2014	MG	1.0.8	Remove redundant hashpling.		##
 ## 01/12/2014	MG	1.0.9	Add check for the wutconv line ending 	##
 ##				converter.				##
+## 01/12/2014	MG	1.0.10	Remove awk check following use of	##
+##				wutconv.				##
 ##									##
 ##########################################################################
 
@@ -79,11 +81,6 @@ AC_MSG_NOTICE([checking for required generic programs])
 AC_CHECK_PROG(BASH, bash, yes, no)
 if test "x$BASH" = "xno" ; then
    	AC_MSG_ERROR([bash not found])
-fi
-
-AC_CHECK_PROG(AWK, awk, yes, no)
-if test "x$AWK" = "xno" ; then
-   	AC_MSG_ERROR([awk not found])
 fi
 
 AC_CHECK_PROGS(DWNUTIL, wget fetch, no)
