@@ -101,6 +101,8 @@
 ## 28/11/2014	MG	1.1.2	Switch to use GNU getopt to enable long	##
 ##				options.				##
 ## 28/11/2014	MG	1.1.3	Add overall package version to -V.	##
+## 01/12/2014	MG	1.1.4	Replaced windows line ending conversion	##
+##				code wuth use of wutconv.		##
 ##									##
 ##########################################################################
 
@@ -109,7 +111,7 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.1.3"				# set version variable
+version="1.1.4"				# set version variable
 etclocation=@sysconfdir@		# Path to etc directory
 DWNUTIL=@DWNUTIL@			# Download utility to use
 outputprefix="mget: "
@@ -394,13 +396,8 @@ do
 		# If Windows CR/LF line ending required, convert.
 		if [ $windows = TRUE ]
 		then
-			awk '{if (substr($0,length,1)!="\r")
-				sub(/$/, "\r");
-				print;}' \
-				"$targetdir/$outputfile" > "$targetdir/$outputfile.tmp" \
-				&& mv -f "$targetdir/$outputfile.tmp" "$targetdir/$outputfile"
+			wutconv --windows --verbose "$targetdir/$outputfile"
 			status=$?
-			output "Converion to Windows format complete with status "$status $status
 			((script_exit_code = script_exit_code + status))
 		fi
 		if [ $owner = TRUE ]

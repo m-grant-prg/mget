@@ -37,6 +37,8 @@
 ## 28/11/2014	MG	1.0.7	Add support for passing overall package	##
 ##				version to Makefiles.			##
 ## 29/11/2014	MG	1.0.8	Remove redundant hashpling.		##
+## 01/12/2014	MG	1.0.9	Add check for the wutconv line ending 	##
+##				converter.				##
 ##									##
 ##########################################################################
 
@@ -92,6 +94,11 @@ fi
 AC_CHECK_PROG(TXT2MAN, txt2man, yes, no)
 if test "x$TXT2MAN" = "xno" ; then
    	AC_MSG_ERROR([txt2man not found])
+fi
+
+AC_CHECK_PROG(WUTCONV, wutconv, yes, no)
+if test "x$WUTCONV" = "xno" ; then
+   	AC_MSG_ERROR([wutconv not found])
 fi
 
 # Checks for libraries.
