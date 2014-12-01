@@ -13,6 +13,7 @@ OPTIONS
 -s, --silent	Silent mode, no output.
 -S. --sourcefile sourcefile	Name of the file containing the URL's of files to be fetched. Can be persisted with -p.
 -T, --targetdir targetdir	Directory in which to store retieved files. Can be persisted with -p.
+-u, --unix	Use Unix LF instead of Windows CR/LF line endings.
 -v, --verbose	Verbose mode.
 -V, --version	Displays version information.
 -w, --windows	Use Windows CR/LF instead of Unix LF line endings.

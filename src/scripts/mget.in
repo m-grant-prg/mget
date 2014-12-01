@@ -103,6 +103,10 @@
 ## 28/11/2014	MG	1.1.3	Add overall package version to -V.	##
 ## 01/12/2014	MG	1.1.4	Replaced windows line ending conversion	##
 ##				code wuth use of wutconv.		##
+## 01/12/2014	MG	1.1.5	Allow mget to retrieve specified file	##
+##				with no line ending conversion as	##
+##				default. Add --unix option as complement##
+##				to --windows option.			##
 ##									##
 ##########################################################################
 
@@ -111,7 +115,7 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.1.4"				# set version variable
+version="1.1.5"				# set version variable
 etclocation=@sysconfdir@		# Path to etc directory
 DWNUTIL=@DWNUTIL@			# Download utility to use
 outputprefix="mget: "
@@ -132,6 +136,7 @@ then
 	verbosity="-nv"
 fi
 windows=FALSE
+unix=FALSE
 
 # See getopt comments at the start of "Main"
 case $osname in
@@ -224,8 +229,8 @@ fi
 # line below to specify the full path). (Linux GNU getopt can be found on PATH so
 # binlocation ="").
 
-GETOPTTEMP=`"$binlocation"getopt -o g:ho:pqsS:T:vVw \
---long group:,help,owner:,persist,quiet,silent,sourcefile:,targetdir:,verbose,version,windows \
+GETOPTTEMP=`"$binlocation"getopt -o g:ho:pqsS:T:uvVw \
+--long group:,help,owner:,persist,quiet,silent,sourcefile:,targetdir:,unix,verbose,version,windows \
 -n "$0" -- "$@"`
 std_cmd_err_handler $?
 
@@ -253,6 +258,7 @@ do
 		echo "		Can be persisted with -p."
 		echo "	'-T or --targetdir targetdir' Name of directory for storing retrieved files."
 		echo "		Can be persisted with -p."
+		echo "	'-u or --unix' Use Unix LF line endings instead of Windows CR/LF line endings."
 		echo "	'-v or --verbose' Verbose mode."
 		echo "	'-V or --version' Displays version information."
 		echo "	'-w or --windows' Use Windows CR/LF line endings instead of Unix LF line endings."
@@ -285,6 +291,10 @@ do
 	-T|--targetdir)
 		targetdir=$2
 		shift 2
+		;;
+	-u|--unix)
+		unix=TRUE
+		shift
 		;;
 	-v|--verbose)
 		verbosity="-v"
@@ -326,6 +336,14 @@ then
 	script_exit
 fi
 
+# u and w flag cannot both be set.
+if [ $windows = TRUE -a $unix = TRUE ]
+then
+	script_exit_code=64
+	output "-u and -w cannot both be set." 1
+	script_exit
+fi
+
 # Check source file exists and is readable.
 if [ ! -f "$sourcefile" ]
 then
@@ -342,10 +360,7 @@ then
 fi
 
 # Now ensure source file is in Unix text format.
-awk '{if (substr($0,length,1)=="\r")
-	sub(/\r$/, "");
-	print;}' $sourcefile > $sourcefile.tmp \
-	&& mv -f $sourcefile.tmp $sourcefile
+wutconv --unix $sourcefile
 std_cmd_err_handler $?
 
 # Check target directory exists and is writable.
@@ -400,6 +415,14 @@ do
 			status=$?
 			((script_exit_code = script_exit_code + status))
 		fi
+		# If Unix LF line ending required, convert.
+		if [ $unix = TRUE ]
+		then
+			wutconv --unix --verbose "$targetdir/$outputfile"
+			status=$?
+			((script_exit_code = script_exit_code + status))
+		fi
+		# Change owner?
 		if [ $owner = TRUE ]
 		then
 			chown $newowner "$targetdir/$outputfile"
@@ -407,6 +430,7 @@ do
 			output "Owner change complete with status "$status $status
 			((script_exit_code = script_exit_code + status))
 		fi
+		#Change group?
 		if [ $ownergroup = TRUE ]
 		then
 			chown :$newownergroup "$targetdir/$outputfile"
