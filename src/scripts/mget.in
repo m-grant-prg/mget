@@ -26,6 +26,7 @@
 ##		URL's of files to be fetched.				##
 ##	-T or --targetdir targetdir Directory in which to store		##
 ##		retieved files.						##
+##	-u or --unix Use Unix LF instead of Windows CR/LF line endings.	##
 ##	-v or --verbose Verbose mode.					##
 ##	-V or --version Displays version information.			##
 ##	-w or --windows Use Windows CR/LF instead of Unix LF line	##
