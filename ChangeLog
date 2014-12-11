@@ -1,3 +1,7 @@
+2014-12-11 v 1.1.4 Mark Grant <m.grant.prg@gmail.com>
+	* Tidy up in-script documentation and AutoConf checks.
+	mget script now at version 1.1.5
+
 2014-12-01 v 1.1.3 Mark Grant <m.grant.prg@gmail.com>
 	* Replace line ending conversion code with use of wutconv.
 	Add --unix option as a complement to --windows to convert to unix line endings.

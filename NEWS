@@ -1,3 +1,6 @@
+Release 1.1.4 2014-12-11
+Tidy up in-script documentation and AutoConf checks.
+
 Release 1.1.3 2014-12-01
 Replace line ending conversion code with use of wutconv.
 Add --unix option as a complement to --windows to convert to unix line endings.
