@@ -1,3 +1,7 @@
+2015-06-26 v 1.1.5 Mark Grant <m.grant.prg@gmail.com>
+	* Remove BSD support.
+	mget script now at version 1.1.6
+
 2014-12-11 v 1.1.4 Mark Grant <m.grant.prg@gmail.com>
 	* Tidy up in-script documentation and AutoConf checks.
 	mget script now at version 1.1.5
