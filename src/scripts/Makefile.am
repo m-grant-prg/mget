@@ -23,6 +23,7 @@
 ##				or fetch is in use.			##
 ## 28/11/2014	MG	1.0.4	Add script substitution variable for	##
 ##				overall package version.		##
+## 26/06/2015	MG	1.0.5	Remove BSD support.			##
 ##									##
 ##########################################################################
 
@@ -32,7 +33,6 @@ edit = sed \
 	-e 's|@pkgdatadir[@]|$(pkgdatadir)|g' \
 	-e 's|@sysconfdir[@]|$(sysconfdir)|g' \
 	-e 's|@prefix[@]|$(prefix)|g' \
-	-e 's|@DWNUTIL[@]|$(DWNUTIL)|g' \
 	-e 's|@pkgversion[@]|$(pkgversion)|g'
 
 scriptssrcdir = $(srcdir)

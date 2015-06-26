@@ -108,6 +108,7 @@
 ##				with no line ending conversion as	##
 ##				default. Add --unix option as complement##
 ##				to --windows option.			##
+## 26/06/2015	MG	1.1.6	Remove BSD support.			##
 ##									##
 ##########################################################################
 
@@ -116,11 +117,9 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.1.5"				# set version variable
+version="1.1.6"				# set version variable
 etclocation=@sysconfdir@		# Path to etc directory
-DWNUTIL=@DWNUTIL@			# Download utility to use
 outputprefix="mget: "
-osname=$(uname -s)			# Get system name for OS differentiation
 packageversion=@pkgversion@		# Version of the complete package
 
 conffile=".mget"
@@ -130,23 +129,10 @@ persist=FALSE
 sourcefile=""
 targetdir=""
 
-# Fetch defaults to moderate output, wget defaults to verbose so make non-verbose default here.
-verbosity=""
-if [ $DWNUTIL = "wget" ]
-then
-	verbosity="-nv"
-fi
+# wget defaults to verbose so make non-verbose default here.
+verbosity="-nv"
 windows=FALSE
 unix=FALSE
-
-# See getopt comments at the start of "Main"
-case $osname in
-*BSD)	binlocation=@bindir@"/"
-	;;
-# Linux)	Allow fall through for now as the defaults are linux.
-*)	binlocation=""
-	;;
-esac
 
 ###############
 ## Functions ##
@@ -222,15 +208,7 @@ else
 fi
 
 # Process command line arguments with GNU getopt.
-# (BSD includes, out of the box, a dodgy, feature lacking getopt program
-# installed in /usr/bin. A GNU compatable getopt package is available to install
-# and this gets installed in the bindir, ie /usr/local/bin. This means that the
-# dodgy getopt version is always found first on the PATH. In order to invoke the
-# correct program, $binlocation, (from Makefile bindir), is inserted in the command
-# line below to specify the full path). (Linux GNU getopt can be found on PATH so
-# binlocation ="").
-
-GETOPTTEMP=`"$binlocation"getopt -o g:ho:pqsS:T:uvVw \
+GETOPTTEMP=`getopt -o g:ho:pqsS:T:uvVw \
 --long group:,help,owner:,persist,quiet,silent,sourcefile:,targetdir:,unix,verbose,version,windows \
 -n "$0" -- "$@"`
 std_cmd_err_handler $?
@@ -393,17 +371,9 @@ do
 	output "Attempting to get file - ""${input[*]}" 0
 	output "Attempting to save file to - ""$targetdir/$outputfile" 0
 
-	case $DWNUTIL in
-	fetch)
-		fetch $verbosity -o "$targetdir/$outputfile" "${input[*]}"
-		status=$?
-	;;
-	wget)
-		wget $verbosity --no-check-certificate -O "$targetdir/$outputfile" "${input[*]}"
-		status=$?
-	;;
-	esac
-
+	wget $verbosity --no-check-certificate -O "$targetdir/$outputfile" "${input[*]}"
+	status=$?
+	
 	output "File get completed with status "$status $status
 	((script_exit_code = script_exit_code + status))
 	

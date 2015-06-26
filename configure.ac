@@ -41,6 +41,7 @@
 ##				converter.				##
 ## 01/12/2014	MG	1.0.10	Remove awk check following use of	##
 ##				wutconv.				##
+## 26/06/2015	MG	1.0.11	Remove BSD support.			##
 ##									##
 ##########################################################################
 
@@ -56,36 +57,17 @@ AC_CONFIG_FILES([Makefile
 		 src/manpages/man1/Makefile
 		 src/manpages/man5/Makefile])
 
-AC_CANONICAL_HOST
-
 # Checks for programs.
-AC_MSG_NOTICE([checking for required $host_os specific programs])
-case $host_os in
-	*bsd*)	AC_MSG_NOTICE([using $host_os...])
-		AC_CHECK_PROG(GETOPT, getopt, yes, no, path = '/usr/local/bin')
-		if test "x$GETOPT" = "xno" ; then
-			AC_MSG_ERROR([getopt not found])
-		fi
-		;;
-	# linux*)	Allow fall through for now as the defaults are linux.
-	*)	AC_MSG_NOTICE([using defaults...])
-		AC_CHECK_PROG(GETOPT, getopt, yes, no)
-		if test "x$GETOPT" = "xno" ; then
-			AC_MSG_ERROR([getopt not found])
-		fi
-		;;
-esac
 
 AC_MSG_NOTICE([checking for required generic programs])
-
 AC_CHECK_PROG(BASH, bash, yes, no)
 if test "x$BASH" = "xno" ; then
    	AC_MSG_ERROR([bash not found])
 fi
 
-AC_CHECK_PROGS(DWNUTIL, wget fetch, no)
-if test "x$DWNUTIL" = "xno" ; then
-   	AC_MSG_ERROR([neither wget nor fetch found])
+AC_CHECK_PROG(WGET, wget, yes, no)
+if test "x$WGET" = "xno" ; then
+	AC_MSG_ERROR([wget not found])
 fi
 
 AC_CHECK_PROG(TXT2MAN, txt2man, yes, no)
@@ -96,6 +78,11 @@ fi
 AC_CHECK_PROG(WUTCONV, wutconv, yes, no)
 if test "x$WUTCONV" = "xno" ; then
    	AC_MSG_ERROR([wutconv not found])
+fi
+
+AC_CHECK_PROG(GETOPT, getopt, yes, no)
+if test "x$GETOPT" = "xno" ; then
+	AC_MSG_ERROR([getopt not found])
 fi
 
 # Checks for libraries.
