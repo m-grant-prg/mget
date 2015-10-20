@@ -1,11 +1,11 @@
 #! /usr/bin/env bash
 ##########################################################################
 ##									##
-## Script ID: src/scripts/Makefile.am					##
+## Script ID: source/progs/bash/Makefile.am				##
 ## Author: Mark Grant							##
 ##									##
 ## Purpose:								##
-## Automake script file to generate mget script from source.		##
+## AutoMake script file to generate mget script from source.		##
 ##									##
 ##########################################################################
 
@@ -24,31 +24,24 @@
 ## 28/11/2014	MG	1.0.4	Add script substitution variable for	##
 ##				overall package version.		##
 ## 26/06/2015	MG	1.0.5	Remove BSD support.			##
+## 20/10/2015	MG	1.0.6	Restructure to conform to AutoTools	##
+##				General Template v1.0.5.		##
 ##									##
 ##########################################################################
 
 
-edit = sed \
-	-e 's|@bindir[@]|$(bindir)|g' \
-	-e 's|@pkgdatadir[@]|$(pkgdatadir)|g' \
-	-e 's|@sysconfdir[@]|$(sysconfdir)|g' \
-	-e 's|@prefix[@]|$(prefix)|g' \
-	-e 's|@pkgversion[@]|$(pkgversion)|g'
-
-scriptssrcdir = $(srcdir)
-
-../../scripts/mget: Makefile
+mget: Makefile
 	mkdir -p $(@D)
 	rm -f $@ $@.tmp
-	test -f ./$@.in || scriptssrcdir=$(scriptssrcdir)/; \
-	$(edit) $${scriptssrcdir}$(@F).in >$@.tmp
-
+	test -f ./$@.in || srcdir=$(srcdir)/; \
+	$(edit) $${srcdir}$(@F).in > $@.tmp
 	mv $@.tmp $@
-
 	chmod a+x $@
+mget: $(srcdir)/mget.in
 
-mget: $(scriptssrcdir)/mget.in
+bin_SCRIPTS = mget
 
-bin_SCRIPTS = ../../scripts/mget
+EXTRA_DIST = $(srcdir)/mget.in
 
-EXTRA_DIST = $(scriptssrcdir)/mget.in
+CLEANFILES = *.tmp mget
+

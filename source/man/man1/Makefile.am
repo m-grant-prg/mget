@@ -1,11 +1,11 @@
 #! /usr/bin/env bash
 ##########################################################################
 ##									##
-## Script ID: src/manpages/man1/Makefile.am				##
+## Script ID: source/man/man1/Makefile.am				##
 ## Author: Mark Grant							##
 ##									##
 ## Purpose:								##
-## Automake script file to generate mget manual pages from source.	##
+## AutoMake script file to generate mget manual pages from source.	##
 ##									##
 ##########################################################################
 
@@ -20,20 +20,25 @@
 ##				of src/manpages				##
 ## 27/08/2014	MG	1.0.3	Change name to mget to avoid package	##
 ##				name duplication in Ubuntu.		##
+## 20/10/2015	MG	1.0.4	Restructure to conform to AutoTools	##
+##				General Template v1.0.5.		##
 ##									##
 ##########################################################################
 
 
-manpagessrcdir = $(srcdir)
-
-../../../manpages/man1/mget.1: Makefile
+mget.1: Makefile
 	mkdir -p $(@D)
-	rm -f $@
-	txt2man -t mget -s 1 -v "Multiple File Download Manual" \
-		$(manpagessrcdir)/$(@F).txt > $@
+	rm -f $@ $@.tmp
+	$(edit) $(srcdir)/$(@F).txt > $@.tmp
+	mv $@.tmp $@
+	txt2manwrap $(@F) 1 "Multiple File Download Manual" $(srcdir)/$(@F).txt $@
+	rm -f $@.tmp
 
-mget.1: $(manpagessrcdir)/mget.1.txt
+mget.1: $(srcdir)/mget.1.txt
 
-man1_MANS = ../../../manpages/man1/mget.1
+man_MANS = mget.1
 
-EXTRA_DIST = $(manpagessrcdir)/mget.1.txt
+EXTRA_DIST = $(srcdir)/mget.1.txt
+
+CLEANFILES = *.tmp mget.1
+

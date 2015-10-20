@@ -1,11 +1,11 @@
 #! /usr/bin/env bash
 ##########################################################################
 ##									##
-## Script ID: src/manpages/man5/Makefile.am				##
+## Script ID: source/man/man5/Makefile.am				##
 ## Author: Mark Grant							##
 ##									##
 ## Purpose:								##
-## Automake script file to generate mget manual pages from source.	##
+## AutoMake script file to generate mget manual pages from source.	##
 ##									##
 ##########################################################################
 
@@ -18,20 +18,25 @@
 ## 19/06/2014	MG	1.0.1	Started versioning of this script.	##
 ## 27/08/2014	MG	1.0.2	Change name to mget to avoid package	##
 ##				name duplication in Ubuntu.		##
+## 20/10/2015	MG	1.0.3	Restructure to conform to AutoTools	##
+##				General Template v1.0.5.		##
 ##									##
 ##########################################################################
 
 
-manpagessrcdir = $(srcdir)
-
-../../../manpages/man5/mget.5: Makefile
+mget.5: Makefile
 	mkdir -p $(@D)
-	rm -f $@
-	txt2man -t mget -s 5 -v "Multiple File Download Manual" \
-		$(manpagessrcdir)/$(@F).txt > $@
+	rm -f $@ $@.tmp
+	$(edit) $(srcdir)/$(@F).txt > $@.tmp
+	mv $@.tmp $@
+	txt2manwrap $(@F) 5 "Multiple File Download Manual" $(srcdir)/$(@F).txt $@
+	rm -f $@.tmp
 
-mget.5: $(manpagessrcdir)/mget.5.txt
+mget.5: $(srcdir)/mget.5.txt
 
-man5_MANS = ../../../manpages/man5/mget.5
+man_MANS = mget.5
 
-EXTRA_DIST = $(manpagessrcdir)/mget.5.txt
+EXTRA_DIST = $(srcdir)/mget.5.txt
+
+CLEANFILES = *.tmp mget.5
+
