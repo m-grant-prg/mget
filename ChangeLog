@@ -1,3 +1,6 @@
+2015-10-20 v 1.1.6 Mark Grant <m.grant.prg@gmail.com>
+	* Restructure to conform to AutoTools General Template v1.0.5.
+
 2015-06-26 v 1.1.5 Mark Grant <m.grant.prg@gmail.com>
 	* Remove BSD support.
 	mget script now at version 1.1.6
@@ -14,7 +17,7 @@
 2014-11-29 v 1.1.2 Mark Grant <m.grant.prg@gmail.com>
 	* Add support for including overall package version in script --version.
 	Switch to use of GNU getopt to allow long options and implement them.
-	Allow for FreeBSD quirk of 2 different getopt programs on PATH. See 
+	Allow for FreeBSD quirk of 2 different getopt programs on PATH. See
 	comments in script at the start of "Main". Structure OS specific
 	requirements to test for generic *BSD OSs and use Linux as the default.
 	mget script now at version 1.1.3
@@ -53,7 +56,7 @@
 2014-01-01 v 1.0.10 Mark Grant <m.grant.prg@gmail.com>
 	* multiget	Tidied up use of output function.
 	multiget	Now at version 1.0.10
-			
+
 2013-12-15 v 1.0.9 Mark Grant <m.grant.prg@gmail.com>
 	* multiget	Use command name instead of $0 in output script.
 	multiget	Now at version 1.0.9
@@ -62,7 +65,7 @@
 	* multiget	Changed so that output function is the only place to
 			insert the program name and it uses $0.
 	multiget	Now at version 1.0.8
-			
+
 2013-12-13 v 1.0.7 Mark Grant <m.grant.prg@gmail.com>
 	* multiget	Changed stdout & stderr message output to use a function
 			directing to one or other based on a status.
@@ -95,7 +98,7 @@
 			type line endings. Removed partial implementation of
 			'MailTo' functionality.
 	Now at version 1.0.2.
-			
+
 2013-04-29 v 1.0.1 Mark Grant <m.grant.prg@gmail.com>
 	* First release.
 	multiget.sh	Now at version 1.0.1. Does not implement mail
