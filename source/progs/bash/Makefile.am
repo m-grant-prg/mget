@@ -26,6 +26,7 @@
 # 26/06/2015	MG	1.0.5	Remove BSD support.			#
 # 20/10/2015	MG	1.0.6	Restructure to conform to AutoTools	#
 #				General Template v1.0.5.		#
+# 01/05/2017	MG	1.0.7	Rename source file extension .sh.in	#
 #									#
 #########################################################################
 
@@ -33,14 +34,14 @@
 mget: Makefile
 	mkdir -p $(@D)
 	rm -f $@ $@.tmp
-	test -f ./$@.in || srcdir=$(srcdir)/; \
-	$(edit) $${srcdir}$(@F).in > $@.tmp
+	test -f ./$@.sh.in || srcdir=$(srcdir)/; \
+	$(edit) $${srcdir}$(@F).sh.in > $@.tmp
 	mv $@.tmp $@
 	chmod a+x $@
-mget: $(srcdir)/mget.in
+mget: $(srcdir)/mget.sh.in
 
 bin_SCRIPTS = mget
 
-EXTRA_DIST = $(srcdir)/mget.in
+EXTRA_DIST = $(srcdir)/mget.sh.in
 
 CLEANFILES = *.tmp mget
