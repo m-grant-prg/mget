@@ -22,6 +22,7 @@
 #				name duplication in Ubuntu.		#
 # 20/10/2015	MG	1.0.4	Restructure to conform to AutoTools	#
 #				General Template v1.0.5.		#
+# 01/05/2017	MG	1.0.5	Output from $(edit) was being ignored.	#
 #									#
 #########################################################################
 
@@ -30,8 +31,7 @@ mget.1: Makefile
 	mkdir -p $(@D)
 	rm -f $@ $@.tmp
 	$(edit) $(srcdir)/$(@F).txt > $@.tmp
-	mv $@.tmp $@
-	txt2manwrap $(@F) 1 "Multiple File Download Manual" $(srcdir)/$(@F).txt $@
+	txt2manwrap $(@F) 1 "Multiple File Download Manual" $@.tmp $@
 	rm -f $@.tmp
 
 mget.1: $(srcdir)/mget.1.txt
