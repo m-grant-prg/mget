@@ -21,6 +21,7 @@
 # 20/10/2015	MG	1.0.3	Restructure to conform to AutoTools	#
 #				General Template v1.0.5.		#
 # 01/05/2017	MG	1.0.4	Output from $(edit) was being ignored.	#
+#				Rename source file extension .man.in	#
 #									#
 #########################################################################
 
@@ -28,14 +29,14 @@
 mget.5: Makefile
 	mkdir -p $(@D)
 	rm -f $@ $@.tmp
-	$(edit) $(srcdir)/$(@F).txt > $@.tmp
+	$(edit) $(srcdir)/$(@F).man.in > $@.tmp
 	txt2manwrap $(@F) 5 "Multiple File Download Manual" $@.tmp $@
 	rm -f $@.tmp
 
-mget.5: $(srcdir)/mget.5.txt
+mget.5: $(srcdir)/mget.5.man.in
 
 man_MANS = mget.5
 
-EXTRA_DIST = $(srcdir)/mget.5.txt
+EXTRA_DIST = $(srcdir)/mget.5.man.in
 
 CLEANFILES = *.tmp mget.5
