@@ -1,121 +1,121 @@
 #! /usr/bin/env bash
-##########################################################################
-##									##
-##	mget is automatically generated,				##
-##		please do not modify!					##
-##									##
-##########################################################################
+#########################################################################
+#									#
+#	mget is automatically generated,				#
+#		please do not modify!					#
+#									#
+#########################################################################
 
-##########################################################################
-##									##
-## Script ID: mget							##
-## Author: Mark Grant							##
-##									##
-## Purpose:								##
-## Retrieves one or more files whose URL's are specified in a text file.##
-##                                                              	##
-## Syntax:      mget [OPTIONS]						##
-##			[OPTIONS] are:-					##
-##	-g or --group group - Save target file with 'group' owner.	##
-##	-h or --help Displays usage information.			##
-##	-o or --owner owner - Save target file with 'owner' owner.	##
-##	-p or --persist Saves command line options for future use.	##
-##	-q or --quiet Quiet mode, limited output.			##
-##	-s or --silent Silent mode, no output.				##
-##	-S or --sourcefile sourcefile Name of the file containing the	##
-##		URL's of files to be fetched.				##
-##	-T or --targetdir targetdir Directory in which to store		##
-##		retieved files.						##
-##	-u or --unix Use Unix LF instead of Windows CR/LF line endings.	##
-##	-v or --verbose Verbose mode.					##
-##	-V or --version Displays version information.			##
-##	-w or --windows Use Windows CR/LF instead of Unix LF line	##
-##		endings.						##
-##									##
-## Exit Codes:	0 & 64 - 113 as per C/C++ standard			##
-##		0 - success						##
-##		64 - Invalid arguments					##
-##		66 - File access error					##
-##		67 - trap received					##
-##		77 - Permissions error					##
-##									##
-##########################################################################
+#########################################################################
+#									#
+# Script ID: mget							#
+# Author: Mark Grant							#
+#									#
+# Purpose:								#
+# Retrieves one or more files whose URL's are specified in a text file.	#
+#                                         	                     	#
+# Syntax:      mget [OPTIONS]						#
+#			[OPTIONS] are:-					#
+#	-g or --group group - Save target file with 'group' owner.	#
+#	-h or --help Displays usage information.			#
+#	-o or --owner owner - Save target file with 'owner' owner.	#
+#	-p or --persist Saves command line options for future use.	#
+#	-q or --quiet Quiet mode, limited output.			#
+#	-s or --silent Silent mode, no output.				#
+#	-S or --sourcefile sourcefile Name of the file containing the	#
+#		URL's of files to be fetched.				#
+#	-T or --targetdir targetdir Directory in which to store		#
+#		retieved files.						#
+#	-u or --unix Use Unix LF instead of Windows CR/LF line endings.	#
+#	-v or --verbose Verbose mode.					#
+#	-V or --version Displays version information.			#
+#	-w or --windows Use Windows CR/LF instead of Unix LF line	#
+#		endings.						#
+#									#
+# Exit Codes:	0 & 64 - 113 as per C/C++ standard			#
+#		0 - success						#
+#		64 - Invalid arguments					#
+#		66 - File access error					#
+#		67 - trap received					#
+#		77 - Permissions error					#
+#									#
+#########################################################################
 
-##########################################################################
-##									##
-## Changelog								##
-##									##
-## Date		Author	Version	Description				##
-##									##
-## 29/04/2013	MG	1.0.1	Created.Does not implement mail		##
-##				notification.				##
-## 30/04/2013	MG	1.0.2	Corrected Error status section on man	##
-##				page. Introduced sed processing on	##
-##				source file to ensure it has Unix type	##
-##				line endings. Removed part implemented	##
-##				'MailTo' option.			##
-## 02/05/2013	MG	1.0.3	Introduce -q option to enable use of	##
-##				fetch or wget quiet mode.		##
-## 03/05/2013	MG	1.0.4	Included source and target information	##
-##				in script output to be more useful.	##
-## 05/05/2013	MG	1.0.5	Fixed ugly exit if 'sourcefile' = "" or	##
-##				'targetdir' = "". 'targetdir' is now	##
-##				defaulted to 'PWD'.			##
-## 22/08/2013	MG	1.0.6	Debian best practice documentation	##
-##				requires that programs placed in the	##
-##				PATH should not have extensions as the	##
-##				programs may be rewritten in a		##
-##				different language. This would then	##
-##				require a name change, or, if left	##
-##				as-is would cause confusion. So name	##
-##				changed to remove .sh extension.	##
-## 13/12/2013	MG	1.0.7	Changed stdout & stderr message output	##
-##				to use a function directing to one or	##
-##				other based on a status.		##
-## 14/12/2013	MG	1.0.8	Changed so that output function is the	##
-##				only place to insert the program name	##
-##				and it uses $0.				##
-## 15/12/2013	MG	1.0.9	Use command name instead of $0.		##
-## 01/01/2014	MG	1.0.10	Tidied up use of output function.	##
-## 05/01/2014	MG	1.0.11	Introduced new standardised error	##
-##				handler routine to test previous	##
-##				command success.			##
-##				Changed command line options to use -V	##
-##				as the version option, S as Source URL	##
-##				and -T as target directory. Introduced	##
-##				-q, -s & -v as quiet, silent and	##
-##				verbose	options. Fixed error handling	##
-##				on existing file deletion.		##
-## 06/01/2014	MG	1.0.12	Persist option code was in the file	##
-##				processing loop and never got		##
-##				executed if no files were to be		##
-##				processed. Moved out of loop.		##
-## 27/08/2014	MG	1.0.13	Change name to mget to avoid package	##
-##				name duplication in Ubuntu.		##
-## 03/09/2014	MG	1.1.1	Change to utilise configure.ac's check	##
-##				on whether wget or fetch is in use.	##
-##				Change to use awk script to convert to	##
-##				and from Windows / Unix text file line	##
-##				endings to ensure the existing ending 	##
-##				is tested to determine if conversion is	##
-##				required.				##
-## 28/11/2014	MG	1.1.2	Switch to use GNU getopt to enable long	##
-##				options.				##
-## 28/11/2014	MG	1.1.3	Add overall package version to -V.	##
-## 01/12/2014	MG	1.1.4	Replaced windows line ending conversion	##
-##				code wuth use of wutconv.		##
-## 01/12/2014	MG	1.1.5	Allow mget to retrieve specified file	##
-##				with no line ending conversion as	##
-##				default. Add --unix option as complement##
-##				to --windows option.			##
-## 26/06/2015	MG	1.1.6	Remove BSD support.			##
-##									##
-##########################################################################
+#########################################################################
+#									#
+# Changelog								#
+#									#
+# Date		Author	Version	Description				#
+#									#
+# 29/04/2013	MG	1.0.1	Created.Does not implement mail		#
+#				notification.				#
+# 30/04/2013	MG	1.0.2	Corrected Error status section on man	#
+#				page. Introduced sed processing on	#
+#				source file to ensure it has Unix type	#
+#				line endings. Removed part implemented	#
+#				'MailTo' option.			#
+# 02/05/2013	MG	1.0.3	Introduce -q option to enable use of	#
+#				fetch or wget quiet mode.		#
+# 03/05/2013	MG	1.0.4	Included source and target information	#
+#				in script output to be more useful.	#
+# 05/05/2013	MG	1.0.5	Fixed ugly exit if 'sourcefile' = "" or	#
+#				'targetdir' = "". 'targetdir' is now	#
+#				defaulted to 'PWD'.			#
+# 22/08/2013	MG	1.0.6	Debian best practice documentation	#
+#				requires that programs placed in the	#
+#				PATH should not have extensions as the	#
+#				programs may be rewritten in a		#
+#				different language. This would then	#
+#				require a name change, or, if left	#
+#				as-is would cause confusion. So name	#
+#				changed to remove .sh extension.	#
+# 13/12/2013	MG	1.0.7	Changed stdout & stderr message output	#
+#				to use a function directing to one or	#
+#				other based on a status.		#
+# 14/12/2013	MG	1.0.8	Changed so that output function is the	#
+#				only place to insert the program name	#
+#				and it uses $0.				#
+# 15/12/2013	MG	1.0.9	Use command name instead of $0.		#
+# 01/01/2014	MG	1.0.10	Tidied up use of output function.	#
+# 05/01/2014	MG	1.0.11	Introduced new standardised error	#
+#				handler routine to test previous	#
+#				command success.			#
+#				Changed command line options to use -V	#
+#				as the version option, S as Source URL	#
+#				and -T as target directory. Introduced	#
+#				-q, -s & -v as quiet, silent and	#
+#				verbose	options. Fixed error handling	#
+#				on existing file deletion.		#
+# 06/01/2014	MG	1.0.12	Persist option code was in the file	#
+#				processing loop and never got		#
+#				executed if no files were to be		#
+#				processed. Moved out of loop.		#
+# 27/08/2014	MG	1.0.13	Change name to mget to avoid package	#
+#				name duplication in Ubuntu.		#
+# 03/09/2014	MG	1.1.1	Change to utilise configure.ac's check	#
+#				on whether wget or fetch is in use.	#
+#				Change to use awk script to convert to	#
+#				and from Windows / Unix text file line	#
+#				endings to ensure the existing ending 	#
+#				is tested to determine if conversion is	#
+#				required.				#
+# 28/11/2014	MG	1.1.2	Switch to use GNU getopt to enable long	#
+#				options.				#
+# 28/11/2014	MG	1.1.3	Add overall package version to -V.	#
+# 01/12/2014	MG	1.1.4	Replaced windows line ending conversion	#
+#				code wuth use of wutconv.		#
+# 01/12/2014	MG	1.1.5	Allow mget to retrieve specified file	#
+#				with no line ending conversion as	#
+#				default. Add --unix option as complement#
+#				to --windows option.			#
+# 26/06/2015	MG	1.1.6	Remove BSD support.			#
+#									#
+#########################################################################
 
 
-####################
-## Init variables ##
-####################
+##################
+# Init variables #
+##################
 script_exit_code=0
 version="1.1.6"				# set version variable
 etclocation=@sysconfdir@		# Path to etc directory
@@ -134,9 +134,9 @@ verbosity="-nv"
 windows=FALSE
 unix=FALSE
 
-###############
-## Functions ##
-###############
+#############
+# Functions #
+#############
 
 # Output $1 to stdout or stderr depending on $2
 output()
@@ -183,9 +183,9 @@ write_file()
 	echo "targetdir=$targetdir">>~/.mget
 }
 
-##########
-## Main ##
-##########
+########
+# Main #
+########
 # If config file exists, read it, else, create it.
 if [ ! -f ~/$conffile ]
 then
@@ -373,10 +373,10 @@ do
 
 	wget $verbosity --no-check-certificate -O "$targetdir/$outputfile" "${input[*]}"
 	status=$?
-	
+
 	output "File get completed with status "$status $status
 	((script_exit_code = script_exit_code + status))
-	
+
 	if [ $script_exit_code = 0 ]
 	then
 		# If Windows CR/LF line ending required, convert.

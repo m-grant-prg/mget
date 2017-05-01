@@ -1,33 +1,33 @@
 #! /usr/bin/env bash
-##########################################################################
-##									##
-## Script ID: source/progs/bash/Makefile.am				##
-## Author: Mark Grant							##
-##									##
-## Purpose:								##
-## AutoMake script file to generate mget script from source.		##
-##									##
-##########################################################################
+#########################################################################
+#									#
+# Script ID: source/progs/bash/Makefile.am				#
+# Author: Mark Grant							#
+#									#
+# Purpose:								#
+# AutoMake script file to generate mget script from source.		#
+#									#
+#########################################################################
 
-##########################################################################
-##									##
-## Changelog								##
-##									##
-## Date		Author	Version	Description				##
-##									##
-## 16/06/2014	MG	1.0.1	Started versioning of this script.	##
-## 27/08/2014	MG	1.0.2	Change name to mget to avoid package	##
-##				name duplication in Ubuntu.		##
-## 01/09/2014	MG	1.0.3	Add DWNUTIL substitution enabled from	##
-##				configure.ac to support which of wget	##
-##				or fetch is in use.			##
-## 28/11/2014	MG	1.0.4	Add script substitution variable for	##
-##				overall package version.		##
-## 26/06/2015	MG	1.0.5	Remove BSD support.			##
-## 20/10/2015	MG	1.0.6	Restructure to conform to AutoTools	##
-##				General Template v1.0.5.		##
-##									##
-##########################################################################
+#########################################################################
+#									#
+# Changelog								#
+#									#
+# Date		Author	Version	Description				#
+#									#
+# 16/06/2014	MG	1.0.1	Started versioning of this script.	#
+# 27/08/2014	MG	1.0.2	Change name to mget to avoid package	#
+#				name duplication in Ubuntu.		#
+# 01/09/2014	MG	1.0.3	Add DWNUTIL substitution enabled from	#
+#				configure.ac to support which of wget	#
+#				or fetch is in use.			#
+# 28/11/2014	MG	1.0.4	Add script substitution variable for	#
+#				overall package version.		#
+# 26/06/2015	MG	1.0.5	Remove BSD support.			#
+# 20/10/2015	MG	1.0.6	Restructure to conform to AutoTools	#
+#				General Template v1.0.5.		#
+#									#
+#########################################################################
 
 
 mget: Makefile
@@ -44,4 +44,3 @@ bin_SCRIPTS = mget
 EXTRA_DIST = $(srcdir)/mget.in
 
 CLEANFILES = *.tmp mget
-
