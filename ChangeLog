@@ -1,3 +1,7 @@
+2017-05-01 v 1.1.7 Mark Grant <m.grant.prg@gmail.com>
+	* Apply standards from atbre template v1.0.0
+	Correct man page build - output from $(edit) was being ignored.
+
 2015-10-20 v 1.1.6 Mark Grant <m.grant.prg@gmail.com>
 	* Note conformity to AutoTools General Template v1.0.6.
 	Restructure to conform to AutoTools General Template v1.0.5.
