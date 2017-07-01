@@ -1,3 +1,6 @@
+Release 1.1.8 2017-07-01
+Enforce 80 column rule on all project files.
+
 Release 1.1.7 2017-05-01
 Apply standards from atbre template v1.0.0
 Correct man page build - output from $(edit) was being ignored.

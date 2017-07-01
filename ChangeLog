@@ -1,3 +1,7 @@
+2017-07-01 v 1.1.8 Mark Grant <m.grant.prg@gmail.com>
+	* Enforce 80 column rule.
+	mget script now at version 1.1.7
+
 2017-05-01 v 1.1.7 Mark Grant <m.grant.prg@gmail.com>
 	* Apply standards from atbre template v1.0.0
 	Correct man page build - output from $(edit) was being ignored.
