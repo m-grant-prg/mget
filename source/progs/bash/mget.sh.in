@@ -109,6 +109,7 @@
 #				default. Add --unix option as complement#
 #				to --windows option.			#
 # 26/06/2015	MG	1.1.6	Remove BSD support.			#
+# 01/07/2017	MG	1.1.7	Enforce 80 column rule.			#
 #									#
 #########################################################################
 
@@ -117,7 +118,7 @@
 # Init variables #
 ##################
 script_exit_code=0
-version="1.1.6"				# set version variable
+version="1.1.7"				# set version variable
 etclocation=@sysconfdir@		# Path to etc directory
 outputprefix="mget: "
 packageversion=@pkgversion@		# Version of the complete package
@@ -208,11 +209,11 @@ else
 fi
 
 # Process command line arguments with GNU getopt.
-GETOPTTEMP=`getopt -o g:ho:pqsS:T:uvVw \
---long group:,help,owner:,persist,quiet,silent,sourcefile:,targetdir:,unix,verbose,version,windows \
--n "$0" -- "$@"`
-std_cmd_err_handler $?
-
+tmp="getopt -o g:ho:pqsS:T:uvVw "
+tmp+="--long group:,help,owner:,persist,quiet,silent,sourcefile:,"
+tmp+="targetdir:,unix,verbose,version,windows "
+tmp+="-n $0 -- $@"
+GETOPTTEMP=`eval $tmp`
 eval set -- "$GETOPTTEMP"
 std_cmd_err_handler $?
 
@@ -226,21 +227,33 @@ do
 		;;
 	-h|--help)
 		echo "Usage is $0 [OPTIONS]"
-		echo "	[OPTIONS] are:-"
-		echo "	'-g or --group group' Save target file with 'group' owner."
-		echo "	'-h or --help' Displays usage information."
-		echo "	'-o or --owner owner' Save target file with 'owner' owner."
-		echo "	'-p or --persist' Saves command line options for future use."
-		echo "	'-q or --quiet' Quiet mode, limited output."
-		echo "	'-s or --silent' Silent mode, no output."
-		echo "	'-S or --sourcefile sourcefile' Name of file containing source URL's."
-		echo "		Can be persisted with -p."
-		echo "	'-T or --targetdir targetdir' Name of directory for storing retrieved files."
-		echo "		Can be persisted with -p."
-		echo "	'-u or --unix' Use Unix LF line endings instead of Windows CR/LF line endings."
-		echo "	'-v or --verbose' Verbose mode."
-		echo "	'-V or --version' Displays version information."
-		echo "	'-w or --windows' Use Windows CR/LF line endings instead of Unix LF line endings."
+		echo "[OPTIONS] are:-"
+		msg="'-g or --group group' Save target file with 'group' owner."
+		echo "$msg"
+		echo "'-h or --help' Displays usage information."
+		msg="'-o or --owner owner' Save target file with 'owner' owner."
+		echo "$msg"
+		msg="'-p or --persist' Saves command line options for future "
+		msg+="use."
+		echo "$msg"
+		echo "'-q or --quiet' Quiet mode, limited output."
+		echo "'-s or --silent' Silent mode, no output."
+		msg="'-S or --sourcefile sourcefile' Name of file containing "
+		msg+="source URL's."
+		echo "$msg"
+		echo "	Can be persisted with -p."
+		msg="'-T or --targetdir targetdir' Name of directory for "
+		msg+="storing retrieved files."
+		echo "$msg"
+		echo "	Can be persisted with -p."
+		msg="'-u or --unix' Use Unix LF line endings instead of "
+		msg+="Windows CR/LF line endings."
+		echo "$msg"
+		echo "'-v or --verbose' Verbose mode."
+		echo "'-V or --version' Displays version information."
+		msg="'-w or --windows' Use Windows CR/LF line endings instead "
+		msg+="of Unix LF endings."
+		echo "$msg"
 		shift
 		script_exit_code=0
 		script_exit
@@ -371,7 +384,8 @@ do
 	output "Attempting to get file - ""${input[*]}" 0
 	output "Attempting to save file to - ""$targetdir/$outputfile" 0
 
-	wget $verbosity --no-check-certificate -O "$targetdir/$outputfile" "${input[*]}"
+	wget $verbosity --no-check-certificate -O "$targetdir/$outputfile" \
+		"${input[*]}"
 	status=$?
 
 	output "File get completed with status "$status $status
@@ -398,7 +412,8 @@ do
 		then
 			chown $newowner "$targetdir/$outputfile"
 			status=$?
-			output "Owner change complete with status "$status $status
+			output "Owner change complete with status "$status \
+				$status
 			((script_exit_code = script_exit_code + status))
 		fi
 		#Change group?
@@ -406,7 +421,8 @@ do
 		then
 			chown :$newownergroup "$targetdir/$outputfile"
 			status=$?
-			output "Owner group change complete with status "$status $status
+			msg="Owner group change complete with status "$status
+			output "$msg" $status
 			((script_exit_code = script_exit_code + status))
 		fi
 	fi

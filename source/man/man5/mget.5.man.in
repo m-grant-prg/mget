@@ -1,5 +1,6 @@
 NAME
-File '.mget' - Retained command line parameter file for mget (Multiple File Download) script.
+File '.mget' - Retained command line parameter file for mget (Multiple File
+Download) script.
 DESCRIPTION
 The file '.mget' contains one line for each parameter (Key / Value pair).
 FILES
@@ -15,7 +16,7 @@ Written by Mark Grant.
 REPORTING BUGS
 Report bugs to <m.grant.prg@gmail.com>
 COPYRIGHT
-Copyright 2014 Mark Grant.
+Copyright 2017 Mark Grant.
 .br
 License GPLv3+: GNU GPL version 3 or later
 .br
@@ -25,4 +26,4 @@ This is free software: you are free to change and redistribute it.
 .br
 There is NO WARRANTY, to the extent permitted by law.
 SEE ALSO
-mget(1) wget(1) on Linux and fetch(1) on FreeBSD
+mget(1) wget(1)
