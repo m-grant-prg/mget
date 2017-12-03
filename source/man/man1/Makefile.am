@@ -24,6 +24,10 @@
 #				General Template v1.0.5.		#
 # 01/05/2017	MG	1.0.5	Output from $(edit) was being ignored.	#
 #				Rename source file extension .man.in	#
+# 03/12/2017	MG	1.0.6	Determine the manual section from the	#
+#				target suffix. If the suffix is blank	#
+#				(foo.) or if there is no suffix (foo)	#
+#				then error out.				#
 #									#
 #########################################################################
 
@@ -32,7 +36,19 @@ mget.1: Makefile
 	mkdir -p $(@D)
 	rm -f $@ $@.tmp
 	$(edit) $(srcdir)/$(@F).man.in > $@.tmp
-	txt2manwrap $(@F) 1 "Multiple File Download Manual" $@.tmp $@
+	targfile=$(@F);	\
+	if [[ $$targfile == *"."* ]]; then \
+		if [[ $${targfile##*.} == "" ]]; then \
+			echo "Source file suffix used as section but empty."; \
+			exit 1; \
+		else \
+			section=$${targfile##*.}; \
+		fi; \
+	else \
+		echo "Source file suffix used as section but no dot & empty."; \
+		exit 1; \
+	fi; \
+	txt2manwrap $(@F) $$section "Multiple File Download Manual" $@.tmp $@
 	rm -f $@.tmp
 
 mget.1: $(srcdir)/mget.1.man.in
