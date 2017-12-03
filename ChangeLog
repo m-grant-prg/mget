@@ -1,3 +1,11 @@
+2017-12-03 v 1.1.9 Mark Grant <m.grant.prg@gmail.com>
+	*  Adopt normal exit code policy; 0 on success, 1 on failure.
+	   Add SPDX license tags to source files.
+	   Add project-wide TODO file.
+	   Determine the manual section from the target file suffix. If the
+	   suffix is blank (foo.) or if there is no suffix (foo) then error out.
+	   Update man page copyright span attribution.
+
 2017-07-01 v 1.1.8 Mark Grant <m.grant.prg@gmail.com>
 	* Enforce 80 column rule.
 	mget script now at version 1.1.7
