@@ -1,7 +1,10 @@
 #########################################################################
 #									#
 # Script ID: ./configure.ac						#
-# Author: Mark Grant							#
+# Author: Copyright (C) 2013-2017  Mark Grant				#
+#									#
+# Released under the GPLv3 only.					#
+# SPDX-License-Identifier: GPL-3.0					#
 #									#
 # Purpose:								#
 # AutoConf script file to configure mget project.			#
@@ -52,10 +55,11 @@
 #				Fully populate sed substitution		#
 #				variable.				#
 #				Apply atbre template v1.0.0 standards.	#
+# 03/12/2017	MG	1.0.14	Add SPDX license tags to source files.	#
 #									#
 #########################################################################
 
-AC_REVISION([$Revision: 1.0.13 $])
+AC_REVISION([$Revision: 1.0.14 $])
 
 AC_PREREQ([2.65])
 

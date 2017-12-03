@@ -2,7 +2,10 @@
 #########################################################################
 #									#
 # Script ID: source/progs/bash/Makefile.am				#
-# Author: Mark Grant							#
+# Author: Copyright (C) 2013-2017  Mark Grant				#
+#									#
+# Released under the GPLv3 only.					#
+# SPDX-License-Identifier: GPL-3.0					#
 #									#
 # Purpose:								#
 # AutoMake script file to generate mget script from source.		#
@@ -27,6 +30,7 @@
 # 20/10/2015	MG	1.0.6	Restructure to conform to AutoTools	#
 #				General Template v1.0.5.		#
 # 01/05/2017	MG	1.0.7	Rename source file extension .sh.in	#
+# 03/12/2017	MG	1.0.8	Add SPDX license tags to source files.	#
 #									#
 #########################################################################
 

@@ -9,7 +9,10 @@
 #########################################################################
 #									#
 # Script ID: mget							#
-# Author: Mark Grant							#
+# Author: Copyright (C) 2013-2017  Mark Grant				#
+#									#
+# Released under the GPLv3 only.					#
+# SPDX-License-Identifier: GPL-3.0					#
 #									#
 # Purpose:								#
 # Retrieves one or more files whose URL's are specified in a text file.	#
@@ -110,6 +113,7 @@
 #				to --windows option.			#
 # 26/06/2015	MG	1.1.6	Remove BSD support.			#
 # 01/07/2017	MG	1.1.7	Enforce 80 column rule.			#
+# 03/12/2017	MG	1.1.8	Add SPDX license tags to source files.	#
 #									#
 #########################################################################
 
@@ -118,7 +122,7 @@
 # Init variables #
 ##################
 script_exit_code=0
-version="1.1.7"				# set version variable
+version="1.1.8"				# set version variable
 etclocation=@sysconfdir@		# Path to etc directory
 outputprefix="mget: "
 packageversion=@pkgversion@		# Version of the complete package

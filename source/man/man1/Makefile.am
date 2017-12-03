@@ -2,7 +2,10 @@
 #########################################################################
 #									#
 # Script ID: source/man/man1/Makefile.am				#
-# Author: Mark Grant							#
+# Author: Copyright (C) 2013-2017  Mark Grant				#
+#									#
+# Released under the GPLv3 only.					#
+# SPDX-License-Identifier: GPL-3.0					#
 #									#
 # Purpose:								#
 # AutoMake script file to generate mget manual pages from source.	#
@@ -28,6 +31,7 @@
 #				target suffix. If the suffix is blank	#
 #				(foo.) or if there is no suffix (foo)	#
 #				then error out.				#
+#				Add SPDX license tags to source files.	#
 #									#
 #########################################################################
 
