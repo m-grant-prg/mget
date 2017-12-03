@@ -35,12 +35,8 @@
 #	-w or --windows Use Windows CR/LF instead of Unix LF line	#
 #		endings.						#
 #									#
-# Exit Codes:	0 & 64 - 113 as per C/C++ standard			#
-#		0 - success						#
-#		64 - Invalid arguments					#
-#		66 - File access error					#
-#		67 - trap received					#
-#		77 - Permissions error					#
+# Exit Codes:	0 - success						#
+#		1 - failure						#
 #									#
 #########################################################################
 
@@ -114,6 +110,8 @@
 # 26/06/2015	MG	1.1.6	Remove BSD support.			#
 # 01/07/2017	MG	1.1.7	Enforce 80 column rule.			#
 # 03/12/2017	MG	1.1.8	Add SPDX license tags to source files.	#
+#				Adopt normal exit code policy; 0 on	#
+#				success, 1 on failure.			#
 #									#
 #########################################################################
 
@@ -173,7 +171,7 @@ script_exit()
 # Standard trap exit function
 trap_exit()
 {
-script_exit_code=67
+script_exit_code=1
 output "Script terminating due to trap received. Code: "$script_exit_code 1
 script_exit
 }
@@ -320,7 +318,7 @@ done
 # Script does not accept other arguments.
 if [ $# -gt 0 ]
 then
-	script_exit_code=64
+	script_exit_code=1
 	output "Invalid argument." 1
 	script_exit
 fi
@@ -335,7 +333,7 @@ fi
 # u and w flag cannot both be set.
 if [ $windows = TRUE -a $unix = TRUE ]
 then
-	script_exit_code=64
+	script_exit_code=1
 	output "-u and -w cannot both be set." 1
 	script_exit
 fi
@@ -343,14 +341,14 @@ fi
 # Check source file exists and is readable.
 if [ ! -f "$sourcefile" ]
 then
-	script_exit_code=66
+	script_exit_code=1
 	output "Source file not valid." 1
 	script_exit
 fi
 
 if [ ! -r "$sourcefile" ]
 then
-	script_exit_code=77
+	script_exit_code=1
 	output "Source file not accessible." 1
 	script_exit
 fi
@@ -367,14 +365,14 @@ fi
 
 if [ ! -d "$targetdir" ]
 then
-	script_exit_code=66
+	script_exit_code=1
 	output "Target directory not valid." 1
 	script_exit
 fi
 
 if [ ! -w "$targetdir" ]
 then
-	script_exit_code=77
+	script_exit_code=1
 	output "Target directory not accessible." 1
 	script_exit
 fi
