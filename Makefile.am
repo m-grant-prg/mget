@@ -2,7 +2,7 @@
 #########################################################################
 #									#
 # Script ID: ./Makefile.am						#
-# Author: Copyright (C) 2013-2017  Mark Grant				#
+# Author: Copyright (C) 2013-2018  Mark Grant				#
 #									#
 # Released under the GPLv3 only.					#
 # SPDX-License-Identifier: GPL-3.0					#
@@ -26,8 +26,10 @@
 # 20/10/2015	MG	1.0.4	Restructure to conform to AutoTools	#
 #				General Template v1.0.5.		#
 # 03/12/2017	MG	1.0.5	Add SPDX license tags to source files.	#
+# 10/02/2018	MG	1.0.6	Shorten directory names to reduce	#
+#				overall path length.			#
 #									#
 #########################################################################
 
 
-SUBDIRS = source/progs/bash source/man/man1 source/man/man5
+SUBDIRS = src/prg/bash src/man/1 src/man/5
