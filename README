@@ -52,6 +52,14 @@ If you now modify the contents of the request file you could:-
 Type 'mget'
 and it will use the saved values of source file and target directory.
 
+N.B.
+----
+At a source modification / development level, this project expects to reside in
+a git environment. This manifests itself in 2 places:-
+1) ... .gitignore files are included in the source.
+2) ... The make target, 'srctarball', relies on the command 'git am' so it will
+	fail if git is not installed or it is not in a git repository.
+
 
 -------------------------------------------------
 2 ... AutoTools (configure and make) Installation
