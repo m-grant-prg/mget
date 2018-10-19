@@ -87,7 +87,7 @@ AC_PREREQ([2.69])
 #
 ########################
 
-AC_INIT(Multiple File Download, v1.1.12, m.grant.prg@gmail.com, mget)
+AC_INIT(Multiple File Download, v1.1.13, m.grant.prg@gmail.com, mget)
 
 AC_SUBST(pkgversion, $PACKAGE_VERSION)
 
