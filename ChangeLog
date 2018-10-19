@@ -1,3 +1,9 @@
+2018-10-19 v 1.1.13 Mark Grant <m.grant.prg@gmail.com>
+	*  Add markdown symlink to README.
+	Beautify README for GitHub markdown presentation.
+	Modify README to refer to new wiki.
+	mget script still at version 1.1.8
+
 2018-08-27 v 1.1.12 Mark Grant <m.grant.prg@gmail.com>
 	*  There have been sufficient minor project infrastructure changes to
 	warrant a new release. No functional changes.

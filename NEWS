@@ -1,3 +1,8 @@
+Release 1.1.13 2018-10-19
+Add markdown symlink to README.
+Beautify README for GitHub markdown presentation.
+Modify README to refer to new wiki.
+
 Release 1.1.12 2018-08-27
 There have been sufficient minor project infrastructure changes to warrant a new
 release. No functional changes.
