@@ -1,3 +1,7 @@
+2018-11-01 v 1.1.14 Mark Grant <m.grant.prg@gmail.com>
+	*  srctarball to use -src- in filename
+	mget script still at version 1.1.8
+
 2018-10-19 v 1.1.13 Mark Grant <m.grant.prg@gmail.com>
 	*  Add markdown symlink to README.
 	Beautify README for GitHub markdown presentation.
