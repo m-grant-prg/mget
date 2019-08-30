@@ -113,6 +113,8 @@
 #				Adopt normal exit code policy; 0 on	#
 #				success, 1 on failure.			#
 # 30/08/2019	MG	1.2.1	Do not hardcode outputprefix.		#
+#				Use C style formatting of conditional	#
+#				and loop statements.			#
 #									#
 #########################################################################
 
@@ -145,8 +147,7 @@ unix=FALSE
 # Output $1 to stdout or stderr depending on $2
 output()
 {
-	if [ $2 = 0 ]
-	then
+	if [ $2 = 0 ]; then
 		echo "$outputprefix$1"
 	else
 		echo "$outputprefix$1" 1>&2
@@ -156,8 +157,7 @@ output()
 # Standard function to test command error ($1 is $?) and exit if non-zero
 std_cmd_err_handler()
 {
-	if [ $1 != 0 ]
-	then
+	if [ $1 != 0 ]; then
 		script_exit_code=$1
 		script_exit
 	fi
@@ -191,14 +191,12 @@ write_file()
 # Main #
 ########
 # If config file exists, read it, else, create it.
-if [ ! -f ~/$conffile ]
-then
+if [ ! -f ~/$conffile ]; then
 	write_file
 else
 	IFS="="
 	exec 3<~/$conffile
-	while read -u3 -ra input
-	do
+	while read -u3 -ra input; do
 		case ${input[0]} in
 		sourcefile)
 			sourcefile=${input[1]}
@@ -220,8 +218,7 @@ GETOPTTEMP=`eval $tmp`
 eval set -- "$GETOPTTEMP"
 std_cmd_err_handler $?
 
-while true
-do
+while true; do
 	case "$1" in
 	-g|--group)
 		ownergroup=TRUE
@@ -317,38 +314,33 @@ do
 done
 
 # Script does not accept other arguments.
-if [ $# -gt 0 ]
-then
+if [ $# -gt 0 ]; then
 	script_exit_code=1
 	output "Invalid argument." 1
 	script_exit
 fi
 
 # If only persist flag set then nothing to do, exit.
-if [ $# = 1 -a "$1" = "-p" ]
-then
+if [ $# = 1 -a "$1" = "-p" ]; then
 	script_exit_code=0
 	script_exit
 fi
 
 # u and w flag cannot both be set.
-if [ $windows = TRUE -a $unix = TRUE ]
-then
+if [ $windows = TRUE -a $unix = TRUE ]; then
 	script_exit_code=1
 	output "-u and -w cannot both be set." 1
 	script_exit
 fi
 
 # Check source file exists and is readable.
-if [ ! -f "$sourcefile" ]
-then
+if [ ! -f "$sourcefile" ]; then
 	script_exit_code=1
 	output "Source file not valid." 1
 	script_exit
 fi
 
-if [ ! -r "$sourcefile" ]
-then
+if [ ! -r "$sourcefile" ]; then
 	script_exit_code=1
 	output "Source file not accessible." 1
 	script_exit
@@ -359,20 +351,17 @@ wutconv --unix $sourcefile
 std_cmd_err_handler $?
 
 # Check target directory exists and is writable.
-if [ "$targetdir" = "" ]
-then
+if [ "$targetdir" = "" ]; then
 	targetdir=$PWD
 fi
 
-if [ ! -d "$targetdir" ]
-then
+if [ ! -d "$targetdir" ]; then
 	script_exit_code=1
 	output "Target directory not valid." 1
 	script_exit
 fi
 
-if [ ! -w "$targetdir" ]
-then
+if [ ! -w "$targetdir" ]; then
 	script_exit_code=1
 	output "Target directory not accessible." 1
 	script_exit
@@ -381,8 +370,7 @@ fi
 # Now get the files
 IFS="/"
 exec 3<"$sourcefile"
-while read -u3 -ra input
-do
+while read -u3 -ra input; do
 	outputfile=${input[${#input[*]}-1]}
 	output "Attempting to get file - ""${input[*]}" 0
 	output "Attempting to save file to - ""$targetdir/$outputfile" 0
@@ -394,25 +382,21 @@ do
 	output "File get completed with status "$status $status
 	((script_exit_code = script_exit_code + status))
 
-	if [ $script_exit_code = 0 ]
-	then
+	if [ $script_exit_code = 0 ]; then
 		# If Windows CR/LF line ending required, convert.
-		if [ $windows = TRUE ]
-		then
+		if [ $windows = TRUE ]; then
 			wutconv --windows --verbose "$targetdir/$outputfile"
 			status=$?
 			((script_exit_code = script_exit_code + status))
 		fi
 		# If Unix LF line ending required, convert.
-		if [ $unix = TRUE ]
-		then
+		if [ $unix = TRUE ]; then
 			wutconv --unix --verbose "$targetdir/$outputfile"
 			status=$?
 			((script_exit_code = script_exit_code + status))
 		fi
 		# Change owner?
-		if [ $owner = TRUE ]
-		then
+		if [ $owner = TRUE ]; then
 			chown $newowner "$targetdir/$outputfile"
 			status=$?
 			output "Owner change complete with status "$status \
@@ -420,8 +404,7 @@ do
 			((script_exit_code = script_exit_code + status))
 		fi
 		#Change group?
-		if [ $ownergroup = TRUE ]
-		then
+		if [ $ownergroup = TRUE ]; then
 			chown :$newownergroup "$targetdir/$outputfile"
 			status=$?
 			msg="Owner group change complete with status "$status
@@ -433,8 +416,7 @@ done
 exec 3<&-
 
 # If persist is TRUE, save parameters.
-if [ $persist = TRUE ]
-then
+if [ $persist = TRUE ]; then
 	rm -f ~/$conffile
 	write_file
 fi
