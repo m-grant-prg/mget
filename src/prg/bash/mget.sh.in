@@ -115,6 +115,7 @@
 # 30/08/2019	MG	1.2.1	Do not hardcode outputprefix.		#
 #				Use C style formatting of conditional	#
 #				and loop statements.			#
+#				Use true booleans.			#
 #									#
 #########################################################################
 
@@ -129,16 +130,16 @@ outputprefix="$(basename $0): "
 packageversion=@pkgversion@		# Version of the complete package
 
 conffile=".mget"
-ownergroup=FALSE
-owner=FALSE
-persist=FALSE
+ownergroup=false
+owner=false
+persist=false
 sourcefile=""
 targetdir=""
 
 # wget defaults to verbose so make non-verbose default here.
 verbosity="-nv"
-windows=FALSE
-unix=FALSE
+windows=false
+unix=false
 
 #############
 # Functions #
@@ -221,7 +222,7 @@ std_cmd_err_handler $?
 while true; do
 	case "$1" in
 	-g|--group)
-		ownergroup=TRUE
+		ownergroup=true
 		newownergroup=$2
 		shift 2
 		;;
@@ -259,12 +260,12 @@ while true; do
 		script_exit
 		;;
 	-o|--owner)
-		owner=TRUE
+		owner=true
 		newowner=$2
 		shift 2
 		;;
 	-p|--persist)
-		persist=TRUE
+		persist=true
 		shift
 		;;
 	-q|--quiet)
@@ -285,7 +286,7 @@ while true; do
 		shift 2
 		;;
 	-u|--unix)
-		unix=TRUE
+		unix=true
 		shift
 		;;
 	-v|--verbose)
@@ -300,7 +301,7 @@ while true; do
 		script_exit
 		;;
 	-w|--windows)
-		windows=TRUE
+		windows=true
 		shift
 		;;
 	--)	shift
@@ -327,7 +328,7 @@ if [ $# = 1 -a "$1" = "-p" ]; then
 fi
 
 # u and w flag cannot both be set.
-if [ $windows = TRUE -a $unix = TRUE ]; then
+if $windows && $unix; then
 	script_exit_code=1
 	output "-u and -w cannot both be set." 1
 	script_exit
@@ -384,19 +385,19 @@ while read -u3 -ra input; do
 
 	if [ $script_exit_code = 0 ]; then
 		# If Windows CR/LF line ending required, convert.
-		if [ $windows = TRUE ]; then
+		if $windows; then
 			wutconv --windows --verbose "$targetdir/$outputfile"
 			status=$?
 			((script_exit_code = script_exit_code + status))
 		fi
 		# If Unix LF line ending required, convert.
-		if [ $unix = TRUE ]; then
+		if $unix; then
 			wutconv --unix --verbose "$targetdir/$outputfile"
 			status=$?
 			((script_exit_code = script_exit_code + status))
 		fi
 		# Change owner?
-		if [ $owner = TRUE ]; then
+		if $owner; then
 			chown $newowner "$targetdir/$outputfile"
 			status=$?
 			output "Owner change complete with status "$status \
@@ -404,7 +405,7 @@ while read -u3 -ra input; do
 			((script_exit_code = script_exit_code + status))
 		fi
 		#Change group?
-		if [ $ownergroup = TRUE ]; then
+		if $ownergroup; then
 			chown :$newownergroup "$targetdir/$outputfile"
 			status=$?
 			msg="Owner group change complete with status "$status
@@ -416,7 +417,7 @@ done
 exec 3<&-
 
 # If persist is TRUE, save parameters.
-if [ $persist = TRUE ]; then
+if $persist; then
 	rm -f ~/$conffile
 	write_file
 fi
