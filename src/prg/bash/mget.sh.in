@@ -261,97 +261,108 @@ proc_config_file()
 	fi
 }
 
+# Process command line arguments with GNU getopt.
+# Parameters -	$1 is the command line.
+# No return value.
+proc_CL()
+{
+	local GETOPTTEMP
+	local tmpGETOPTTEMP
+
+	tmpGETOPTTEMP="getopt -o g:ho:pqsS:T:uvVw "
+	tmpGETOPTTEMP+="--long group:,help,owner:,persist,quiet,silent,"
+	tmpGETOPTTEMP+="sourcefile:,targetdir:,unix,verbose,version,windows"
+	GETOPTTEMP=$($tmpGETOPTTEMP -n "$0" -- "$@")
+	std_cmd_err_handler $?
+
+	eval set -- "$GETOPTTEMP"
+	std_cmd_err_handler $?
+
+	while true; do
+		case "$1" in
+		-g|--group)
+			ownergroup=true
+			newownergroup=$2
+			shift 2
+			;;
+		-h|--help)
+			usage
+			shift
+			script_exit 0
+			;;
+		-o|--owner)
+			owner=true
+			newowner=$2
+			shift 2
+			;;
+		-p|--persist)
+			persist=true
+			shift
+			;;
+		-q|--quiet)
+			verbosity="-q"
+			shift
+			;;
+		-s|--silent)
+			verbosity=""
+			exec 1>/dev/null 2>/dev/null
+			shift
+			;;
+		-S|--sourcefile)
+			sourcefile=$2
+			shift 2
+			;;
+		-T|--targetdir)
+			targetdir=$2
+			shift 2
+			;;
+		-u|--unix)
+			unix=true
+			shift
+			;;
+		-v|--verbose)
+			verbosity="-v"
+			shift
+			;;
+		-V|--version)
+			echo "$0 Script version "$version
+			echo "$0 Package version "$packageversion
+			shift
+			script_exit 0
+			;;
+		-w|--windows)
+			windows=true
+			shift
+			;;
+		--)	shift
+			break
+			;;
+		*)	output "Internal error." 1
+			script_exit 1
+			;;
+		esac
+	done
+
+	# Script does not accept other arguments.
+	if (( $# )); then
+		output "Invalid argument." 1
+		script_exit 1
+	fi
+
+	# u and w flag cannot both be set.
+	if $windows && $unix; then
+		output "-u and -w cannot both be set." 1
+		script_exit 1
+	fi
+}
+
 ########
 # Main #
 ########
 
 proc_config_file
 
-# Process command line arguments with GNU getopt.
-tmp="getopt -o g:ho:pqsS:T:uvVw "
-tmp+="--long group:,help,owner:,persist,quiet,silent,sourcefile:,"
-tmp+="targetdir:,unix,verbose,version,windows "
-tmp+="-n $0 -- $@"
-GETOPTTEMP=`eval $tmp`
-eval set -- "$GETOPTTEMP"
-std_cmd_err_handler $?
-
-while true; do
-	case "$1" in
-	-g|--group)
-		ownergroup=true
-		newownergroup=$2
-		shift 2
-		;;
-	-h|--help)
-		usage
-		shift
-		script_exit 0
-		;;
-	-o|--owner)
-		owner=true
-		newowner=$2
-		shift 2
-		;;
-	-p|--persist)
-		persist=true
-		shift
-		;;
-	-q|--quiet)
-		verbosity="-q"
-		shift
-		;;
-	-s|--silent)
-		verbosity=""
-		exec 1>/dev/null 2>/dev/null
-		shift
-		;;
-	-S|--sourcefile)
-		sourcefile=$2
-		shift 2
-		;;
-	-T|--targetdir)
-		targetdir=$2
-		shift 2
-		;;
-	-u|--unix)
-		unix=true
-		shift
-		;;
-	-v|--verbose)
-		verbosity="-v"
-		shift
-		;;
-	-V|--version)
-		echo "$0 Script version "$version
-		echo "$0 Package version "$packageversion
-		shift
-		script_exit 0
-		;;
-	-w|--windows)
-		windows=true
-		shift
-		;;
-	--)	shift
-		break
-		;;
-	*)	output "Internal error." 1
-		script_exit 1
-		;;
-	esac
-done
-
-# Script does not accept other arguments.
-if (( $# )); then
-	output "Invalid argument." 1
-	script_exit 1
-fi
-
-# u and w flag cannot both be set.
-if $windows && $unix; then
-	output "-u and -w cannot both be set." 1
-	script_exit 1
-fi
+proc_CL "$@"
 
 # Check source file exists and is readable.
 if [ ! -f "$sourcefile" ]; then
