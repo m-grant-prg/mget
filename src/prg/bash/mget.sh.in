@@ -134,7 +134,7 @@ etclocation=@sysconfdir@		# Path to etc directory
 outputprefix="$(basename $0):"
 packageversion=@pkgversion@		# Version of the complete package
 
-conffile=".mget"
+conffile="$HOME/.mget"
 ownergroup=false
 owner=false
 persist=false
@@ -230,8 +230,8 @@ trap trap_exit SIGHUP SIGINT SIGQUIT SIGTERM
 # No return value.
 write_file()
 {
-	echo "sourcefile=$sourcefile">>~/.mget
-	echo "targetdir=$targetdir">>~/.mget
+	echo "sourcefile=$sourcefile">>$conffile
+	echo "targetdir=$targetdir">>$conffile
 }
 
 # Read or create config file.
@@ -241,12 +241,12 @@ proc_config_file()
 {
 	local old_IFS
 
-	if [[ ! -f ~/$conffile ]]; then
+	if [[ ! -f $conffile ]]; then
 		write_file
 	else
 		old_IFS=$IFS
 		IFS="="
-		exec 3<~/$conffile
+		exec 3<$conffile
 		while read -u3 -ra input; do
 			case ${input[0]} in
 			sourcefile)
@@ -445,7 +445,7 @@ exec 3<&-
 
 # If persist is TRUE, save parameters.
 if $persist; then
-	rm -f ~/$conffile
+	rm -f $conffile
 	write_file
 fi
 
