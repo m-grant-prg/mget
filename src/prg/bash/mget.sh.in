@@ -416,6 +416,7 @@ std_cmd_err_handler $?
 validate_target_dir
 
 # Now get the files
+old_IFS=$IFS
 IFS="/"
 exec 3<"$sourcefile"
 while read -u3 -ra input; do
@@ -465,6 +466,7 @@ while read -u3 -ra input; do
 	fi
 done
 exec 3<&-
+IFS=$old_IFS
 
 # If persist is TRUE, save parameters.
 if $persist; then
