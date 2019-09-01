@@ -231,27 +231,39 @@ write_file()
 	echo "targetdir=$targetdir">>~/.mget
 }
 
+# Read or create config file.
+# No parameters.
+# No return value.
+proc_config_file()
+{
+	local old_IFS
+
+	if [ ! -f ~/$conffile ]; then
+		write_file
+	else
+		old_IFS=$IFS
+		IFS="="
+		exec 3<~/$conffile
+		while read -u3 -ra input; do
+			case ${input[0]} in
+			sourcefile)
+				sourcefile=${input[1]}
+				;;
+			targetdir)
+				targetdir=${input[1]}
+				;;
+			esac
+		done
+		exec 3<&-
+		IFS=$old_IFS
+	fi
+}
+
 ########
 # Main #
 ########
-# If config file exists, read it, else, create it.
-if [ ! -f ~/$conffile ]; then
-	write_file
-else
-	IFS="="
-	exec 3<~/$conffile
-	while read -u3 -ra input; do
-		case ${input[0]} in
-		sourcefile)
-			sourcefile=${input[1]}
-			;;
-		targetdir)
-			targetdir=${input[1]}
-			;;
-		esac
-	done
-	exec 3<&-
-fi
+
+proc_config_file
 
 # Process command line arguments with GNU getopt.
 tmp="getopt -o g:ho:pqsS:T:uvVw "
