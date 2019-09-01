@@ -410,35 +410,39 @@ while read -u3 -ra input; do
 	output "File get completed with status "$status $status
 	((script_exit_code +=  status))
 
-	if (( ! script_exit_code )); then
-		# If Windows CR/LF line ending required, convert.
-		if $windows; then
-			wutconv --windows --verbose "$targetdir/$outputfile"
-			status=$?
-			((script_exit_code += status))
-		fi
-		# If Unix LF line ending required, convert.
-		if $unix; then
-			wutconv --unix --verbose "$targetdir/$outputfile"
-			status=$?
-			((script_exit_code += status))
-		fi
-		# Change owner?
-		if $owner; then
-			chown $newowner "$targetdir/$outputfile"
-			status=$?
-			output "Owner change complete with status "$status \
-				$status
-			((script_exit_code += status))
-		fi
-		#Change group?
-		if $ownergroup; then
-			chown :$newownergroup "$targetdir/$outputfile"
-			status=$?
-			msg="Owner group change complete with status "$status
-			output "$msg" $status
-			((script_exit_code += status))
-		fi
+	# If this wget errored then skip to the next.
+	if (( status )); then
+		rm -f "$targetdir/$outputfile"
+		continue
+	fi
+
+	# If Windows CR/LF line ending required, convert.
+	if $windows; then
+		wutconv --windows --verbose "$targetdir/$outputfile"
+		status=$?
+		((script_exit_code += status))
+	fi
+	# If Unix LF line ending required, convert.
+	if $unix; then
+		wutconv --unix --verbose "$targetdir/$outputfile"
+		status=$?
+		((script_exit_code += status))
+	fi
+	# Change owner?
+	if $owner; then
+		chown $newowner "$targetdir/$outputfile"
+		status=$?
+		output "Owner change complete with status "$status \
+			$status
+		((script_exit_code += status))
+	fi
+	#Change group?
+	if $ownergroup; then
+		chown :$newownergroup "$targetdir/$outputfile"
+		status=$?
+		msg="Owner group change complete with status "$status
+		output "$msg" $status
+		((script_exit_code += status))
 	fi
 done
 exec 3<&-
