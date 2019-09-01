@@ -378,6 +378,26 @@ validate_source_file()
 	fi
 }
 
+# Check target directory exists and is writable.
+# No parameters.
+# No return value.
+validate_target_dir()
+{
+	if [[ ! $targetdir ]]; then
+		targetdir=$PWD
+	fi
+
+	if [[ ! -d "$targetdir" ]]; then
+		output "Target directory not valid." 1
+		script_exit 1
+	fi
+
+	if [[ ! -w "$targetdir" ]]; then
+		output "Target directory not writeable." 1
+		script_exit 1
+	fi
+}
+
 
 ########
 # Main #
@@ -393,20 +413,7 @@ validate_source_file
 wutconv --unix $sourcefile
 std_cmd_err_handler $?
 
-# Check target directory exists and is writable.
-if [[ ! $targetdir ]]; then
-	targetdir=$PWD
-fi
-
-if [[ ! -d "$targetdir" ]]; then
-	output "Target directory not valid." 1
-	script_exit 1
-fi
-
-if [[ ! -w "$targetdir" ]]; then
-	output "Target directory not accessible." 1
-	script_exit 1
-fi
+validate_target_dir
 
 # Now get the files
 IFS="/"
