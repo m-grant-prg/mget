@@ -128,23 +128,22 @@
 ##################
 # Init variables #
 ##################
-script_exit_code=0
-version=1.2.1				# set version variable
-etclocation=@sysconfdir@		# Path to etc directory
-outputprefix="$(basename $0):"
-packageversion=@pkgversion@		# Version of the complete package
 
-conffile="$HOME/.mget"
-ownergroup=false
+readonly outputprefix="$(basename $0):"
+readonly version=1.2.1			# set version variable
+readonly packageversion=@pkgversion@	# Version of the complete package
+
+readonly conffile="$HOME/.mget"
 owner=false
+ownergroup=false
 persist=false
+script_exit_code=0
 sourcefile=""
 targetdir=""
-
-# wget defaults to verbose so make non-verbose default here.
-verbosity="-nv"
-windows=false
 unix=false
+verbosity="-nv"		# wget defaults to verbose so make non-verbose default
+windows=false
+
 
 #############
 # Functions #
