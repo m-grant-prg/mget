@@ -121,6 +121,7 @@
 #				only CL.				#
 #				Refactor into functions.		#
 #				Prefer [[ ... ]] AOT [ ... ]		#
+#				Prefer printf AOT echo.			#
 #									#
 #########################################################################
 
@@ -229,8 +230,8 @@ trap trap_exit SIGHUP SIGINT SIGQUIT SIGTERM
 # No return value.
 write_file()
 {
-	echo "sourcefile=$sourcefile">>$conffile
-	echo "targetdir=$targetdir">>$conffile
+	printf "%s\n" "sourcefile=$sourcefile" >> $conffile
+	printf "%s\n" "targetdir=$targetdir" >> $conffile
 }
 
 # Read or create config file.
@@ -325,8 +326,8 @@ proc_CL()
 			shift
 			;;
 		-V|--version)
-			echo "$0 Script version "$version
-			echo "$0 Package version "$packageversion
+			printf "%s Script version %s\n" $0 $version
+			printf "%s Package version %s\n" $0 $packageversion
 			shift
 			script_exit 0
 			;;
