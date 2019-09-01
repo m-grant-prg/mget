@@ -196,23 +196,23 @@ output()
 std_cmd_err_handler()
 {
 	if (( $1 )); then
-		script_exit_code=$1
-		script_exit
+		script_exit $1
 	fi
 }
 
-# Standard function to tidy up and return exit code
+# Standard function to tidy up and return exit code.
+# Parameters - 	$1 is the exit code.
+# No return value.
 script_exit()
 {
-	exit $script_exit_code
+	exit $1
 }
 
 # Standard trap exit function
 trap_exit()
 {
-script_exit_code=1
-output "Script terminating due to trap received. Code: "$script_exit_code 1
-script_exit
+output "Script terminating due to trap received. Code: 1" 1
+script_exit 1
 }
 
 # Setup trap
@@ -266,8 +266,7 @@ while true; do
 	-h|--help)
 		usage
 		shift
-		script_exit_code=0
-		script_exit
+		script_exit 0
 		;;
 	-o|--owner)
 		owner=true
@@ -307,8 +306,7 @@ while true; do
 		echo "$0 Script version "$version
 		echo "$0 Package version "$packageversion
 		shift
-		script_exit_code=0
-		script_exit
+		script_exit 0
 		;;
 	-w|--windows)
 		windows=true
@@ -317,38 +315,33 @@ while true; do
 	--)	shift
 		break
 		;;
-	*)	script_exit_code=1
-		output "Internal error." 1
-		script_exit
+	*)	output "Internal error." 1
+		script_exit 1
 		;;
 	esac
 done
 
 # Script does not accept other arguments.
 if (( $# )); then
-	script_exit_code=1
 	output "Invalid argument." 1
-	script_exit
+	script_exit 1
 fi
 
 # u and w flag cannot both be set.
 if $windows && $unix; then
-	script_exit_code=1
 	output "-u and -w cannot both be set." 1
-	script_exit
+	script_exit 1
 fi
 
 # Check source file exists and is readable.
 if [ ! -f "$sourcefile" ]; then
-	script_exit_code=1
 	output "Source file not valid." 1
-	script_exit
+	script_exit 1
 fi
 
 if [ ! -r "$sourcefile" ]; then
-	script_exit_code=1
 	output "Source file not accessible." 1
-	script_exit
+	script_exit 1
 fi
 
 # Now ensure source file is in Unix text format.
@@ -361,15 +354,13 @@ if [ "$targetdir" = "" ]; then
 fi
 
 if [ ! -d "$targetdir" ]; then
-	script_exit_code=1
 	output "Target directory not valid." 1
-	script_exit
+	script_exit 1
 fi
 
 if [ ! -w "$targetdir" ]; then
-	script_exit_code=1
 	output "Target directory not accessible." 1
-	script_exit
+	script_exit 1
 fi
 
 # Now get the files
