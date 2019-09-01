@@ -474,4 +474,5 @@ fi
 
 # And exit
 output "Script complete with exit code: "$script_exit_code $script_exit_code
-script_exit
+script_exit $script_exit_code
+
