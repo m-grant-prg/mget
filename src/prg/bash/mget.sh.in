@@ -116,6 +116,7 @@
 #				Use C style formatting of conditional	#
 #				and loop statements.			#
 #				Use true booleans.			#
+#				Use (( ... )) for numerics.		#
 #									#
 #########################################################################
 
@@ -148,7 +149,7 @@ unix=false
 # Output $1 to stdout or stderr depending on $2
 output()
 {
-	if [ $2 = 0 ]; then
+	if (( ! $2 )); then
 		echo "$outputprefix$1"
 	else
 		echo "$outputprefix$1" 1>&2
@@ -158,7 +159,7 @@ output()
 # Standard function to test command error ($1 is $?) and exit if non-zero
 std_cmd_err_handler()
 {
-	if [ $1 != 0 ]; then
+	if (( $1 )); then
 		script_exit_code=$1
 		script_exit
 	fi
@@ -315,14 +316,14 @@ while true; do
 done
 
 # Script does not accept other arguments.
-if [ $# -gt 0 ]; then
+if (( $# )); then
 	script_exit_code=1
 	output "Invalid argument." 1
 	script_exit
 fi
 
 # If only persist flag set then nothing to do, exit.
-if [ $# = 1 -a "$1" = "-p" ]; then
+if (( $# == 1 )) && [[ $1 == "-p" ]]; then
 	script_exit_code=0
 	script_exit
 fi
@@ -381,20 +382,20 @@ while read -u3 -ra input; do
 	status=$?
 
 	output "File get completed with status "$status $status
-	((script_exit_code = script_exit_code + status))
+	((script_exit_code +=  status))
 
-	if [ $script_exit_code = 0 ]; then
+	if (( ! script_exit_code )); then
 		# If Windows CR/LF line ending required, convert.
 		if $windows; then
 			wutconv --windows --verbose "$targetdir/$outputfile"
 			status=$?
-			((script_exit_code = script_exit_code + status))
+			((script_exit_code += status))
 		fi
 		# If Unix LF line ending required, convert.
 		if $unix; then
 			wutconv --unix --verbose "$targetdir/$outputfile"
 			status=$?
-			((script_exit_code = script_exit_code + status))
+			((script_exit_code += status))
 		fi
 		# Change owner?
 		if $owner; then
@@ -402,7 +403,7 @@ while read -u3 -ra input; do
 			status=$?
 			output "Owner change complete with status "$status \
 				$status
-			((script_exit_code = script_exit_code + status))
+			((script_exit_code += status))
 		fi
 		#Change group?
 		if $ownergroup; then
@@ -410,7 +411,7 @@ while read -u3 -ra input; do
 			status=$?
 			msg="Owner group change complete with status "$status
 			output "$msg" $status
-			((script_exit_code = script_exit_code + status))
+			((script_exit_code += status))
 		fi
 	fi
 done
