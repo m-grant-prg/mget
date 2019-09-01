@@ -112,11 +112,13 @@
 # 03/12/2017	MG	1.1.8	Add SPDX license tags to source files.	#
 #				Adopt normal exit code policy; 0 on	#
 #				success, 1 on failure.			#
-# 30/08/2019	MG	1.2.1	Do not hardcode outputprefix.		#
+# 01/09/2019	MG	1.2.1	Do not hardcode outputprefix.		#
 #				Use C style formatting of conditional	#
 #				and loop statements.			#
 #				Use true booleans.			#
 #				Use (( ... )) for numerics.		#
+#				Remove useless and broken check for -p	#
+#				only CL.				#
 #									#
 #########################################################################
 
@@ -319,12 +321,6 @@ done
 if (( $# )); then
 	script_exit_code=1
 	output "Invalid argument." 1
-	script_exit
-fi
-
-# If only persist flag set then nothing to do, exit.
-if (( $# == 1 )) && [[ $1 == "-p" ]]; then
-	script_exit_code=0
 	script_exit
 fi
 
