@@ -432,8 +432,7 @@ while read -u3 -ra input; do
 	if $owner; then
 		chown $newowner "$targetdir/$outputfile"
 		status=$?
-		output "Owner change complete with status "$status \
-			$status
+		output "Owner change complete with status "$status $status
 		((script_exit_code += status))
 	fi
 	#Change group?
