@@ -120,6 +120,7 @@
 #				Remove useless and broken check for -p	#
 #				only CL.				#
 #				Refactor into functions.		#
+#				Prefer [[ ... ]] AOT [ ... ]		#
 #									#
 #########################################################################
 
@@ -240,7 +241,7 @@ proc_config_file()
 {
 	local old_IFS
 
-	if [ ! -f ~/$conffile ]; then
+	if [[ ! -f ~/$conffile ]]; then
 		write_file
 	else
 		old_IFS=$IFS
@@ -365,12 +366,12 @@ proc_config_file
 proc_CL "$@"
 
 # Check source file exists and is readable.
-if [ ! -f "$sourcefile" ]; then
+if [[ ! -f "$sourcefile" ]]; then
 	output "Source file not valid." 1
 	script_exit 1
 fi
 
-if [ ! -r "$sourcefile" ]; then
+if [[ ! -r "$sourcefile" ]]; then
 	output "Source file not accessible." 1
 	script_exit 1
 fi
@@ -380,16 +381,16 @@ wutconv --unix $sourcefile
 std_cmd_err_handler $?
 
 # Check target directory exists and is writable.
-if [ "$targetdir" = "" ]; then
+if [[ ! $targetdir ]]; then
 	targetdir=$PWD
 fi
 
-if [ ! -d "$targetdir" ]; then
+if [[ ! -d "$targetdir" ]]; then
 	output "Target directory not valid." 1
 	script_exit 1
 fi
 
-if [ ! -w "$targetdir" ]; then
+if [[ ! -w "$targetdir" ]]; then
 	output "Target directory not accessible." 1
 	script_exit 1
 fi
