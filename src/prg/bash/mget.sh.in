@@ -119,6 +119,7 @@
 #				Use (( ... )) for numerics.		#
 #				Remove useless and broken check for -p	#
 #				only CL.				#
+#				Refactor into functions.		#
 #									#
 #########################################################################
 
@@ -147,6 +148,33 @@ unix=false
 #############
 # Functions #
 #############
+
+# -h --help output.
+# No parameters
+# No return value
+usage ()
+{
+cat << EOF
+Usage is $0 [OPTIONS]
+	[OPTIONS] are:-
+	-g or --group newgroup Save target file with 'newgroup' owner.
+	-h or --help Displays usage information.
+	-o or --owner newowner Save target file with 'newowner' owner.
+	-p or --persist Saves command line options for future use.
+	-q or --quiet Quiet mode, limited output.
+	-s or --silent Silent mode, no output.
+	-S or --sourcefile sourcefile Name of file containing source URL's.
+		Can be persisted with -p.
+	-T or --targetdir targetdir Name of directory for storing retrieved
+		files. Can be persisted with -p.
+	-u or --unix Use Unix LF line endings instead of Windows CR/LF line
+		endings.
+	-v or --verbose Verbose mode.
+	-V or --version Displays version information.
+	-w or --windows Use Windows CR/LF line endings instead of Unix LF
+		endings.
+EOF
+}
 
 # Output $1 to stdout or stderr depending on $2
 output()
@@ -230,34 +258,7 @@ while true; do
 		shift 2
 		;;
 	-h|--help)
-		echo "Usage is $0 [OPTIONS]"
-		echo "[OPTIONS] are:-"
-		msg="'-g or --group group' Save target file with 'group' owner."
-		echo "$msg"
-		echo "'-h or --help' Displays usage information."
-		msg="'-o or --owner owner' Save target file with 'owner' owner."
-		echo "$msg"
-		msg="'-p or --persist' Saves command line options for future "
-		msg+="use."
-		echo "$msg"
-		echo "'-q or --quiet' Quiet mode, limited output."
-		echo "'-s or --silent' Silent mode, no output."
-		msg="'-S or --sourcefile sourcefile' Name of file containing "
-		msg+="source URL's."
-		echo "$msg"
-		echo "	Can be persisted with -p."
-		msg="'-T or --targetdir targetdir' Name of directory for "
-		msg+="storing retrieved files."
-		echo "$msg"
-		echo "	Can be persisted with -p."
-		msg="'-u or --unix' Use Unix LF line endings instead of "
-		msg+="Windows CR/LF line endings."
-		echo "$msg"
-		echo "'-v or --verbose' Verbose mode."
-		echo "'-V or --version' Displays version information."
-		msg="'-w or --windows' Use Windows CR/LF line endings instead "
-		msg+="of Unix LF endings."
-		echo "$msg"
+		usage
 		shift
 		script_exit_code=0
 		script_exit
