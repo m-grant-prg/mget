@@ -16,7 +16,7 @@ Written by Mark Grant.
 REPORTING BUGS
 Report bugs to <m.grant.prg@gmail.com>
 COPYRIGHT
-Copyright 2013-2017 Mark Grant.
+Copyright (C) 2013-2017, 2019 Mark Grant.
 .br
 License GPLv3+: GNU GPL version 3 or later
 .br
@@ -27,3 +27,4 @@ This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
 SEE ALSO
 mget(1) wget(1)
+
