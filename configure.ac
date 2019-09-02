@@ -90,6 +90,8 @@
 #				probably use the source tarball rather	#
 #				than a dist tarball.			#
 # 02/09/2019	MG	1.1.0	Revamp to new standard format.		#
+#				Remove leading v from package version	#
+#				string.					#
 #									#
 #########################################################################
 
@@ -109,7 +111,7 @@ AC_PREREQ([2.69])
 # can be used by ac output and / or the sed setup below to substitute bookmarks
 # in source files.
 #
-AC_INIT(Multiple File Download, v1.1.14, m.grant.prg@gmail.com, mget)
+AC_INIT(Multiple File Download, 1.1.14, m.grant.prg@gmail.com, mget)
 
 AC_MSG_NOTICE(initialisation and setup)
 
