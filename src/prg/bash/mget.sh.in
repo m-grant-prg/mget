@@ -35,8 +35,31 @@
 #	-w or --windows Use Windows CR/LF instead of Unix LF line	#
 #		endings.						#
 #									#
-# Exit Codes:	0 - success						#
-#		1 - failure						#
+# Exit codes used:-							#
+# Bash standard Exit Codes:	0 - success				#
+#				1 - general failure			#
+# User-defined exit code range is 64 - 113				#
+#	C/C++ Semi-standard exit codes from sysexits.h range is 64 - 78	#
+#		EX_USAGE	64	command line usage error	#
+#		EX_DATAERR	65	data format error		#
+#		EX_NOINPUT	66	cannot open input		#
+#		EX_NOUSER	67	addressee unknown		#
+#		EX_NOHOST	68	host name unknown		#
+#		EX_UNAVAILABLE	69	service unavailable		#
+#		EX_SOFTWARE	70	internal software error		#
+#		EX_OSERR	71	system error (e.g., can't fork)	#
+#		EX_OSFILE	72	critical OS file missing	#
+#		EX_CANTCREAT	73	can't create (user) output file	#
+#		EX_IOERR	74	input/output error		#
+#		EX_TEMPFAIL	75	temp failure; user is invited	#
+#					to retry			#
+#		EX_PROTOCOL	76	remote error in protocol	#
+#		EX_NOPERM	77	permission denied		#
+#		EX_CONFIG	78	configuration error		#
+#	User-defined (here) exit codes range 79 - 113:			#
+#		None							#
+#									#
+# Further Info:								#
 #									#
 #########################################################################
 
@@ -112,7 +135,7 @@
 # 03/12/2017	MG	1.1.8	Add SPDX license tags to source files.	#
 #				Adopt normal exit code policy; 0 on	#
 #				success, 1 on failure.			#
-# 01/09/2019	MG	1.2.1	Do not hardcode outputprefix.		#
+# 02/09/2019	MG	1.2.1	Do not hardcode outputprefix.		#
 #				Use C style formatting of conditional	#
 #				and loop statements.			#
 #				Use true booleans.			#
@@ -122,6 +145,7 @@
 #				Refactor into functions.		#
 #				Prefer [[ ... ]] AOT [ ... ]		#
 #				Prefer printf AOT echo.			#
+#				Use more meaningful exit codes.		#
 #									#
 #########################################################################
 
@@ -339,7 +363,7 @@ proc_CL()
 			break
 			;;
 		*)	output "Internal error." 1
-			script_exit 1
+			script_exit 64
 			;;
 		esac
 	done
@@ -347,13 +371,13 @@ proc_CL()
 	# Script does not accept other arguments.
 	if (( $# )); then
 		output "Invalid argument." 1
-		script_exit 1
+		script_exit 64
 	fi
 
 	# u and w flag cannot both be set.
 	if $windows && $unix; then
 		output "-u and -w cannot both be set." 1
-		script_exit 1
+		script_exit 64
 	fi
 }
 
@@ -364,17 +388,17 @@ validate_source_file()
 {
 	if [[ ! -f "$sourcefile" ]]; then
 		output "Source file not valid." 1
-		script_exit 1
+		script_exit 66
 	fi
 
 	if [[ ! -r "$sourcefile" ]]; then
 		output "Source file not readable." 1
-		script_exit 1
+		script_exit 77
 	fi
 
 	if [[ ! -w "$sourcefile" ]]; then
 		output "Source file not writeable." 1
-		script_exit 1
+		script_exit 77
 	fi
 }
 
@@ -389,12 +413,12 @@ validate_target_dir()
 
 	if [[ ! -d "$targetdir" ]]; then
 		output "Target directory not valid." 1
-		script_exit 1
+		script_exit 66
 	fi
 
 	if [[ ! -w "$targetdir" ]]; then
 		output "Target directory not writeable." 1
-		script_exit 1
+		script_exit 77
 	fi
 }
 
