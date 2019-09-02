@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! @bashlocation@
 #########################################################################
 #									#
 #	mget is automatically generated,				#
@@ -146,6 +146,8 @@
 #				Prefer [[ ... ]] AOT [ ... ]		#
 #				Prefer printf AOT echo.			#
 #				Use more meaningful exit codes.		#
+#				Use actual bash path provided by	#
+#				configure in shebang.			#
 #									#
 #########################################################################
 
