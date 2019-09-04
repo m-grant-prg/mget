@@ -135,7 +135,7 @@
 # 03/12/2017	MG	1.1.8	Add SPDX license tags to source files.	#
 #				Adopt normal exit code policy; 0 on	#
 #				success, 1 on failure.			#
-# 02/09/2019	MG	1.2.1	Do not hardcode outputprefix.		#
+# 04/09/2019	MG	1.2.1	Do not hardcode outputprefix.		#
 #				Use C style formatting of conditional	#
 #				and loop statements.			#
 #				Use true booleans.			#
@@ -148,6 +148,8 @@
 #				Use more meaningful exit codes.		#
 #				Use actual bash path provided by	#
 #				configure in shebang.			#
+#				Do not automatically create the config	#
+#				file.					#
 #									#
 #########################################################################
 
@@ -267,9 +269,7 @@ proc_config_file()
 {
 	local old_IFS
 
-	if [[ ! -f $conffile ]]; then
-		write_file
-	else
+	if [[ -f $conffile ]]; then
 		old_IFS=$IFS
 		IFS="="
 		exec 3<$conffile
