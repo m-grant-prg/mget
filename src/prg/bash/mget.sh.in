@@ -135,7 +135,7 @@
 # 03/12/2017	MG	1.1.8	Add SPDX license tags to source files.	#
 #				Adopt normal exit code policy; 0 on	#
 #				success, 1 on failure.			#
-# 04/09/2019	MG	1.2.1	Do not hardcode outputprefix.		#
+# 06/09/2019	MG	1.2.1	Do not hardcode outputprefix.		#
 #				Use C style formatting of conditional	#
 #				and loop statements.			#
 #				Use true booleans.			#
@@ -150,6 +150,9 @@
 #				configure in shebang.			#
 #				Do not automatically create the config	#
 #				file.					#
+#				If get is successful delete entry from	#
+#				source file, otherwise retain for	#
+#				possible re-run.			#
 #									#
 #########################################################################
 
@@ -442,6 +445,8 @@ std_cmd_err_handler $?
 validate_target_dir
 
 # Now get the files
+touch "$sourcefile".new
+
 old_IFS=$IFS
 IFS="/"
 exec 3<"$sourcefile"
@@ -460,6 +465,7 @@ while read -u3 -ra input; do
 	# If this wget errored then skip to the next.
 	if (( status )); then
 		rm -f "$targetdir/$outputfile"
+		printf "%s\n" "${input[*]}" >> "$sourcefile".new
 		continue
 	fi
 
@@ -493,6 +499,9 @@ while read -u3 -ra input; do
 done
 exec 3<&-
 IFS=$old_IFS
+
+rm -f "$sourcefile"
+mv -f "$sourcefile".new "$sourcefile"
 
 # If persist is TRUE, save parameters.
 if $persist; then
