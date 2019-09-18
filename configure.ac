@@ -111,7 +111,7 @@ AC_PREREQ([2.69])
 # can be used by ac output and / or the sed setup below to substitute bookmarks
 # in source files.
 #
-AC_INIT(Multiple File Download, 1.1.14+rc2, m.grant.prg@gmail.com, mget)
+AC_INIT(Multiple File Download, 1.1.15, m.grant.prg@gmail.com, mget)
 
 AC_MSG_NOTICE(initialisation and setup)
 
