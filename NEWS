@@ -1,3 +1,9 @@
+Release 1.1.15 2019-09-18
+If the file get is successful then delete the entry from the source file else
+keep it.
+Do not automatically create config file
+Technical change information can be found in the ChangeLog.
+
 Release 1.1.14 2018-11-01
 srctarball to use -src- in filename
 

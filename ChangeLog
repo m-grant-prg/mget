@@ -1,3 +1,45 @@
+2019-09-18 v1.1.15 Mark Grant <m.grant.prg@gmail.com>
+	*  If get successful delete from source file else keep
+	Do not automatically create config file
+	travis: Initial project setup
+	at: Update bootstrap.sh to v1.4.5
+	at: Set configure args for distcheck in top makefile
+	git: Update project root gitignore to v1.0.2
+	README: Point bootstrap.sh section at acmbuild wiki
+	README: Add Copyright statement
+	README: Make package install references generic
+	man: Standardise Copyright statement
+	at: Remove useless shebangs from Makefile.ams
+	at: Add installation of standard GNU files eg NEWS
+	Correct package versioning
+	Replace #! env bash with abs path from configure
+	Use more meaningful exit codes
+	configure.ac: Revamp to new standard format
+	Prefer printf over echo
+	Tidy up variables
+	Save and restore IFS around main processing loop
+	Pass missing error code to script_exit()
+	Refactor target dir validation into a function
+	Refactor source file validation into a function
+	Concatenate 2 line statement which fits on one
+	Improve legibility when skipping due to wget error
+	Set config file path explicitly at start
+	Prefer [[ ... ]] AOT [ ... ]
+	Refactor getopt processing into function
+	Standardise comments for write_file()
+	Refactor config file processing into function
+	Standardise trap handling
+	Standardise script_exit()
+	Improve standard error handling function comments
+	Improve output()
+	Refactor help output into function
+	Remove useless and broken check for -p only CL
+	Use (( ... )) for numerics
+	Use true booleans
+	Adopt C style loops and if statements
+	Do not hard-code outputprefix
+	mget script now at version 1.2.1
+
 2018-11-01 v 1.1.14 Mark Grant <m.grant.prg@gmail.com>
 	*  srctarball to use -src- in filename
 	mget script still at version 1.1.8
