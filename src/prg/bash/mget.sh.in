@@ -153,6 +153,7 @@
 #				If get is successful delete entry from	#
 #				source file, otherwise retain for	#
 #				possible re-run.			#
+# 11/10/2019	MG	1.2.2	Move script_exit() before it is used.	#
 #									#
 #########################################################################
 
@@ -162,7 +163,7 @@
 ##################
 
 readonly outputprefix="$(basename $0):"
-readonly version=1.2.1			# set version variable
+readonly version=1.2.2			# set version variable
 readonly packageversion=@pkgversion@	# Version of the complete package
 
 readonly conffile="$HOME/.mget"
@@ -222,6 +223,14 @@ output()
 	fi
 }
 
+# Standard function to tidy up and return exit code.
+# Parameters - 	$1 is the exit code.
+# No return value.
+script_exit()
+{
+	exit $1
+}
+
 # Standard function to test command error and exit if non-zero.
 # Parameters - 	$1 is the exit code, (normally $? from the preceeding command).
 # No return value.
@@ -230,14 +239,6 @@ std_cmd_err_handler()
 	if (( $1 )); then
 		script_exit $1
 	fi
-}
-
-# Standard function to tidy up and return exit code.
-# Parameters - 	$1 is the exit code.
-# No return value.
-script_exit()
-{
-	exit $1
 }
 
 # Standard trap exit function.
