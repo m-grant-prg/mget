@@ -1,3 +1,15 @@
+2021-07-06 v1.1.16 Mark Grant <m.grant.prg@gmail.com>
+	* at: Upgrade bootstrap.sh to v1.4.9
+	git: Add gitattributes file
+	git: Add mailmap file
+	travis: Stop using Travis
+	actions: Initial build action setup
+	at: lxcu: Add lxc test build setup
+	travis: Bionic is the new minimum release
+	at: README: Correct git command
+	bash: Move script_exit() before it is used
+	mget script now at version 1.2.2
+
 2019-09-18 v1.1.15 Mark Grant <m.grant.prg@gmail.com>
 	*  If get successful delete from source file else keep
 	Do not automatically create config file
