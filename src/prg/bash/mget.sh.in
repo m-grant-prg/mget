@@ -9,10 +9,10 @@
 #########################################################################
 #									#
 # Script ID: mget							#
-# Author: Copyright (C) 2013-2017, 2019  Mark Grant			#
+# Author: Copyright (C) 2013-2017, 2019, 2021  Mark Grant		#
 #									#
 # Released under the GPLv3 only.					#
-# SPDX-License-Identifier: GPL-3.0					#
+# SPDX-License-Identifier: GPL-3.0-only					#
 #									#
 # Purpose:								#
 # Retrieves one or more files whose URL's are specified in a text file.	#
@@ -154,6 +154,7 @@
 #				source file, otherwise retain for	#
 #				possible re-run.			#
 # 11/10/2019	MG	1.2.2	Move script_exit() before it is used.	#
+# 26/11/2021	MG	1.2.3	Tighten SPDX tag.			#
 #									#
 #########################################################################
 
@@ -163,7 +164,7 @@
 ##################
 
 readonly outputprefix="$(basename $0):"
-readonly version=1.2.2			# set version variable
+readonly version=1.2.3			# set version variable
 readonly packageversion=@pkgversion@	# Version of the complete package
 
 readonly conffile="$HOME/.mget"
