@@ -9,7 +9,7 @@
 #########################################################################
 #									#
 # Script ID: mget							#
-# Author: Copyright (C) 2013-2017, 2019, 2021  Mark Grant		#
+# Author: Copyright (C) 2013-2017, 2019, 2021, 2023  Mark Grant		#
 #									#
 # Released under the GPLv3 only.					#
 # SPDX-License-Identifier: GPL-3.0-only					#
@@ -155,6 +155,7 @@
 #				possible re-run.			#
 # 11/10/2019	MG	1.2.2	Move script_exit() before it is used.	#
 # 26/11/2021	MG	1.2.3	Tighten SPDX tag.			#
+# 26/06/2023	MG	1.2.4	Fix shellcheck warnings.		#
 #									#
 #########################################################################
 
@@ -162,9 +163,8 @@
 ##################
 # Init variables #
 ##################
-
-readonly outputprefix="$(basename $0):"
-readonly version=1.2.3			# set version variable
+readonly outputprefix="$(basename "$0"):"
+readonly version=1.2.4			# set version variable
 readonly packageversion=@pkgversion@	# Version of the complete package
 
 readonly conffile="$HOME/.mget"
@@ -218,9 +218,9 @@ EOF
 output()
 {
 	if (( !$2 )); then
-		printf "%s %s\n" $outputprefix "$1"
+		printf "%s %s\n" "$outputprefix" "$1"
 	else
-		printf "%s %s\n" $outputprefix "$1" 1>&2
+		printf "%s %s\n" "$outputprefix" "$1" 1>&2
 	fi
 }
 
@@ -229,7 +229,7 @@ output()
 # No return value.
 script_exit()
 {
-	exit $1
+	exit "$1"
 }
 
 # Standard function to test command error and exit if non-zero.
@@ -238,7 +238,7 @@ script_exit()
 std_cmd_err_handler()
 {
 	if (( $1 )); then
-		script_exit $1
+		script_exit "$1"
 	fi
 }
 
@@ -263,8 +263,8 @@ trap trap_exit SIGHUP SIGINT SIGQUIT SIGTERM
 # No return value.
 write_file()
 {
-	printf "%s\n" "sourcefile=$sourcefile" >> $conffile
-	printf "%s\n" "targetdir=$targetdir" >> $conffile
+	printf "%s\n" "sourcefile=$sourcefile" >> "$conffile"
+	printf "%s\n" "targetdir=$targetdir" >> "$conffile"
 }
 
 # Read or create config file.
@@ -277,7 +277,7 @@ proc_config_file()
 	if [[ -f $conffile ]]; then
 		old_IFS=$IFS
 		IFS="="
-		exec 3<$conffile
+		exec 3<"$conffile"
 		while read -u3 -ra input; do
 			case ${input[0]} in
 			sourcefile)
@@ -357,8 +357,8 @@ proc_CL()
 			shift
 			;;
 		-V|--version)
-			printf "%s Script version %s\n" $0 $version
-			printf "%s Package version %s\n" $0 $packageversion
+			printf "%s Script version %s\n" "$0" $version
+			printf "%s Package version %s\n" "$0" $packageversion
 			shift
 			script_exit 0
 			;;
@@ -441,7 +441,7 @@ proc_CL "$@"
 validate_source_file
 
 # Now ensure source file is in Unix text format.
-wutconv --unix $sourcefile
+wutconv --unix "$sourcefile"
 std_cmd_err_handler $?
 
 validate_target_dir
@@ -485,14 +485,14 @@ while read -u3 -ra input; do
 	fi
 	# Change owner?
 	if $owner; then
-		chown $newowner "$targetdir/$outputfile"
+		chown "$newowner" "$targetdir/$outputfile"
 		status=$?
 		output "Owner change complete with status "$status $status
 		((script_exit_code += status))
 	fi
 	#Change group?
 	if $ownergroup; then
-		chown :$newownergroup "$targetdir/$outputfile"
+		chown :"$newownergroup" "$targetdir/$outputfile"
 		status=$?
 		msg="Owner group change complete with status "$status
 		output "$msg" $status
@@ -507,11 +507,11 @@ mv -f "$sourcefile".new "$sourcefile"
 
 # If persist is TRUE, save parameters.
 if $persist; then
-	rm -f $conffile
+	rm -f "$conffile"
 	write_file
 fi
 
 # And exit
-output "Script complete with exit code: "$script_exit_code $script_exit_code
-script_exit $script_exit_code
+output "Script complete with exit code: $script_exit_code" "$script_exit_code"
+script_exit "$script_exit_code"
 
