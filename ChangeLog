@@ -1,3 +1,21 @@
+2023-06-26 v1.3.0 Mark Grant <m.grant.prg@gmail.com>
+	* bash: Use double quotes to prevent globbing and word splitting
+	at: Allow for v1.1.1~rc1 version numbering
+	lxcu: Add in-file help text
+	at: Upgrade bootstrap.sh to v1.5.6
+	git: Update mailmap to v1.0.3
+	git: Update gitignore to v1.0.11
+	git: Update gitattributes to v1.0.4
+	editors: Update editorconfig to v1.0.4
+	v1.2.0
+	actions: Run on Focal 20.04
+	at: Use AC_CONFIG_AUX_DIR
+	git: Update gitignore to v1.0.9
+	at: Upgrade bootstrap.sh to v1.5.4
+	editors: Add editorconfig v1.0.3
+	at: Upgrade bootstrap.sh to v1.5.1
+	git: Update gitattributes to v1.0.3
+
 2021-11-26 v1.1.17 Mark Grant <m.grant.prg@gmail.com>
 	* at: Add AC_COPYRIGHT macro
 	all: Tighten SPDX tags
