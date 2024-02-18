@@ -1,40 +1,12 @@
 #########################################################################
 #									#
-# Script ID: src/man/1/Makefile.am					#
-# Author: Copyright (C) 2013-2019, 2021  Mark Grant			#
+# Author: Copyright (C) 2013-2019, 2021, 2024  Mark Grant		#
 #									#
 # Released under the GPLv3 only.					#
 # SPDX-License-Identifier: GPL-3.0-only					#
 #									#
 # Purpose:								#
 # AutoMake script file to generate mget manual pages from source.	#
-#									#
-#########################################################################
-
-#########################################################################
-#									#
-# Changelog								#
-#									#
-# Date		Author	Version	Description				#
-#									#
-# 16/06/2014	MG	1.0.1	Started versioning of this script.	#
-# 19/06/2014	MG	1.0.2	Introduce man1 and man5 sub-directories	#
-#				of src/manpages				#
-# 27/08/2014	MG	1.0.3	Change name to mget to avoid package	#
-#				name duplication in Ubuntu.		#
-# 20/10/2015	MG	1.0.4	Restructure to conform to AutoTools	#
-#				General Template v1.0.5.		#
-# 01/05/2017	MG	1.0.5	Output from $(edit) was being ignored.	#
-#				Rename source file extension .man.in	#
-# 03/12/2017	MG	1.0.6	Determine the manual section from the	#
-#				target suffix. If the suffix is blank	#
-#				(foo.) or if there is no suffix (foo)	#
-#				then error out.				#
-#				Add SPDX license tags to source files.	#
-# 10/02/2018	MG	1.0.7	Change file's header for new directory	#
-#				names.					#
-# 02/09/2019	MG	1.0.8	Remove useless shebang.			#
-# 26/11/2021	MG	1.0.9	Tighten SPDX tag.			#
 #									#
 #########################################################################
 
