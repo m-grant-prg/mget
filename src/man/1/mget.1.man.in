@@ -1,7 +1,12 @@
 NAME
 mget - download 1 or more files
 SYNOPSIS
-mget [OPTION]
+mget [-g GROUP] [-o OWNER] [-p] [{-q|-s|-v}] [-S SOURCEFILE]
+	[-T TARGETDIR] [{-u|-w}]
+mget {-h|-V}
+
+Usage is:-
+mget [OPTIONS]
 DESCRIPTION
 Fetches multiple files whose URL's are specified in a text file.
 OPTIONS
@@ -34,7 +39,7 @@ Written by Mark Grant.
 REPORTING BUGS
 Report bugs to <m.grant.prg@gmail.com>
 COPYRIGHT
-Copyright (C) 2013-2017, 2019, 2021 Mark Grant.
+Copyright (C) 2013-2017, 2019, 2021, 2024 Mark Grant.
 .br
 License GPLv3: GNU GPL version 3 only
 .br
