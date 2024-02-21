@@ -16,23 +16,7 @@
 # Purpose:								#
 # Retrieves one or more files whose URL's are specified in a text file.	#
 #                                         	                     	#
-# Syntax:      mget [OPTIONS]						#
-#			[OPTIONS] are:-					#
-#	-g or --group group - Save target file with 'group' owner.	#
-#	-h or --help Displays usage information.			#
-#	-o or --owner owner - Save target file with 'owner' owner.	#
-#	-p or --persist Saves command line options for future use.	#
-#	-q or --quiet Quiet mode, limited output.			#
-#	-s or --silent Silent mode, no output.				#
-#	-S or --sourcefile sourcefile Name of the file containing the	#
-#		URL's of files to be fetched.				#
-#	-T or --targetdir targetdir Directory in which to store		#
-#		retieved files.						#
-#	-u or --unix Use Unix LF instead of Windows CR/LF line endings.	#
-#	-v or --verbose Verbose mode.					#
-#	-V or --version Displays version information.			#
-#	-w or --windows Use Windows CR/LF instead of Unix LF line	#
-#		endings.						#
+# Syntax:      See usage().						#
 #									#
 # Exit codes used:-							#
 # Bash standard Exit Codes:	0 - success				#
@@ -89,11 +73,15 @@ windows=false
 # -h --help output.
 # No parameters
 # No return value
-usage ()
+usage()
 {
 cat << EOF
-Usage is $0 [OPTIONS]
-	[OPTIONS] are:-
+${0##*/} [-g GROUP] [-o OWNER] [-p] [{-q|-s|-v}] [-S SOURCEFILE] [-T TARGETDIR]
+		[{-u|-w}]
+${0##*/} {-h|-V}
+
+Usage is:-
+${0##*/} [OPTIONS]
 	-g or --group newgroup Save target file with 'newgroup' owner.
 	-h or --help Displays usage information.
 	-o or --owner newowner Save target file with 'newowner' owner.
