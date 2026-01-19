@@ -39,3 +39,7 @@ srctarball:
 		HEAD && \
 	cd -
 
+
+sign_tarball:
+	gpg --armor --detach-sign @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+
