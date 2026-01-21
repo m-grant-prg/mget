@@ -1,0 +1,79 @@
+# shellcheck shell=bash
+#########################################################################
+#									#
+# Author: Copyright (C) 2026  Mark Grant				#
+#									#
+# Released under the GPLv3 only.					#
+# SPDX-License-Identifier: GPL-3.0-only					#
+#									#
+# Purpose:								#
+# Bash completion script.						#
+#									#
+#########################################################################
+
+
+_mget_proc_opts()
+{
+	local OPTS
+
+	OPTS=$(cut -d: -f1 "/etc/$1" 2>/dev/null) || return
+	# shellcheck disable=SC2207  # This is _the_ bash completion pattern,
+	# so leave it be.
+	COMPREPLY=($(compgen -W "${OPTS[*]}" -- "$2"))
+}
+
+_mget()
+{
+	local cur prev OPTS
+	local i
+
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+	case $prev in
+	-g|--group)
+		_mget_proc_opts "group" "$cur"
+		return 0
+		;;
+	-o|--owner)
+		_mget_proc_opts "passwd" "$cur"
+		return 0
+		;;
+	-S|--sourcefile)
+		# shellcheck disable=SC2207  # This is _the_ bash completion
+		# pattern, so leave it be.
+		COMPREPLY=( $(compgen -f -- "${cur}") )
+		for i in "${!COMPREPLY[@]}"; do
+			COMPREPLY[i]=$(realpath "${COMPREPLY[i]}")
+		done
+		return 0
+		;;
+	-T|--targetdir)
+		# shellcheck disable=SC2207  # This is _the_ bash completion
+		# pattern, so leave it be.
+		COMPREPLY=( $(compgen -d -- "${cur}") )
+		for i in "${!COMPREPLY[@]}"; do
+			COMPREPLY[i]=$(realpath "${COMPREPLY[i]}")
+		done
+		return 0
+		;;
+#		if [[ -z "$cur" ]]; then
+#			cur="."
+#		fi
+#		OPTS=$(find "$cur" -maxdepth 1 -type d 2>/dev/null) || return
+#		# shellcheck disable=SC2207  # This is _the_ bash completion
+#		# pattern, so leave it be.
+#		COMPREPLY=($(compgen -W "${OPTS[*]}" -- "$cur"))
+#		return 0
+#		;;
+	esac
+	OPTS="-g -h -o -p -q -s -S -T -u -v -V -w"
+	OPTS+=" --group --help --owner --persist --quiet --silent --sourcefile"
+	OPTS+=" --targetdir --unix --verbose --version --windows"
+	# shellcheck disable=SC2207  # This is _the_ bash completion pattern,
+	# so leave it be.
+	COMPREPLY=( $(compgen -W "${OPTS[*]}" -- "$cur") )
+	return 0
+}
+complete -F _mget mget
+

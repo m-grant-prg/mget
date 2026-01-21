@@ -17,7 +17,9 @@ ACLOCAL_AMFLAGS = -I m4
 AM_DISTCHECK_CONFIGURE_FLAGS =
 
 
-SUBDIRS = src/prg/bash src/man/1 src/man/5
+SUBDIRS = src/bash-comp
+SUBDIRS += src/man/1 src/man/5
+SUBDIRS += src/prg/bash
 
 
 doc_DATA = AUTHORS ChangeLog COPYING NEWS README

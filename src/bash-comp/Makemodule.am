@@ -1,0 +1,33 @@
+#########################################################################
+#									#
+# Author: Copyright (C) 2026  Mark Grant				#
+#									#
+# Released under the GPLv3 only.					#
+# SPDX-License-Identifier: GPL-3.0-only					#
+#									#
+# Purpose:								#
+# AutoMake script file to generate bash completion scripts from source.	#
+#									#
+#########################################################################
+
+
+bashcompdir = $(datadir)/bash-completion/completions
+
+
+mget: Makefile
+	mkdir -p $(@D)
+	rm -f $@ $@.tmp
+	test -f ./$@.in || srcdir=$(srcdir)/; \
+	$(edit) $${srcdir}$(@F).sh.in > $@.tmp
+	mv $@.tmp $@
+mget: $(srcdir)/mget.sh.in
+
+
+bashcomp_DATA = mget
+
+
+EXTRA_DIST = $(srcdir)/mget.sh.in
+
+
+CLEANFILES = *.tmp mget
+
