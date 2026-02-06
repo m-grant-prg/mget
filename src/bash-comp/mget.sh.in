@@ -57,15 +57,6 @@ _mget()
 		done
 		return 0
 		;;
-#		if [[ -z "$cur" ]]; then
-#			cur="."
-#		fi
-#		OPTS=$(find "$cur" -maxdepth 1 -type d 2>/dev/null) || return
-#		# shellcheck disable=SC2207  # This is _the_ bash completion
-#		# pattern, so leave it be.
-#		COMPREPLY=($(compgen -W "${OPTS[*]}" -- "$cur"))
-#		return 0
-#		;;
 	esac
 	OPTS="-g -h -o -p -q -s -S -T -u -v -V -w"
 	OPTS+=" --group --help --owner --persist --quiet --silent --sourcefile"
