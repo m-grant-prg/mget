@@ -353,8 +353,7 @@ while read -u3 -ra input; do
 	output "Attempting to get file - ""${input[*]}" 0
 	output "Attempting to save file to - ""$targetdir/$outputfile" 0
 
-	wget $verbosity --no-check-certificate -O "$targetdir/$outputfile" \
-		"${input[*]}"
+	wget $verbosity --no-check-certificate -P "$targetdir" "${input[*]}"
 	status=$?
 
 	output "File get completed with status "$status $status
