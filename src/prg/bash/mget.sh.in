@@ -53,7 +53,7 @@
 ##################
 outputprefix="$(basename "$0"):"
 readonly outputprefix
-readonly version=1.2.6			# set version variable
+readonly version=1.2.7			# set version variable
 readonly packageversion=@pkgversion@	# Version of the complete package
 
 readonly conffile="$HOME/.mget"
@@ -348,6 +348,7 @@ old_IFS=$IFS
 IFS="/"
 exec 3<"$sourcefile"
 while read -u3 -ra input; do
+	targetdir="${targetdir%/}"
 	outputfile=${input[${#input[*]}-1]}
 	output "Attempting to get file - ""${input[*]}" 0
 	output "Attempting to save file to - ""$targetdir/$outputfile" 0
