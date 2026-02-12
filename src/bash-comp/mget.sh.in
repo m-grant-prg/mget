@@ -25,7 +25,6 @@ _mget_proc_opts()
 _mget()
 {
 	local cur prev OPTS
-	local i
 
 	COMPREPLY=()
 	cur="${COMP_WORDS[COMP_CWORD]}"
@@ -40,21 +39,19 @@ _mget()
 		return 0
 		;;
 	-S|--sourcefile)
+		local IFS=$'\n'
+		compopt -o filenames
 		# shellcheck disable=SC2207  # This is _the_ bash completion
 		# pattern, so leave it be.
 		COMPREPLY=( $(compgen -f -- "${cur}") )
-		for i in "${!COMPREPLY[@]}"; do
-			COMPREPLY[i]=$(realpath "${COMPREPLY[i]}")
-		done
 		return 0
 		;;
 	-T|--targetdir)
+		local IFS=$'\n'
+		compopt -o filenames
 		# shellcheck disable=SC2207  # This is _the_ bash completion
 		# pattern, so leave it be.
 		COMPREPLY=( $(compgen -d -- "${cur}") )
-		for i in "${!COMPREPLY[@]}"; do
-			COMPREPLY[i]=$(realpath "${COMPREPLY[i]}")
-		done
 		return 0
 		;;
 	esac
