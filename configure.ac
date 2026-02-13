@@ -51,7 +51,7 @@ AC_COPYRIGHT([Copyright (C) 2013-2026  Mark Grant
 	      This script is free to copy or distribute under the terms set out
 	      in the package license. See COPYING for details.])
 
-AC_REVISION([$Revision: 1.1.6 $])
+AC_REVISION([$Revision: 1.1.7 $])
 
 AC_PREREQ([2.69])
 
@@ -69,7 +69,7 @@ AC_PREREQ([2.69])
 # in source files.
 #
 # Set pkg_version for a default hard-coded version number.
-m4_define(pkg_version, 1.4.0)
+m4_define(pkg_version, 1.4.1-rc1)
 
 AC_INIT([Multiple File Download], m4_esyscmd([ \
 	git describe --always 1>/dev/null 2>/dev/null \
