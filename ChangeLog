@@ -1,3 +1,13 @@
+2026-03-08 v1.4.1 Mark Grant <m.grant.prg@gmail.com>
+	* at: Upgrade bootstrap.sh to v1.7.1
+	at: Remove old signature file before creating a new one
+	v1.4.1-rc1
+	bash: Correct format of wget command
+	bash: Strip any trailing / from target directory
+	bash-comp: Fix filenames with spaces
+	bash-comp: Remove legacy testing commented out code
+Mark Grant (7):
+
 2026-01-31 v1.4.0 Mark Grant <m.grant.prg@gmail.com>
 	* build(deps): bump actions/checkout from 5 to 6
 	build(deps): bump actions/checkout from 4 to 5
