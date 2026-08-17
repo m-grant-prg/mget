@@ -253,8 +253,8 @@ proc_CL()
 			shift
 			;;
 		-V|--version)
-			printf "%s Script version %s\n" "$0" $version
-			printf "%s Package version %s\n" "$0" $packageversion
+			printf "%s Script version %s\n" "$0" "$version"
+			printf "%s Package version %s\n" "$0" "$packageversion"
 			shift
 			script_exit 0
 			;;
@@ -354,10 +354,10 @@ while read -u3 -ra input; do
 	output "Attempting to get file - ""${input[*]}" 0
 	output "Attempting to save file to - ""$targetdir/$outputfile" 0
 
-	wget $verbosity --no-check-certificate -P "$targetdir" "${input[*]}"
+	wget "$verbosity" --no-check-certificate -P "$targetdir" "${input[*]}"
 	status=$?
 
-	output "File get completed with status "$status $status
+	output "File get completed with status $status" "$status"
 	((script_exit_code +=  status))
 
 	# If this wget errored then skip to the next.
@@ -383,7 +383,7 @@ while read -u3 -ra input; do
 	if $owner; then
 		chown "$newowner" "$targetdir/$outputfile"
 		status=$?
-		output "Owner change complete with status "$status $status
+		output "Owner change complete with status $status" "$status"
 		((script_exit_code += status))
 	fi
 	#Change group?
@@ -391,7 +391,7 @@ while read -u3 -ra input; do
 		chown :"$newownergroup" "$targetdir/$outputfile"
 		status=$?
 		msg="Owner group change complete with status "$status
-		output "$msg" $status
+		output "$msg" "$status"
 		((script_exit_code += status))
 	fi
 done
